@@ -1,10 +1,5 @@
 require "json"
 
-def log(message)
-  error_log_path = ENV["ERROR_LOG_PATH"] || "#{ENV["HOME"]}/test_booster_error.log"
-
-  File.open(error_log_path, "a") { |f| f.write("#{message}\n") }
-end
 
 def display_files(title, files)
   puts "#{title} #{files.count}\n"
