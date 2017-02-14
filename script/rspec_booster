@@ -4,15 +4,5 @@ require "test_boosters/rspec_booster"
 
 $cli_options = parse
 thread_index = $cli_options[:index] - 1
-specs_to_run = run(thread_index)
-
-if specs_to_run.empty?
-  puts "No spec files in this thread!"
-  exit
-end
-
-if specs_to_run == "error" and thread_index == 1
-  execute("bundle exec rspec")
-else
-  execute("bundle exec rspec #{specs_to_run.join(" ")}")
-end
+rspec_booster = RspecBooster.new(thread_index)
+rspec_booster.run
