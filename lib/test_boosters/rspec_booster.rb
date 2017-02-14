@@ -1,6 +1,11 @@
 require "json"
+require "test_boosters/cli_parser"
+require "test_boosters/logger"
+require "test_boosters/executor"
 
 class RspecBooster
+  Error = -1
+
   def initialize(thread_index)
     @thread_index = thread_index
     @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
@@ -10,13 +15,12 @@ class RspecBooster
   def run
     specs_to_run = select
 
-    if specs_to_run.empty?
-      puts "No spec files in this thread!"
-      exit
-    end
-
-    if specs_to_run == "error" and @thread_index == 1
-      execute("bundle exec rspec")
+    if specs_to_run == Error
+      if @thread_index == 0
+        execute("bundle exec rspec #{@spec_path}")
+      end
+    elsif specs_to_run.empty?
+        puts "No spec files in this thread!"
     else
       execute("bundle exec rspec #{specs_to_run.join(" ")}")
     end
@@ -91,7 +95,7 @@ class RspecBooster
 
     log(error)
 
-    "error"
+    Error
   end
 
 end

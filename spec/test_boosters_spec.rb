@@ -81,48 +81,42 @@ describe TestBoosters do
   end
 
   context "test select()" do
+    before(:context) do
+      @report_file = "/tmp/rspec_report.json"
+      ENV["REPORT_PATH"] = @report_file
+      ENV["SPEC_PATH"]   = "test_data"
+    end
+
     it "2 threads running in thread 1, no scheduled specs, 3 leftover specs" do
       expected = [a, b]
-      report = '[{"files": []}, {"files": []}]'
-      report_file = "/tmp/rspec_report.json"
-      File.write(report_file, report)
-      ENV["REPORT_PATH"] = report_file
-      ENV["SPEC_PATH"]   = "test_data"
+      write_report_file('[{"files": []}, {"files": []}]')
 
       expect(RspecBooster.new(0).select).to eq(expected)
     end
 
     it "2 threads running in thread 2, no scheduled specs, 3 leftover specs" do
       expected = [c]
-      report = '[{"files": []}, {"files": []}]'
-      report_file = "/tmp/rspec_report.json"
-      File.write(report_file, report)
-      ENV["REPORT_PATH"] = report_file
-      ENV["SPEC_PATH"]   = "test_data"
+      write_report_file('[{"files": []}, {"files": []}]')
 
       expect(RspecBooster.new(1).select).to eq(expected)
     end
 
     it "4 threads running in thread 4, no scheduled specs, 3 leftover specs" do
       expected = []
-      report = '[{"files": []}, {"files": []}, {"files": []}, {"files": []}]'
-      report_file = "/tmp/rspec_report.json"
-      File.write(report_file, report)
-      ENV["REPORT_PATH"] = report_file
-      ENV["SPEC_PATH"]   = "test_data"
+      write_report_file('[{"files": []}, {"files": []}, {"files": []}, {"files": []}]')
 
       expect(RspecBooster.new(3).select).to eq(expected)
     end
 
-    it "4 threads, running in thread 5, no scheduled specs, 3 leftover specs" do
-      expected = []
-      report = '[{"files": []}, {"files": []}, {"files": []}, {"files": []}]'
-      report_file = "/tmp/rspec_report.json"
-      File.write(report_file, report)
-      ENV["REPORT_PATH"] = report_file
-      ENV["SPEC_PATH"]   = "test_data"
+    it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
+      expected = RspecBooster::Error
+      write_report_file('{"malformed": []}')
 
-      expect(RspecBooster.new(4).select).to eq("error")
+      expect(RspecBooster.new(0).select).to eq(expected)
+    end
+
+    def write_report_file(report)
+      File.write(@report_file, report)
     end
   end
 
