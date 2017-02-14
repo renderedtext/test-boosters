@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'test_boosters/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "test_boosters"
+  spec.name          = "semaphore_test_boosters"
   spec.version       = TestBoosters::VERSION
   spec.authors       = ["Predrag Rakic"]
   spec.email         = ["prakic@renderedtext.com"]
