@@ -9,14 +9,6 @@ def display_files(title, files)
   puts "\n"
 end
 
-def execute(command)
-  log("Running command: #{command}")
-  system(command)
-  log("Command finished, exit status : #{$?.exitstatus}")
-
-  exit($?.exitstatus)
-end
-
 
 def with_fallback
   yield
