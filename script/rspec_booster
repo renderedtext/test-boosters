@@ -2,7 +2,7 @@
 
 require "test_boosters/rspec_booster"
 
-$cli_options = parse_cli_options
+$cli_options = parse
 thread_index = $cli_options[:index] - 1
 specs_to_run = run(thread_index)
 

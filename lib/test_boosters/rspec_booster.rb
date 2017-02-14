@@ -1,4 +1,3 @@
-require "optparse"
 require "json"
 
 def log(message)
@@ -23,17 +22,6 @@ def execute(command)
   exit($?.exitstatus)
 end
 
-def parse_cli_options
-  options = {}
-
-  parser = OptionParser.new do |opts|
-    opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
-  end
-
-  parser.parse!
-
-  options
-end
 
 def with_fallback
   yield
