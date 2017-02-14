@@ -6,8 +6,8 @@ require 'test_boosters/version'
 Gem::Specification.new do |spec|
   spec.name          = "semaphore_test_boosters"
   spec.version       = TestBoosters::VERSION
-  spec.authors       = ["Predrag Rakic"]
-  spec.email         = ["prakic@renderedtext.com"]
+  spec.authors       = ["MAINTAINER Rendered Text"]
+  spec.email         = ["devops@renderedtext.com"]
 
   spec.summary       = %q{Semaphore job parallelization.}
   spec.description   = %q{Gem for auto-parallelizing builds across Semaphore jobs.}

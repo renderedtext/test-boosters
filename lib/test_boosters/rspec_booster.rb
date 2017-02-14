@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require "optparse"
 require "json"
 
@@ -41,47 +39,64 @@ def with_fallback
   yield
 rescue StandardError => e
   error = %{
-WARNING: An error detected while parsing the test boosters report file.
-WARNING: All tests will be executed on the first thread.
-}
+    WARNING: An error detected while parsing the test boosters report file.
+    WARNING: All tests will be executed on the first thread.
+  }
 
   puts error
 
-  error += %{
-Exception:
-#{e.message}
-}
+  error += %{Exception: #{e.message}}
 
   log(error)
 
-  execute("bundle exec rspec") if $cli_options[:index] == 1
+  "error"
 end
 
-$cli_options = parse_cli_options
+def select_leftover_specs(all_leftover_specs, thread_count, thread_index)
+  all_leftover_specs = sort_by_size(all_leftover_specs)
 
-report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
-spec_path = ENV["SPEC_PATH"] || "spec"
+  return [] if all_leftover_specs.empty?
 
-with_fallback do
-  rspec_report = JSON.parse(File.read(report_path))
+  specs = all_leftover_specs
+    .each_slice(thread_count)
+    .reduce{|acc, slice| acc.map{|a| a}.zip(slice.reverse)}
+    .map{|f| if f.kind_of?(Array) then f.flatten else [f] end} [thread_index]
 
-  thread = rspec_report[$cli_options[:index] - 1]
-
-  all_specs = Dir["#{spec_path}/**/*_spec.rb"].sort
-  all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
-
-  leftover_specs = all_specs - all_known_specs
-  thread_specs = all_specs & thread["files"].sort
-  specs_to_run = thread_specs + (thread["run_leftover_files"] ? leftover_specs : [])
-
-  display_files("Thread specs:", thread_specs)
-
-  display_files("Leftover specs:", leftover_specs) if thread["run_leftover_files"]
-
-  if specs_to_run.empty?
-    puts "No spec files in this thread!"
-    exit
+  if    specs.nil?            then []
+  elsif specs.kind_of?(Array) then specs.compact
   end
+end
 
-  execute("bundle exec rspec #{specs_to_run.join(" ")}")
+def sort_by_size(specs) # descending
+  specs
+    .map{|f| if File.file?(f) then f else nil end}
+    .compact
+    .map{|f| [f, File.size(f)]}
+    .sort_by{|a| a[1]}.map{|a| a[0]}.reverse
+end
+
+def run(thread_index)
+  report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
+  spec_path = ENV["SPEC_PATH"] || "spec"
+
+  with_fallback do
+    rspec_report = JSON.parse(File.read(report_path))
+    thread_count = rspec_report.count
+    thread = rspec_report[thread_index]
+
+    all_specs = Dir["#{spec_path}/**/*_spec.rb"].sort
+    all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
+
+    all_leftover_specs = all_specs - all_known_specs
+    thread_leftover_specs = select_leftover_specs(all_leftover_specs, thread_count, thread_index)
+    thread_specs = all_specs & thread["files"].sort
+    specs_to_run = thread_specs + thread_leftover_specs
+
+    display_files("Thread specs:", thread_specs)
+    display_files("Thread leftover specs:", thread_leftover_specs)
+    display_files("All leftover specs:", all_leftover_specs)
+    display_files("To run:", specs_to_run)
+
+    specs_to_run
+  end
 end
