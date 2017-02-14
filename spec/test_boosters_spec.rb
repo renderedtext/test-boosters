@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+Booster = Semaphore::RspecBooster
+
 describe TestBoosters do
   it 'has a version number' do
     expect(TestBoosters::VERSION).not_to be nil
@@ -7,7 +9,7 @@ describe TestBoosters do
 
   context "test file sorting" do
     before(:context) do
-      @booster = RspecBooster.new(0)
+      @booster = Booster.new(0)
     end
 
     it "tests for empty array" do
@@ -37,7 +39,7 @@ describe TestBoosters do
 
   context "test select_leftover_specs()" do
     before(:context) do
-      @booster = RspecBooster.new(0)
+      @booster = Booster.new(0)
     end
 
     it "no leftover specs" do
@@ -49,7 +51,7 @@ describe TestBoosters do
     end
 
     it "1 leftover spec, 3 threads, index 2" do
-      booster = RspecBooster.new(2)
+      booster = Booster.new(2)
       expect(booster.select_leftover_specs([a], 3)).to eq([])
     end
 
@@ -62,7 +64,7 @@ describe TestBoosters do
     it "3 leftover specs, 2 threads, index 1" do
       input    = input_specs
       expected = [c]
-      booster = RspecBooster.new(1)
+      booster = Booster.new(1)
       expect(booster.select_leftover_specs(input, 2)).to eq(expected)
     end
 
@@ -75,7 +77,7 @@ describe TestBoosters do
     it "3 leftover specs, 3 threads, index 2" do
       input    = input_specs
       expected = [b]
-      booster = RspecBooster.new(2)
+      booster = Booster.new(2)
       expect(booster.select_leftover_specs(input, 3)).to eq(expected)
     end
   end
@@ -91,28 +93,28 @@ describe TestBoosters do
       expected = [a, b]
       write_report_file('[{"files": []}, {"files": []}]')
 
-      expect(RspecBooster.new(0).select).to eq(expected)
+      expect(Booster.new(0).select).to eq(expected)
     end
 
     it "2 threads running in thread 2, no scheduled specs, 3 leftover specs" do
       expected = [c]
       write_report_file('[{"files": []}, {"files": []}]')
 
-      expect(RspecBooster.new(1).select).to eq(expected)
+      expect(Booster.new(1).select).to eq(expected)
     end
 
     it "4 threads running in thread 4, no scheduled specs, 3 leftover specs" do
       expected = []
       write_report_file('[{"files": []}, {"files": []}, {"files": []}, {"files": []}]')
 
-      expect(RspecBooster.new(3).select).to eq(expected)
+      expect(Booster.new(3).select).to eq(expected)
     end
 
     it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
-      expected = RspecBooster::Error
+      expected = Booster::Error
       write_report_file('{"malformed": []}')
 
-      expect(RspecBooster.new(0).select).to eq(expected)
+      expect(Booster.new(0).select).to eq(expected)
     end
 
     def write_report_file(report)

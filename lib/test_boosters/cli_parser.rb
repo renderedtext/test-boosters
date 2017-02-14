@@ -1,13 +1,15 @@
-require "optparse"
+module Semaphore
+  require "optparse"
 
-def parse
-  options = {}
+  def self.parse
+    options = {}
 
-  parser = OptionParser.new do |opts|
-    opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
+    parser = OptionParser.new do |opts|
+      opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
+    end
+
+    parser.parse!
+
+    options
   end
-
-  parser.parse!
-
-  options
 end

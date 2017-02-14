@@ -1,7 +1,9 @@
-def execute(command)
-  log("Running command: #{command}")
-  system(command)
-  log("Command finished, exit status : #{$?.exitstatus}")
+module Semaphore
+  def self.execute(command)
+    log("Running command: #{command}")
+    system(command)
+    log("Command finished, exit status : #{$?.exitstatus}")
 
-  exit($?.exitstatus)
+    exit($?.exitstatus)
+  end
 end
