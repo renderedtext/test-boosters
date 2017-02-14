@@ -3,6 +3,7 @@ module Semaphore
   require "test_boosters/cli_parser"
   require "test_boosters/logger"
   require "test_boosters/executor"
+  require "test_boosters/display_files"
 
   class RspecBooster
     Error = -1
@@ -41,9 +42,9 @@ module Semaphore
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
-        display_files("This thread specs:", thread_specs)
-        display_files("This thread leftover specs:", thread_leftover_specs)
-        display_files("All leftover specs:", all_leftover_specs)
+        Semaphore::display_files("This thread specs:", thread_specs)
+        Semaphore::display_files("This thread leftover specs:", thread_leftover_specs)
+        Semaphore::display_files("All leftover specs:", all_leftover_specs)
 
         specs_to_run
       end
@@ -70,15 +71,6 @@ module Semaphore
         .compact
         .map{|f| [f, File.size(f)]}
         .sort_by{|a| a[1]}.map{|a| a[0]}.reverse
-    end
-
-
-    def display_files(title, files)
-      puts "#{title} #{files.count}\n"
-
-      files.each { |file| puts "- #{file}" }
-
-      puts "\n"
     end
 
 
