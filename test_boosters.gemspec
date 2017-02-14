@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Predrag Rakic"]
   spec.email         = ["prakic@renderedtext.com"]
 
-  spec.summary       = %q{Semaphore thread parallelization.}
-  spec.description   = %q{Semaphore thread parallelization.}
+  spec.summary       = %q{Semaphore job parallelization.}
+  spec.description   = %q{Gem for auto-parallelizing builds across Semaphore jobs.}
   spec.homepage      = "https://github.com/renderedtext/test-boosters"
   spec.license       = "MIT"
 
