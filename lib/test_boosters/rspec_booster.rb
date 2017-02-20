@@ -4,6 +4,7 @@ module Semaphore
   require "test_boosters/logger"
   require "test_boosters/executor"
   require "test_boosters/display_files"
+  require "test_boosters/leftover_specs"
 
   class RspecBooster
     Error = -1
@@ -38,7 +39,7 @@ module Semaphore
         all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
 
         all_leftover_specs = all_specs - all_known_specs
-        thread_leftover_specs = select_leftover_specs(all_leftover_specs, thread_count)
+        thread_leftover_specs = LeftoverSpecs.select(all_leftover_specs, thread_count, @thread_index)
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
@@ -48,29 +49,6 @@ module Semaphore
 
         specs_to_run
       end
-    end
-
-    def select_leftover_specs(all_leftover_specs, thread_count)
-      all_leftover_specs = sort_by_size(all_leftover_specs)
-
-      return [] if all_leftover_specs.empty?
-
-      specs = all_leftover_specs
-        .each_slice(thread_count)
-        .reduce{|acc, slice| acc.map{|a| a}.zip(slice.reverse)}
-        .map{|f| if f.kind_of?(Array) then f.flatten else [f] end} [@thread_index]
-
-      if    specs.nil?            then []
-      elsif specs.kind_of?(Array) then specs.compact
-      end
-    end
-
-    def sort_by_size(specs) # descending
-      specs
-        .map{|f| if File.file?(f) then f else nil end}
-        .compact
-        .map{|f| [f, File.size(f)]}
-        .sort_by{|a| a[1]}.map{|a| a[0]}.reverse
     end
 
 

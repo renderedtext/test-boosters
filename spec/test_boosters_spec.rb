@@ -8,32 +8,28 @@ describe TestBoosters do
   end
 
   context "test file sorting" do
-    before(:context) do
-      @booster = Booster.new(0)
-    end
-
     it "tests for empty array" do
-      expect(@booster.sort_by_size([])).to eq([])
+      expect(LeftoverSpecs.sort_by_size([])).to eq([])
     end
 
     it "tests single element array" do
-      expect(@booster.sort_by_size([a])).to eq([a])
+      expect(LeftoverSpecs.sort_by_size([a])).to eq([a])
     end
 
     it "tests for non-existent file in array" do
-      expect(@booster.sort_by_size(["non-existent"])).to eq([])
+      expect(LeftoverSpecs.sort_by_size(["non-existent"])).to eq([])
     end
 
     it "tests regular input" do
       input    = input_specs
       expected = expected_specs
-      expect(@booster.sort_by_size(input)).to eq(expected)
+      expect(LeftoverSpecs.sort_by_size(input)).to eq(expected)
     end
 
     it "tests regular input with non-existent files" do
       input    = input_specs
       expected = expected_specs
-      expect(@booster.sort_by_size(input)).to eq(expected)
+      expect(LeftoverSpecs.sort_by_size(input)).to eq(expected)
     end
   end
 
@@ -43,42 +39,41 @@ describe TestBoosters do
     end
 
     it "no leftover specs" do
-      expect(@booster.select_leftover_specs([], 3)).to eq([])
+      expect(LeftoverSpecs.select([], 3, 0)).to eq([])
     end
 
     it "1 leftover spec, 3 threads, index 0" do
-      expect(@booster.select_leftover_specs([a], 3)).to eq([a])
+      expect(LeftoverSpecs.select([a], 3, 0)).to eq([a])
     end
 
     it "1 leftover spec, 3 threads, index 2" do
       booster = Booster.new(2)
-      expect(booster.select_leftover_specs([a], 3)).to eq([])
+      expect(LeftoverSpecs.select([a], 3, 2)).to eq([])
     end
 
     it "3 leftover specs, 2 threads, index 0" do
       input    = input_specs
       expected = [a, b]
-      expect(@booster.select_leftover_specs(input, 2)).to eq(expected)
+      expect(LeftoverSpecs.select(input, 2, 0)).to eq(expected)
     end
 
     it "3 leftover specs, 2 threads, index 1" do
       input    = input_specs
       expected = [c]
       booster = Booster.new(1)
-      expect(booster.select_leftover_specs(input, 2)).to eq(expected)
+      expect(LeftoverSpecs.select(input, 2, 1)).to eq(expected)
     end
 
     it "3 leftover specs, 3 threads, index 0" do
       input    = input_specs
       expected = [a]
-      expect(@booster.select_leftover_specs(input, 3)).to eq(expected)
+      expect(LeftoverSpecs.select(input, 3, 0)).to eq(expected)
     end
 
     it "3 leftover specs, 3 threads, index 2" do
       input    = input_specs
       expected = [b]
-      booster = Booster.new(2)
-      expect(booster.select_leftover_specs(input, 3)).to eq(expected)
+      expect(LeftoverSpecs.select(input, 3, 2)).to eq(expected)
     end
   end
 
