@@ -1,5 +1,7 @@
 module LeftoverSpecs
-  def self.select(all_leftover_specs, thread_count, thread_index)
+  module_function
+
+  def select(all_leftover_specs, thread_count, thread_index)
     all_leftover_specs = sort_by_size(all_leftover_specs)
 
     return [] if all_leftover_specs.empty?
@@ -14,7 +16,7 @@ module LeftoverSpecs
     end
   end
 
-  def self.sort_by_size(specs) # descending
+  def sort_by_size(specs) # descending
     specs
       .map{|f| if File.file?(f) then f else nil end}
       .compact

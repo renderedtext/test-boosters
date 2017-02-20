@@ -1,7 +1,9 @@
 module Semaphore
+  module_function
+
   require "optparse"
 
-  def self.parse
+  def parse
     options = {}
 
     parser = OptionParser.new do |opts|
