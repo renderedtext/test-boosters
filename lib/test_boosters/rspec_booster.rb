@@ -1,87 +1,73 @@
-#!/usr/bin/env ruby
+module Semaphore
+  require "json"
+  require "test_boosters/cli_parser"
+  require "test_boosters/logger"
+  require "test_boosters/executor"
+  require "test_boosters/display_files"
+  require "test_boosters/leftover_specs"
 
-require "optparse"
-require "json"
+  class RspecBooster
+    Error = -1
 
-def log(message)
-  error_log_path = ENV["ERROR_LOG_PATH"] || "#{ENV["HOME"]}/test_booster_error.log"
+    def initialize(thread_index)
+      @thread_index = thread_index
+      @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
+      @spec_path = ENV["SPEC_PATH"] || "spec"
+    end
 
-  File.open(error_log_path, "a") { |f| f.write("#{message}\n") }
-end
+    def run
+      specs_to_run = select
 
-def display_files(title, files)
-  puts "#{title} #{files.count}\n"
+      if specs_to_run == Error
+        if @thread_index == 0
+          Semaphore::execute("bundle exec rspec #{@spec_path}")
+        end
+      elsif specs_to_run.empty?
+          puts "No spec files in this thread!"
+      else
+        Semaphore::execute("bundle exec rspec #{specs_to_run.join(" ")}")
+      end
+    end
 
-  files.each { |file| puts "- #{file}" }
+    def select
+      with_fallback do
+        rspec_report = JSON.parse(File.read(@report_path))
+        thread_count = rspec_report.count
+        thread = rspec_report[@thread_index]
 
-  puts "\n"
-end
+        all_specs = Dir["#{@spec_path}/**/*_spec.rb"].sort
+        all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
 
-def execute(command)
-  log("Running command: #{command}")
-  system(command)
-  log("Command finished, exit status : #{$?.exitstatus}")
+        all_leftover_specs = all_specs - all_known_specs
+        thread_leftover_specs = LeftoverSpecs.select(all_leftover_specs, thread_count, @thread_index)
+        thread_specs = all_specs & thread["files"].sort
+        specs_to_run = thread_specs + thread_leftover_specs
 
-  exit($?.exitstatus)
-end
+        Semaphore::display_files("This thread specs:", thread_specs)
+        Semaphore::display_files("This thread leftover specs:", thread_leftover_specs)
+        Semaphore::display_files("All leftover specs:", all_leftover_specs)
 
-def parse_cli_options
-  options = {}
+        specs_to_run
+      end
+    end
 
-  parser = OptionParser.new do |opts|
-    opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
+
+    def with_fallback
+      yield
+    rescue StandardError => e
+      error = %{
+        WARNING: An error detected while parsing the test boosters report file.
+        WARNING: All tests will be executed on the first thread.
+      }
+
+      puts error
+
+      error += %{Exception: #{e.message}}
+
+      Semaphore::log(error)
+
+      Error
+    end
+
   end
-
-  parser.parse!
-
-  options
-end
-
-def with_fallback
-  yield
-rescue StandardError => e
-  error = %{
-WARNING: An error detected while parsing the test boosters report file.
-WARNING: All tests will be executed on the first thread.
-}
-
-  puts error
-
-  error += %{
-Exception:
-#{e.message}
-}
-
-  log(error)
-
-  execute("bundle exec rspec") if $cli_options[:index] == 1
-end
-
-$cli_options = parse_cli_options
-
-report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
-spec_path = ENV["SPEC_PATH"] || "spec"
-
-with_fallback do
-  rspec_report = JSON.parse(File.read(report_path))
-
-  thread = rspec_report[$cli_options[:index] - 1]
-
-  all_specs = Dir["#{spec_path}/**/*_spec.rb"].sort
-  all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
-
-  leftover_specs = all_specs - all_known_specs
-  thread_specs = all_specs & thread["files"].sort
-  specs_to_run = thread_specs + (thread["run_leftover_files"] ? leftover_specs : [])
-
-  display_files("Thread specs:", thread_specs)
-
-  display_files("Leftover specs:", leftover_specs) if thread["run_leftover_files"]
-
-  if specs_to_run.empty?
-    puts "No spec files in this thread!"
-    exit
-  end
-
-  execute("bundle exec rspec #{specs_to_run.join(" ")}")
 end

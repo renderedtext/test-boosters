@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require "test_boosters/rspec_booster"
+
+cli_options = Semaphore::parse
+thread_index = cli_options[:index] - 1
+rspec_booster = Semaphore::RspecBooster.new(thread_index)
+rspec_booster.run
