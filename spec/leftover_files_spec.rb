@@ -21,7 +21,7 @@ describe LeftoverFiles do
     end
 
     it "tests regular input with non-existent files" do
-      input    = input_specs
+      input    = input_specs + ["non-existent"]
       expected = expected_specs
       expect(LeftoverFiles.sort_by_size(input)).to eq(expected)
     end
