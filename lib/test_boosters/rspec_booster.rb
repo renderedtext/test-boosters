@@ -4,7 +4,7 @@ module Semaphore
   require "test_boosters/logger"
   require "test_boosters/executor"
   require "test_boosters/display_files"
-  require "test_boosters/leftover_specs"
+  require "test_boosters/leftover_files"
 
   class RspecBooster
     Error = -1
@@ -39,7 +39,7 @@ module Semaphore
         all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
 
         all_leftover_specs = all_specs - all_known_specs
-        thread_leftover_specs = LeftoverSpecs.select(all_leftover_specs, thread_count, @thread_index)
+        thread_leftover_specs = LeftoverFiles::select(all_leftover_specs, thread_count, @thread_index)
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
