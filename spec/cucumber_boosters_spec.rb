@@ -32,10 +32,9 @@ describe Semaphore::CucumberBooster do
     end
 
     it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
-      expected = CuBooster::Error
       write_report_file('{"malformed": []}')
 
-      expect(CuBooster.new(0).select).to eq(expected)
+      expect{CuBooster.new(0).select}.to raise_error(StandardError)
     end
 
     def write_report_file(report)

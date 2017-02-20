@@ -2,7 +2,7 @@ require 'spec_helper'
 
 Booster = Semaphore::RspecBooster
 
-describe TestBoosters do
+describe Semaphore::RspecBooster do
   it 'has a version number' do
     expect(TestBoosters::VERSION).not_to be nil
   end
@@ -36,10 +36,9 @@ describe TestBoosters do
     end
 
     it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
-      expected = Booster::Error
       write_report_file('{"malformed": []}')
 
-      expect(Booster.new(0).select).to eq(expected)
+      expect{Booster.new(0).select}.to raise_error(StandardError)
     end
 
     def write_report_file(report)

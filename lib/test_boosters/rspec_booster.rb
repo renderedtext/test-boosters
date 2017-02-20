@@ -7,8 +7,6 @@ module Semaphore
   require "test_boosters/leftover_files"
 
   class RspecBooster
-    Error = -1
-
     def initialize(thread_index)
       @thread_index = thread_index
       @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
@@ -16,16 +14,18 @@ module Semaphore
     end
 
     def run
-      specs_to_run = select
+      begin
+        specs_to_run = select
 
-      if specs_to_run == Error
+        if specs_to_run.empty?
+            puts "No spec files in this thread!"
+        else
+          Semaphore::execute("bundle exec rspec #{specs_to_run.join(" ")}")
+        end
+      rescue StandardError => e
         if @thread_index == 0
           Semaphore::execute("bundle exec rspec #{@spec_path}")
         end
-      elsif specs_to_run.empty?
-          puts "No spec files in this thread!"
-      else
-        Semaphore::execute("bundle exec rspec #{specs_to_run.join(" ")}")
       end
     end
 
@@ -66,7 +66,7 @@ module Semaphore
 
       Semaphore::log(error)
 
-      Error
+      raise
     end
 
   end
