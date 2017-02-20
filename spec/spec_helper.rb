@@ -11,4 +11,16 @@ module Setup
   def input_specs()     [a, b, c]  end
 
   def expected_specs()  [a, c, b]  end
+
+  module Cucumber
+    module_function
+
+    def a() "test_data/a.feature" end
+    def b() "test_data/b.feature" end
+    def c() "test_data/c.feature" end
+
+    def input_specs()     [a, b, c]  end
+
+    def expected_specs()  [a, c, b]  end
+  end
 end
