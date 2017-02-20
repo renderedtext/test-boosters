@@ -8,8 +8,8 @@ module LeftoverSpecs
 
     specs = all_leftover_specs
       .each_slice(thread_count)
-      .reduce{|acc, slice| acc.map{|a| a}.zip(slice.reverse)}
-      .map{|f| if f.kind_of?(Array) then f.flatten else [f] end} [thread_index]
+      .reduce{ |acc, slice| acc.map{|a| a}.zip(slice.reverse) }
+      .map{ |f| f.kind_of?(Array) ? f.flatten : [f] } [thread_index]
 
     if    specs.nil?            then []
     elsif specs.kind_of?(Array) then specs.compact
@@ -18,10 +18,11 @@ module LeftoverSpecs
 
   def sort_by_size(specs) # descending
     specs
-      .map{|f| if File.file?(f) then f else nil end}
-      .compact
-      .map{|f| [f, File.size(f)]}
-      .sort_by{|a| a[1]}.map{|a| a[0]}.reverse
+      .select { |f| File.file?(f) }
+      .map{ |f| [f, File.size(f)] }
+      .sort_by{ |a| a[1] }
+      .map{ |a| a[0] }
+      .reverse
   end
 
 
