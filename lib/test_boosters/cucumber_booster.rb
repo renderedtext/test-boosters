@@ -7,8 +7,6 @@ module Semaphore
   require "test_boosters/leftover_files"
 
   class CucumberBooster
-    Error = -1
-
     def initialize(thread_index)
       @thread_index = thread_index
       @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
@@ -16,16 +14,18 @@ module Semaphore
     end
 
     def run
-      features_to_run = select
+      begin
+        features_to_run = select
 
-      if features_to_run == Error
+        if features_to_run.empty?
+          puts "No feature files in this thread!"
+        else
+          Semaphore::execute("bundle exec cucumber #{features_to_run.join(" ")}")
+        end
+      rescue StandardError => e
         if @thread_index == 0
           Semaphore::execute("bundle exec cucumber #{@spec_path}")
         end
-      elsif features_to_run.empty?
-          puts "No spec files in this thread!"
-      else
-        Semaphore::execute("bundle exec cucumber #{features_to_run.join(" ")}")
       end
     end
 
@@ -65,7 +65,7 @@ module Semaphore
 
       Semaphore::log(error)
 
-      Error
+      raise
     end
   end
 end
