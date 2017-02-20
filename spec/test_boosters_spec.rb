@@ -7,76 +7,6 @@ describe TestBoosters do
     expect(TestBoosters::VERSION).not_to be nil
   end
 
-  context "test file sorting" do
-    it "tests for empty array" do
-      expect(LeftoverSpecs.sort_by_size([])).to eq([])
-    end
-
-    it "tests single element array" do
-      expect(LeftoverSpecs.sort_by_size([a])).to eq([a])
-    end
-
-    it "tests for non-existent file in array" do
-      expect(LeftoverSpecs.sort_by_size(["non-existent"])).to eq([])
-    end
-
-    it "tests regular input" do
-      input    = input_specs
-      expected = expected_specs
-      expect(LeftoverSpecs.sort_by_size(input)).to eq(expected)
-    end
-
-    it "tests regular input with non-existent files" do
-      input    = input_specs
-      expected = expected_specs
-      expect(LeftoverSpecs.sort_by_size(input)).to eq(expected)
-    end
-  end
-
-  context "test select_leftover_specs()" do
-    before(:context) do
-      @booster = Booster.new(0)
-    end
-
-    it "no leftover specs" do
-      expect(LeftoverSpecs.select([], 3, 0)).to eq([])
-    end
-
-    it "1 leftover spec, 3 threads, index 0" do
-      expect(LeftoverSpecs.select([a], 3, 0)).to eq([a])
-    end
-
-    it "1 leftover spec, 3 threads, index 2" do
-      booster = Booster.new(2)
-      expect(LeftoverSpecs.select([a], 3, 2)).to eq([])
-    end
-
-    it "3 leftover specs, 2 threads, index 0" do
-      input    = input_specs
-      expected = [a, b]
-      expect(LeftoverSpecs.select(input, 2, 0)).to eq(expected)
-    end
-
-    it "3 leftover specs, 2 threads, index 1" do
-      input    = input_specs
-      expected = [c]
-      booster = Booster.new(1)
-      expect(LeftoverSpecs.select(input, 2, 1)).to eq(expected)
-    end
-
-    it "3 leftover specs, 3 threads, index 0" do
-      input    = input_specs
-      expected = [a]
-      expect(LeftoverSpecs.select(input, 3, 0)).to eq(expected)
-    end
-
-    it "3 leftover specs, 3 threads, index 2" do
-      input    = input_specs
-      expected = [b]
-      expect(LeftoverSpecs.select(input, 3, 2)).to eq(expected)
-    end
-  end
-
   context "test select()" do
     before(:context) do
       @report_file = "/tmp/rspec_report.json"
@@ -117,11 +47,11 @@ describe TestBoosters do
     end
   end
 
-  def a() "test_data/a_spec.rb" end
-  def b() "test_data/b_spec.rb" end
-  def c() "test_data/c_spec.rb" end
+  def a() Setup.a end
+  def b() Setup.b end
+  def c() Setup.c end
 
-  def input_specs()     [a, b, c]  end
+  def input_specs() Setup.input_specs  end
 
-  def expected_specs()  [a, c, b]  end
+  def expected_specs()  Setup.expected_specs  end
 end
