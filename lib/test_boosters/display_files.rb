@@ -1,5 +1,7 @@
 module Semaphore
-  def self.display_files(title, files)
+  module_function
+
+  def display_files(title, files)
     puts "#{title} #{files.count}\n"
 
     files.each { |file| puts "- #{file}" }
