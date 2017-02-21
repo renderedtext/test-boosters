@@ -43,9 +43,9 @@ module Semaphore
         thread_features = all_features & thread["files"].sort
         features_to_run = thread_features + thread_leftover_features
 
-        Semaphore::display_files("This thread specs:", thread_features)
-        Semaphore::display_files("This thread leftover specs:", thread_leftover_features)
-        Semaphore::display_files("All leftover specs:", all_leftover_features)
+        Semaphore::display_files("This thread features:", thread_features)
+        Semaphore::display_title_and_count("All leftover features:", all_leftover_features)
+        Semaphore::display_files("This thread leftover features:", thread_leftover_features)
 
         features_to_run
       end
