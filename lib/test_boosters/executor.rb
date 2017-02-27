@@ -6,6 +6,6 @@ module Semaphore
     system(command)
     log("Command finished, exit status : #{$?.exitstatus}")
 
-    exit($?.exitstatus)
+    $?.exitstatus
   end
 end
