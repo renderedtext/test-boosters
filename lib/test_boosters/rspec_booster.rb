@@ -31,7 +31,11 @@ module Semaphore
 
     def run_command(specs)
       options = "--format documentation --format json --out #{@report_path}"
-      puts "options: #{options}"
+      puts "Rspec options: #{options}"
+      puts
+      puts "========================= Running Rspec =========================="
+      puts
+
       Semaphore::execute("bundle exec rspec #{options} #{specs}")
     end
 
