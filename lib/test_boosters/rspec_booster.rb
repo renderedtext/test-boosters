@@ -14,19 +14,21 @@ module Semaphore
     end
 
     def run
+      exit_code = true
       begin
         specs_to_run = select
 
         if specs_to_run.empty?
             puts "No spec files in this thread!"
         else
-          run_command(specs_to_run.join(" "))
+          exit_code = run_command(specs_to_run.join(" "))
         end
       rescue StandardError => e
         if @thread_index == 0
-          run_command(@spec_path)
+          exit_code = run_command(@spec_path)
         end
       end
+      exit_code
     end
 
     def run_command(specs)

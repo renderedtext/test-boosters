@@ -5,4 +5,5 @@ require "test_boosters/cucumber_booster"
 cli_options = Semaphore::parse
 thread_index = cli_options[:index] - 1
 cucumber_booster = Semaphore::CucumberBooster.new(thread_index)
-cucumber_booster.run
+exit_status = cucumber_booster.run
+exit(exit_status)
