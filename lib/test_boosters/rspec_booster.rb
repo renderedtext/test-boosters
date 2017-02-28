@@ -20,13 +20,19 @@ module Semaphore
         if specs_to_run.empty?
             puts "No spec files in this thread!"
         else
-          Semaphore::execute("bundle exec rspec #{specs_to_run.join(" ")}")
+          run_command(specs_to_run.join(" "))
         end
       rescue StandardError => e
         if @thread_index == 0
-          Semaphore::execute("bundle exec rspec #{@spec_path}")
+          run_command(@spec_path)
         end
       end
+    end
+
+    def run_command(specs)
+      options = "--format documentation --format json --out #{@report_path}"
+      puts "options: #{options}"
+      Semaphore::execute("bundle exec rspec #{options} #{specs}")
     end
 
     def select

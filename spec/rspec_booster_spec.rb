@@ -11,7 +11,7 @@ describe Semaphore::RspecBooster do
     before(:context) do
       @report_file = "/tmp/rspec_report.json"
       ENV["REPORT_PATH"] = @report_file
-      ENV["SPEC_PATH"]   = "test_data"
+      ENV["SPEC_PATH"]   = Setup.spec_dir()
     end
 
     it "2 threads running in thread 1, no scheduled specs, 3 leftover specs" do
@@ -41,9 +41,6 @@ describe Semaphore::RspecBooster do
       expect{Booster.new(0).select}.to raise_error(StandardError)
     end
 
-    def write_report_file(report)
-      File.write(@report_file, report)
-    end
   end
 
   def a() Setup.a end
@@ -53,4 +50,23 @@ describe Semaphore::RspecBooster do
   def input_specs() Setup.input_specs  end
 
   def expected_specs()  Setup.expected_specs  end
+
+  context "report-file creation" do
+    before(:context) do
+      @report_file = "/tmp/rspec_report.json"
+      ENV["REPORT_PATH"] = @report_file
+    end
+
+    it "runs rspec and checks for report file existence" do
+      spec_dir = Setup.spec_dir()
+
+      File.delete(@report_file) if File.exist?(@report_file)
+      expect(Booster.new(0).run_command(spec_dir)).to eq(0)
+      expect(File).to exist(@report_file)
+    end
+  end
+
+  def write_report_file(report)
+    File.write(@report_file, report)
+  end
 end
