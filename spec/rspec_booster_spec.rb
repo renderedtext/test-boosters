@@ -68,6 +68,7 @@ describe Semaphore::RspecBooster do
 
   context "script invocation" do
     before(:context) do
+      @scripts = "exe"
       @report_file = "/tmp/rspec_report.json"
       ENV["REPORT_PATH"] = @report_file
       write_report_file('[{"files": []}')
@@ -76,21 +77,21 @@ describe Semaphore::RspecBooster do
     it "checks exit code - test fail" do
       ENV["SPEC_PATH"]   = "test_data_fail"
 
-      exit_state = system("script/rspec_booster --thread 1 > /dev/null")
+      exit_state = system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
       expect(exit_state).to eq(false)
     end
 
     it "checks exit code - test pass" do
       ENV["SPEC_PATH"]   = "test_data_pass"
 
-      exit_state = system("script/rspec_booster --thread 1 > /dev/null")
+      exit_state = system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
       expect(exit_state).to eq(true)
     end
 
     it "checks exit code - error while parsing" do
       ENV["SPEC_PATH"]   = "test_data_pass"
 
-      exit_state = system("script/rspec_booster --thread 2 > /dev/null")
+      exit_state = system("#{@scripts}/rspec_booster --thread 2 > /dev/null")
       expect(exit_state).to eq(true)
     end
   end
