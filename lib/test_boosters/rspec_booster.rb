@@ -69,13 +69,12 @@ module Semaphore
     rescue StandardError => e
       error = %{
         WARNING: An error detected while parsing the test boosters report file.
-        WARNING: All tests will be executed on the first thread.
+        WARNING: All tests will be executed on the first thread.\n
       }
 
+      error += %{Exception: #{e.message}\n#{e.backtrace.join("\n")}}
+
       puts error
-
-      error += %{Exception: #{e.message}}
-
       Semaphore::log(error)
 
       raise
