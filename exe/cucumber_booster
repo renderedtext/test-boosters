@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
 require "test_boosters/cucumber_booster"
-require 'cucumber_booster_config'
+require 'test_boosters/run_cucumber_config'
 
-CucumberBoosterConfig::CLI.start ["inject", "."]
+Semaphore::run_cucumber_config
 
 cli_options = Semaphore::parse
 thread_index = cli_options[:index] - 1
