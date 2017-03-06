@@ -5,7 +5,7 @@ CuBooster = Semaphore::CucumberBooster
 describe Semaphore::CucumberBooster do
   context "test select()" do
     before(:context) do
-      @report_file = "/tmp/rspec_report.json"
+      @report_file = "/tmp/cucumber_report.json"
       ENV["REPORT_PATH"] = @report_file
       ENV["SPEC_PATH"]   = "test_data"
     end
@@ -36,10 +36,26 @@ describe Semaphore::CucumberBooster do
 
       expect{CuBooster.new(0).select}.to raise_error(StandardError)
     end
+  end
 
-    def write_report_file(report)
-      File.write(@report_file, report)
+  context "script invocation" do
+    before(:context) do
+      @scripts = "exe"
+      @report_file = "/tmp/cucumber_report.json"
+      ENV["REPORT_PATH"] = @report_file
+      write_report_file('[{"files": []}]')
     end
+
+    it "checks exit code - test pass" do
+      ENV["SPEC_PATH"]   = "features"
+
+      exit_state = system("#{@scripts}/cucumber_booster --thread 1")
+      expect(exit_state).to eq(true)
+    end
+  end
+
+  def write_report_file(report)
+    File.write(@report_file, report)
   end
 
   def a() Setup::Cucumber.a end

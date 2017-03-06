@@ -1,0 +1,1 @@
+semaphoreci: --format json --out=cucumber_report.json

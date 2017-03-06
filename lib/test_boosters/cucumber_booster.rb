@@ -21,14 +21,22 @@ module Semaphore
         if features_to_run.empty?
           puts "No feature files in this thread!"
         else
-          exit_code = Semaphore::execute("bundle exec cucumber #{features_to_run.join(" ")}")
+          exit_code = run_command(features_to_run.join(" "))
         end
       rescue StandardError => e
         if @thread_index == 0
-          exit_code = Semaphore::execute("bundle exec cucumber #{@spec_path}")
+          exit_code = run_command(@spec_path)
         end
       end
       exit_code
+    end
+
+    def run_command(specs)
+      puts
+      puts "========================= Running Cucumber =========================="
+      puts
+
+      Semaphore::execute("bundle exec cucumber #{specs}")
     end
 
     def select
