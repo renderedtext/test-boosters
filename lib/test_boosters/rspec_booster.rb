@@ -9,7 +9,7 @@ module Semaphore
   class RspecBooster
     def initialize(thread_index)
       @thread_index = thread_index
-      @rspec_file_distribution_path = ENV["RSPEC_FILE_DISTRIBUTION_PATH"] || "#{ENV["HOME"]}/rspec_file_distribution.json"
+      @rspec_split_configuration_path = ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/rspec_split_configuration.json"
       @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
       @spec_path = ENV["SPEC_PATH"] || "spec"
     end
@@ -44,12 +44,12 @@ module Semaphore
 
     def select
       with_fallback do
-        rspec_file_distribution = JSON.parse(File.read(@rspec_file_distribution_path))
-        thread_count = rspec_file_distribution.count
-        thread = rspec_file_distribution[@thread_index]
+        file_distribution = JSON.parse(File.read(@rspec_split_configuration_path))
+        thread_count = file_distribution.count
+        thread = file_distribution[@thread_index]
 
         all_specs = Dir["#{@spec_path}/**/*_spec.rb"].sort
-        all_known_specs = rspec_file_distribution.map { |t| t["files"] }.flatten.sort
+        all_known_specs = file_distribution.map { |t| t["files"] }.flatten.sort
 
         all_leftover_specs = all_specs - all_known_specs
         thread_leftover_specs = LeftoverFiles.select(all_leftover_specs, thread_count, @thread_index)

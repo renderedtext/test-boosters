@@ -9,7 +9,7 @@ module Semaphore
   class CucumberBooster
     def initialize(thread_index)
       @thread_index = thread_index
-      @cucumber_file_distribution_path = ENV["CUCUMBER_FILE_DISTRIBUTION_PATH"] || "#{ENV["HOME"]}/cucumber_file_distribution.json"
+      @cucumber_split_configuration_path = ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 
@@ -41,7 +41,7 @@ module Semaphore
 
     def select
       with_fallback do
-        file_distribution = JSON.parse(File.read(@cucumber_file_distribution_path))
+        file_distribution = JSON.parse(File.read(@cucumber_split_configuration_path))
         thread_count = file_distribution.count
         thread = file_distribution[@thread_index]
 
