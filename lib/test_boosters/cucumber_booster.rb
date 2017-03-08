@@ -9,7 +9,7 @@ module Semaphore
   class CucumberBooster
     def initialize(thread_index)
       @thread_index = thread_index
-      @cucumber_file_distribution_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_file_distribution.json"
+      @cucumber_file_distribution_path = ENV["CUCUMBER_FILE_DISTRIBUTION_PATH"] || "#{ENV["HOME"]}/cucumber_file_distribution.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 
@@ -46,7 +46,7 @@ module Semaphore
         thread = file_distribution[@thread_index]
 
         all_features = Dir["#{@spec_path}/**/*.feature"].sort
-        all_known_features = feature_report.map { |t| t["files"] }.flatten.sort
+        all_known_features = file_distribution.map { |t| t["files"] }.flatten.sort
 
         all_leftover_features = all_features - all_known_features
         thread_leftover_features = LeftoverFiles.select(all_leftover_features, thread_count, @thread_index)
