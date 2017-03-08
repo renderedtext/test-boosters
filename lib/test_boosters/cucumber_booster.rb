@@ -9,7 +9,7 @@ module Semaphore
   class CucumberBooster
     def initialize(thread_index)
       @thread_index = thread_index
-      @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
+      @cucumber_file_distribution_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_file_distribution.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 
@@ -41,21 +41,21 @@ module Semaphore
 
     def select
       with_fallback do
-        feature_report = JSON.parse(File.read(@report_path))
-        thread_count = feature_report.count
-        thread = feature_report[@thread_index]
+        file_distribution = JSON.parse(File.read(@cucumber_file_distribution_path))
+        thread_count = file_distribution.count
+        thread = file_distribution[@thread_index]
 
         all_features = Dir["#{@spec_path}/**/*.feature"].sort
         all_known_features = feature_report.map { |t| t["files"] }.flatten.sort
 
         all_leftover_features = all_features - all_known_features
-        thread_leftover_features = LeftoverFiles::select(all_leftover_features, thread_count, @thread_index)
+        thread_leftover_features = LeftoverFiles.select(all_leftover_features, thread_count, @thread_index)
         thread_features = all_features & thread["files"].sort
         features_to_run = thread_features + thread_leftover_features
 
-        Semaphore::display_files("This thread features:", thread_features)
-        Semaphore::display_title_and_count("All leftover features:", all_leftover_features)
-        Semaphore::display_files("This thread leftover features:", thread_leftover_features)
+        Semaphore.display_files("This thread features:", thread_features)
+        Semaphore.display_title_and_count("All leftover features:", all_leftover_features)
+        Semaphore.display_files("This thread leftover features:", thread_leftover_features)
 
         features_to_run
       end
@@ -73,7 +73,7 @@ module Semaphore
 
       error += %{Exception: #{e.message}}
 
-      Semaphore::log(error)
+      Semaphore.log(error)
 
       raise
     end
