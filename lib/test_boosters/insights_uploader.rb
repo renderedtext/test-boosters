@@ -15,7 +15,7 @@ module Semaphore
             "&project_hash_id=#{@project_hash_id}"
       cmd = "http POST '#{url}' #{booster_type}:=@#{file}"
 
-      Semaphore.execute(cmd)
+      Semaphore.execute("#{cmd} > ~/insights_uploader.log")
     end
   end
 end
