@@ -9,6 +9,7 @@ module Semaphore
   class RspecBooster
     def initialize(thread_index)
       @thread_index = thread_index
+      @rspec_split_configuration_path = ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/rspec_split_configuration.json"
       @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
       @spec_path = ENV["SPEC_PATH"] || "spec"
     end
@@ -19,7 +20,7 @@ module Semaphore
         specs_to_run = select
 
         if specs_to_run.empty?
-            puts "No spec files in this thread!"
+          puts "No spec files in this thread!"
         else
           exit_code = run_command(specs_to_run.join(" "))
         end
@@ -38,26 +39,26 @@ module Semaphore
       puts "========================= Running Rspec =========================="
       puts
 
-      Semaphore::execute("bundle exec rspec #{options} #{specs}")
+      Semaphore.execute("bundle exec rspec #{options} #{specs}")
     end
 
     def select
       with_fallback do
-        rspec_report = JSON.parse(File.read(@report_path))
-        thread_count = rspec_report.count
-        thread = rspec_report[@thread_index]
+        file_distribution = JSON.parse(File.read(@rspec_split_configuration_path))
+        thread_count = file_distribution.count
+        thread = file_distribution[@thread_index]
 
         all_specs = Dir["#{@spec_path}/**/*_spec.rb"].sort
-        all_known_specs = rspec_report.map { |t| t["files"] }.flatten.sort
+        all_known_specs = file_distribution.map { |t| t["files"] }.flatten.sort
 
         all_leftover_specs = all_specs - all_known_specs
-        thread_leftover_specs = LeftoverFiles::select(all_leftover_specs, thread_count, @thread_index)
+        thread_leftover_specs = LeftoverFiles.select(all_leftover_specs, thread_count, @thread_index)
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
-        Semaphore::display_files("This thread specs:", thread_specs)
-        Semaphore::display_title_and_count("All leftover specs:", all_leftover_specs)
-        Semaphore::display_files("This thread leftover specs:", thread_leftover_specs)
+        Semaphore.display_files("This thread specs:", thread_specs)
+        Semaphore.display_title_and_count("All leftover specs:", all_leftover_specs)
+        Semaphore.display_files("This thread leftover specs:", thread_leftover_specs)
 
         specs_to_run
       end
@@ -75,7 +76,7 @@ module Semaphore
       error += %{Exception: #{e.message}\n#{e.backtrace.join("\n")}}
 
       puts error
-      Semaphore::log(error)
+      Semaphore.log(error)
 
       raise
     end
