@@ -105,6 +105,15 @@ describe Semaphore::RspecBooster do
     end
   end
 
+  describe "attr_reader :report_path" do
+    it "reads report_path" do
+      ENV["REPORT_PATH"] = "qwerty"
+      booster = Booster.new(0)
+      expect(booster.report_path).to eq("qwerty")
+
+    end
+  end
+
   def write_split_configuration_file(report)
     File.write(@test_split_configuration, report)
   end

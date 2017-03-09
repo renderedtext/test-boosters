@@ -7,6 +7,8 @@ module Semaphore
   require "test_boosters/leftover_files"
 
   class RspecBooster
+    attr_reader :report_path
+
     def initialize(thread_index)
       @thread_index = thread_index
       @rspec_split_configuration_path = ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/rspec_split_configuration.json"

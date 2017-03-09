@@ -1,9 +1,13 @@
 #!/usr/bin/env ruby
 
-require "test_boosters/rspec_booster"
+require 'test_boosters'
 
 cli_options = Semaphore::parse
 thread_index = cli_options[:index] - 1
 rspec_booster = Semaphore::RspecBooster.new(thread_index)
 exit_status = rspec_booster.run
+
+report_path = rspec_booster.report_path
+Semaphore::InsightsUploader.new.upload("rspec", report_path)
+
 exit(exit_status)
