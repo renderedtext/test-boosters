@@ -106,11 +106,17 @@ describe Semaphore::RspecBooster do
   end
 
   describe "attr_reader :report_path" do
-    it "reads report_path" do
+    it "reads REPORT_PATH" do
       ENV["REPORT_PATH"] = "qwerty"
       booster = Booster.new(0)
       expect(booster.report_path).to eq("qwerty")
+      ENV.tap { |hs| hs.delete("REPORT_PATH") }
+    end
 
+    it "generates REPORT_PATH from HOME dir" do
+      ENV["HOME"] = "/tmp"
+      booster = Booster.new(0)
+      expect(booster.report_path).to eq("/tmp/rspec_report.json")
     end
   end
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'test_boosters'
+require "test_boosters"
 
 cli_options = Semaphore::parse
 thread_index = cli_options[:index] - 1
