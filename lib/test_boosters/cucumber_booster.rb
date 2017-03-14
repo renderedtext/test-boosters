@@ -7,9 +7,12 @@ module Semaphore
   require "test_boosters/leftover_files"
 
   class CucumberBooster
+    attr_reader :report_path
+
     def initialize(thread_index)
       @thread_index = thread_index
       @cucumber_split_configuration_path = ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
+      @report_path = "#{ENV["HOME"]}/rspec_report.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 

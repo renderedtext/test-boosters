@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
-require "test_boosters/cucumber_booster"
-require 'test_boosters/run_cucumber_config'
+require "test_boosters"
 
 Semaphore::run_cucumber_config
 
@@ -9,4 +8,8 @@ cli_options = Semaphore::parse
 thread_index = cli_options[:index] - 1
 cucumber_booster = Semaphore::CucumberBooster.new(thread_index)
 exit_status = cucumber_booster.run
+
+report_path = cucumber_booster.report_path
+Semaphore::InsightsUploader.new.upload("cucumber", report_path)
+
 exit(exit_status)
