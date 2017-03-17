@@ -58,9 +58,9 @@ module Semaphore
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
-        Semaphore.display_files("This thread specs:", thread_specs)
-        Semaphore.display_title_and_count("All leftover specs:", all_leftover_specs)
-        Semaphore.display_files("This thread leftover specs:", thread_leftover_specs)
+        Semaphore::Logger.display_files("This thread specs:", thread_specs)
+        Semaphore::Logger.display_title_and_count("All leftover specs:", all_leftover_specs)
+        Semaphore::Logger.display_files("This thread leftover specs:", thread_leftover_specs)
 
         specs_to_run
       end
