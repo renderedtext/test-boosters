@@ -1,6 +1,6 @@
 require 'cucumber_booster_config'
 
-module Semaphore
+module TestBoosters
   module_function
 
   def run_cucumber_config()

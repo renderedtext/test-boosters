@@ -1,4 +1,4 @@
-module Semaphore
+module TestBoosters
   module Logger
     module_function
 

@@ -1,4 +1,4 @@
-module Semaphore
+module TestBoosters
   require "json"
   require "test_boosters/cli_parser"
   require "test_boosters/logger"
@@ -41,7 +41,7 @@ module Semaphore
       puts "========================= Running Rspec =========================="
       puts
 
-      Semaphore.execute("bundle exec rspec #{options} #{specs}")
+      TestBoosters.execute("bundle exec rspec #{options} #{specs}")
     end
 
     def select
@@ -54,13 +54,13 @@ module Semaphore
         all_known_specs = file_distribution.map { |t| t["files"] }.flatten.sort
 
         all_leftover_specs = all_specs - all_known_specs
-        thread_leftover_specs = LeftoverFiles.select(all_leftover_specs, thread_count, @thread_index)
+        thread_leftover_specs = TestBoosters::LeftoverFiles.select(all_leftover_specs, thread_count, @thread_index)
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
-        Semaphore::Logger.display_files("This thread specs:", thread_specs)
-        Semaphore::Logger.display_title_and_count("All leftover specs:", all_leftover_specs)
-        Semaphore::Logger.display_files("This thread leftover specs:", thread_leftover_specs)
+        TestBoosters::Logger.display_files("This thread specs:", thread_specs)
+        TestBoosters::Logger.display_title_and_count("All leftover specs:", all_leftover_specs)
+        TestBoosters::Logger.display_files("This thread leftover specs:", thread_leftover_specs)
 
         specs_to_run
       end
@@ -78,7 +78,7 @@ module Semaphore
       error += %{Exception: #{e.message}\n#{e.backtrace.join("\n")}}
 
       puts error
-      Semaphore.log(error)
+      TestBoosters.log(error)
 
       raise
     end

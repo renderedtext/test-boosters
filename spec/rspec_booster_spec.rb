@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-Booster = Semaphore::RspecBooster
-
-describe Semaphore::RspecBooster do
+describe TestBoosters::RspecBooster do
   it 'has a version number' do
     expect(TestBoosters::VERSION).not_to be nil
   end
@@ -22,27 +20,27 @@ describe Semaphore::RspecBooster do
       expected = [a, b]
       write_split_configuration_file('[{"files": []}, {"files": []}]')
 
-      expect(Booster.new(0).select).to eq(expected)
+      expect(described_class.new(0).select).to eq(expected)
     end
 
     it "2 threads running in thread 2, no scheduled specs, 3 leftover specs" do
       expected = [c]
       write_split_configuration_file('[{"files": []}, {"files": []}]')
 
-      expect(Booster.new(1).select).to eq(expected)
+      expect(described_class.new(1).select).to eq(expected)
     end
 
     it "4 threads running in thread 4, no scheduled specs, 3 leftover specs" do
       expected = []
       write_split_configuration_file('[{"files": []}, {"files": []}, {"files": []}, {"files": []}]')
 
-      expect(Booster.new(3).select).to eq(expected)
+      expect(described_class.new(3).select).to eq(expected)
     end
 
     it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
       write_split_configuration_file('{"malformed": []}')
 
-      expect{Booster.new(0).select}.to raise_error(StandardError)
+      expect { described_class.new(0).select }.to raise_error(StandardError)
     end
 
   end
@@ -65,7 +63,7 @@ describe Semaphore::RspecBooster do
       spec_dir = Setup.spec_dir()
 
       File.delete(@test_split_configuration) if File.exist?(@test_split_configuration)
-      expect(Booster.new(0).run_command(spec_dir)).to eq(0)
+      expect(described_class.new(0).run_command(spec_dir)).to eq(0)
       expect(File).to exist(@report_file)
     end
   end
@@ -108,14 +106,14 @@ describe Semaphore::RspecBooster do
   describe "attr_reader :report_path" do
     it "reads REPORT_PATH" do
       ENV["REPORT_PATH"] = "qwerty"
-      booster = Booster.new(0)
+      booster = described_class.new(0)
       expect(booster.report_path).to eq("qwerty")
       ENV.tap { |hs| hs.delete("REPORT_PATH") }
     end
 
     it "generates REPORT_PATH from HOME dir" do
       ENV["HOME"] = "/tmp"
-      booster = Booster.new(0)
+      booster = described_class.new(0)
       expect(booster.report_path).to eq("/tmp/rspec_report.json")
     end
   end

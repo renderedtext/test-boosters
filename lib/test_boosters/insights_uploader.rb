@@ -1,6 +1,4 @@
-module Semaphore
-  module_function
-
+module TestBoosters
   class InsightsUploader
     def initialize
       @project_hash_id = ENV["SEMAPHORE_PROJECT_UUID"]
@@ -15,7 +13,7 @@ module Semaphore
             "&project_hash_id=#{@project_hash_id}"
       cmd = "http POST '#{url}' #{booster_type}:=@#{file}"
 
-      Semaphore.execute("#{cmd} > ~/insights_uploader.log")
+      TestBoosters.execute("#{cmd} > ~/insights_uploader.log")
     end
   end
 end
