@@ -1,10 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe TestBoosters::RspecBooster do
-  it 'has a version number' do
-    expect(TestBoosters::VERSION).not_to be nil
-  end
-
   before do
     @report_file = "#{ENV["HOME"]}/rspec_report.json"
   end
