@@ -43,6 +43,8 @@ module TestBoosters
         thread_count = file_distribution.count
         thread = file_distribution[@thread_index]
 
+        puts "Running RSpec thread #{@thread_index + 1} out of #{thread_count} threads\n"
+
         all_specs = Dir["#{@spec_path}/**/*_spec.rb"].sort
         all_known_specs = file_distribution.map { |t| t["files"] }.flatten.sort
 
@@ -59,7 +61,6 @@ module TestBoosters
       end
     end
 
-
     def with_fallback
       yield
     rescue StandardError => e
@@ -71,7 +72,7 @@ module TestBoosters
       error += %{Exception: #{e.message}\n#{e.backtrace.join("\n")}}
 
       puts error
-      TestBoosters.log(error)
+      TestBoosters::Logger.error(error)
 
       raise
     end

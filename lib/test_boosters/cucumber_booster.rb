@@ -69,7 +69,7 @@ module TestBoosters
 
       error += %{Exception: #{e.message}}
 
-      TestBoosters.log(error)
+      TestBoosters::Logger.error(error)
 
       raise
     end

@@ -77,25 +77,63 @@ describe TestBoosters::RspecBooster do
       write_split_configuration_file('[{"files": []}]')
     end
 
-    it "checks exit code - test fail" do
-      ENV["SPEC_PATH"]   = "test_data_fail"
+    it "displays thread index and thread count" do
+      write_split_configuration_file('[{"files": []}, {"files": []}]')
 
-      exit_state = system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
-      expect(exit_state).to eq(false)
+      ENV["SPEC_PATH"] = "test_data_pass"
+      output = `#{@scripts}/rspec_booster --thread 2`
+
+      expect(output).to include("Running RSpec thread 2 out of 2 threads")
     end
 
-    it "checks exit code - test pass" do
-      ENV["SPEC_PATH"]   = "test_data_pass"
+    context "when no tests are present" do
+      before do
+        ENV["SPEC_PATH"] = "test_data_no_files"
+      end
 
-      exit_state = system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
-      expect(exit_state).to eq(true)
+      it "returns 0 as exit status" do
+        system("#{@scripts}/rspec_booster --thread 1")
+
+        expect($?.exitstatus).to eq(0)
+      end
     end
 
-    it "checks exit code - error while parsing" do
-      ENV["SPEC_PATH"]   = "test_data_pass"
+    context "when some rspec tests fail" do
+      before do
+        ENV["SPEC_PATH"] = "test_data_fail"
+      end
 
-      exit_state = system("#{@scripts}/rspec_booster --thread 2")
-      expect(exit_state).to eq(true)
+      it "returns 1 as exit status" do
+        system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
+
+        expect($?.exitstatus).to eq(1)
+      end
+    end
+
+    context "when all rspec tests pass" do
+      before do
+        ENV["SPEC_PATH"] = "test_data_pass"
+      end
+
+      it "returns 0 as exit status" do
+        system("#{@scripts}/rspec_booster --thread 1 > /dev/null")
+
+        expect($?.exitstatus).to eq(0)
+      end
+    end
+
+    context "when an error happens while parsing input" do
+      before do
+        ENV["SPEC_PATH"] = "test_data_pass"
+      end
+
+      it "handles the error and return exit status 0" do
+        # there is only one rspec thread
+        # if we pass --thread 2, the execution should fail
+        system("#{@scripts}/rspec_booster --thread 2 > /dev/null 2>&1")
+
+        expect($?.exitstatus).to eq(0)
+      end
     end
   end
 
