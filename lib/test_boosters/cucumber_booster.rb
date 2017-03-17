@@ -4,6 +4,7 @@ module TestBoosters
 
     def initialize(thread_index)
       @thread_index = thread_index
+      @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 

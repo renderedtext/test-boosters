@@ -52,6 +52,28 @@ describe TestBoosters::CucumberBooster do
     end
   end
 
+  describe "#report_path" do
+    context "REPORT_PATH env variable is present" do
+      it "reads the content of the env variable" do
+        ENV["REPORT_PATH"] = "qwerty"
+
+        booster = described_class.new(0)
+
+        expect(booster.report_path).to eq("qwerty")
+
+        ENV.delete("REPORT_PATH")
+      end
+    end
+
+    context "REPORT_PATH does not exists" do
+      it "generates path from HOME dir" do
+        ENV["HOME"] = "/tmp"
+        booster = described_class.new(0)
+        expect(booster.report_path).to eq("/tmp/cucumber_report.json")
+      end
+    end
+  end
+
   def write_split_configuration_file(report)
     File.write(@test_split_configuration, report)
   end
