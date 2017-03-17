@@ -58,9 +58,9 @@ module TestBoosters
         thread_specs = all_specs & thread["files"].sort
         specs_to_run = thread_specs + thread_leftover_specs
 
-        TestBoosters::Logger.display_files("This thread specs:", thread_specs)
-        TestBoosters::Logger.display_title_and_count("All leftover specs:", all_leftover_specs)
-        TestBoosters::Logger.display_files("This thread leftover specs:", thread_leftover_specs)
+        TestBoosters::Shell.display_files("This thread specs:", thread_specs)
+        TestBoosters::Shell.display_title_and_count("All leftover specs:", all_leftover_specs)
+        TestBoosters::Shell.display_files("This thread leftover specs:", thread_leftover_specs)
 
         specs_to_run
       end
