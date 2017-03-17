@@ -52,14 +52,6 @@ describe TestBoosters::CucumberBooster do
     end
   end
 
-  describe "attr_reader :report_path" do
-    it "generates REPORT_PATH from HOME dir" do
-      ENV["HOME"] = "/tmp"
-      booster = described_class.new(0)
-      expect(booster.report_path).to eq("/tmp/rspec_report.json")
-    end
-  end
-
   def write_split_configuration_file(report)
     File.write(@test_split_configuration, report)
   end
