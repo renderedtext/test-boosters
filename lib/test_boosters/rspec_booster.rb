@@ -34,7 +34,7 @@ module TestBoosters
       puts "========================= Running Rspec =========================="
       puts
 
-      TestBoosters.execute("bundle exec rspec #{options} #{specs}")
+      TestBoosters::Shell.execute("bundle exec rspec #{options} #{specs}")
     end
 
     def select
