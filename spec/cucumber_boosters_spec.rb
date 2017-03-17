@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-CuBooster = Semaphore::CucumberBooster
-
-describe Semaphore::CucumberBooster do
+describe TestBoosters::CucumberBooster do
   describe "test select()" do
     before(:context) do
       @test_split_configuration = "/tmp/cucumber_split_configuration.json"
@@ -14,27 +12,27 @@ describe Semaphore::CucumberBooster do
       expected = [a, b]
       write_split_configuration_file('[{"files": []}, {"files": []}]')
 
-      expect(CuBooster.new(0).select).to eq(expected)
+      expect(described_class.new(0).select).to eq(expected)
     end
 
     it "2 threads running in thread 2, no scheduled specs, 3 leftover specs" do
       expected = [c]
       write_split_configuration_file('[{"files": []}, {"files": []}]')
 
-      expect(CuBooster.new(1).select).to eq(expected)
+      expect(described_class.new(1).select).to eq(expected)
     end
 
     it "4 threads running in thread 4, no scheduled specs, 3 leftover specs" do
       expected = []
       write_split_configuration_file('[{"files": []}, {"files": []}, {"files": []}, {"files": []}]')
 
-      expect(CuBooster.new(3).select).to eq(expected)
+      expect(described_class.new(3).select).to eq(expected)
     end
 
     it "4 threads, running in thread 1, no scheduled specs, 3 leftover specs" do
       write_split_configuration_file('{"malformed": []}')
 
-      expect{CuBooster.new(0).select}.to raise_error(StandardError)
+      expect { described_class.new(0).select }.to raise_error(StandardError)
     end
   end
 
@@ -57,7 +55,7 @@ describe Semaphore::CucumberBooster do
   describe "attr_reader :report_path" do
     it "generates REPORT_PATH from HOME dir" do
       ENV["HOME"] = "/tmp"
-      booster = CuBooster.new(0)
+      booster = described_class.new(0)
       expect(booster.report_path).to eq("/tmp/rspec_report.json")
     end
   end

@@ -1,4 +1,4 @@
-module Semaphore
+module TestBoosters
   require "json"
   require "test_boosters/cli_parser"
   require "test_boosters/logger"
@@ -39,7 +39,7 @@ module Semaphore
       puts "========================= Running Cucumber =========================="
       puts
 
-      Semaphore::execute("bundle exec cucumber #{specs}")
+      TestBoosters.execute("bundle exec cucumber #{specs}")
     end
 
     def select
@@ -52,13 +52,13 @@ module Semaphore
         all_known_features = file_distribution.map { |t| t["files"] }.flatten.sort
 
         all_leftover_features = all_features - all_known_features
-        thread_leftover_features = LeftoverFiles.select(all_leftover_features, thread_count, @thread_index)
+        thread_leftover_features = TestBoosters::LeftoverFiles.select(all_leftover_features, thread_count, @thread_index)
         thread_features = all_features & thread["files"].sort
         features_to_run = thread_features + thread_leftover_features
 
-        Semaphore::Logger.display_files("This thread features:", thread_features)
-        Semaphore::Logger.display_title_and_count("All leftover features:", all_leftover_features)
-        Semaphore::Logger.display_files("This thread leftover features:", thread_leftover_features)
+        TestBoosters::Logger.display_files("This thread features:", thread_features)
+        TestBoosters::Logger.display_title_and_count("All leftover features:", all_leftover_features)
+        TestBoosters::Logger.display_files("This thread leftover features:", thread_leftover_features)
 
         features_to_run
       end
@@ -76,7 +76,7 @@ module Semaphore
 
       error += %{Exception: #{e.message}}
 
-      Semaphore.log(error)
+      TestBoosters.log(error)
 
       raise
     end
