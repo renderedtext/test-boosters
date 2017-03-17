@@ -1,9 +1,27 @@
-require "test_boosters/version"
-require "test_boosters/rspec_booster"
-require "test_boosters/cucumber_booster"
-require "test_boosters/insights_uploader"
-require "test_boosters/run_cucumber_config"
+require "optparse"
+require "json"
+require "cucumber_booster_config"
 
 module TestBoosters
-  # Your code goes here...
+  require "test_boosters/version"
+
+  require "test_boosters/cli_parser"
+  require "test_boosters/logger"
+  require "test_boosters/shell"
+  require "test_boosters/leftover_files"
+
+  require "test_boosters/rspec_booster"
+  require "test_boosters/cucumber_booster"
+  require "test_boosters/insights_uploader"
+
+  module_function
+
+  def run_cucumber_config
+    puts
+    puts "================== Running Cucumber Booster Config ==================="
+    puts
+
+    CucumberBoosterConfig::CLI.start ["inject", "."]
+  end
+
 end

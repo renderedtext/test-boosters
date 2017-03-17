@@ -1,17 +1,17 @@
 module TestBoosters
-  module_function
+  module CliParser
+    module_function
 
-  require "optparse"
+    def parse
+      options = {}
 
-  def parse
-    options = {}
+      parser = OptionParser.new do |opts|
+        opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
+      end
 
-    parser = OptionParser.new do |opts|
-      opts.on("--thread INDEX") { |index| options[:index] = index.to_i }
+      parser.parse!
+
+      options
     end
-
-    parser.parse!
-
-    options
   end
 end

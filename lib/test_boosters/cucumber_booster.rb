@@ -1,11 +1,4 @@
 module TestBoosters
-  require "json"
-  require "test_boosters/cli_parser"
-  require "test_boosters/logger"
-  require "test_boosters/executor"
-  require "test_boosters/display_files"
-  require "test_boosters/leftover_files"
-
   class CucumberBooster
     attr_reader :report_path
 
