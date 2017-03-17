@@ -32,7 +32,7 @@ module TestBoosters
       puts "========================= Running Cucumber =========================="
       puts
 
-      TestBoosters.execute("bundle exec cucumber #{specs}")
+      TestBoosters::Shell.execute("bundle exec cucumber #{specs}")
     end
 
     def select

@@ -45,7 +45,7 @@ describe TestBoosters::CucumberBooster do
     end
 
     it "checks exit code - test pass" do
-      ENV["SPEC_PATH"]   = "features"
+      ENV["SPEC_PATH"] = "features"
 
       exit_state = system("#{@scripts}/cucumber_booster --thread 1")
       expect(exit_state).to eq(true)
