@@ -1,11 +1,4 @@
 module TestBoosters
-  require "json"
-  require "test_boosters/cli_parser"
-  require "test_boosters/logger"
-  require "test_boosters/executor"
-  require "test_boosters/display_files"
-  require "test_boosters/leftover_files"
-
   class CucumberBooster
     attr_reader :report_path
 
@@ -39,7 +32,7 @@ module TestBoosters
       puts "========================= Running Cucumber =========================="
       puts
 
-      TestBoosters.execute("bundle exec cucumber #{specs}")
+      TestBoosters::Shell.execute("bundle exec cucumber #{specs}")
     end
 
     def select
@@ -56,9 +49,9 @@ module TestBoosters
         thread_features = all_features & thread["files"].sort
         features_to_run = thread_features + thread_leftover_features
 
-        TestBoosters::Logger.display_files("This thread features:", thread_features)
-        TestBoosters::Logger.display_title_and_count("All leftover features:", all_leftover_features)
-        TestBoosters::Logger.display_files("This thread leftover features:", thread_leftover_features)
+        TestBoosters::Shell.display_files("This thread features:", thread_features)
+        TestBoosters::Shell.display_title_and_count("All leftover features:", all_leftover_features)
+        TestBoosters::Shell.display_files("This thread leftover features:", thread_leftover_features)
 
         features_to_run
       end

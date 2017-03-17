@@ -13,7 +13,7 @@ module TestBoosters
             "&project_hash_id=#{@project_hash_id}"
       cmd = "http POST '#{url}' #{booster_type}:=@#{file}"
 
-      TestBoosters.execute("#{cmd} > ~/insights_uploader.log")
+      TestBoosters::Shell.execute("#{cmd} > ~/insights_uploader.log")
     end
   end
 end

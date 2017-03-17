@@ -2,8 +2,8 @@ module TestBoosters
   module LeftoverFiles
     module_function
 
-    def self.select(all_leftover_files, thread_count, thread_index)
-      all_leftover_files = sort_by_size(all_leftover_files)
+    def select(all_leftover_files, thread_count, thread_index)
+      all_leftover_files = sort_descending_by_size(all_leftover_files)
 
       return [] if all_leftover_files.empty?
 
@@ -17,12 +17,12 @@ module TestBoosters
       end
     end
 
-    def self.sort_by_size(files) # descending
+    def sort_descending_by_size(files)
       files
         .select { |f| File.file?(f) }
-        .map{ |f| [f, File.size(f)] }
-        .sort_by{ |a| a[1] }
-        .map{ |a| a[0] }
+        .map { |f| [f, File.size(f)] }
+        .sort_by { |a| a[1] }
+        .map { |a| a[0] }
         .reverse
     end
 

@@ -1,10 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe TestBoosters::RspecBooster do
-  it 'has a version number' do
-    expect(TestBoosters::VERSION).not_to be nil
-  end
-
   before do
     @report_file = "#{ENV["HOME"]}/rspec_report.json"
   end
@@ -98,7 +94,7 @@ describe TestBoosters::RspecBooster do
     it "checks exit code - error while parsing" do
       ENV["SPEC_PATH"]   = "test_data_pass"
 
-      exit_state = system("#{@scripts}/rspec_booster --thread 2 ")
+      exit_state = system("#{@scripts}/rspec_booster --thread 2")
       expect(exit_state).to eq(true)
     end
   end

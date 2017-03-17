@@ -1,29 +1,41 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe TestBoosters::LeftoverFiles do
-  context "test file sorting" do
-    it "tests for empty array" do
-      expect(TestBoosters::LeftoverFiles.sort_by_size([])).to eq([])
+  describe ".sort_descending_by_size" do
+    context "empty array" do
+      it "returns an empty array" do
+        expect(TestBoosters::LeftoverFiles.sort_descending_by_size([])).to eq([])
+      end
     end
 
-    it "tests single element array" do
-      expect(TestBoosters::LeftoverFiles.sort_by_size([a])).to eq([a])
+    context "single element in the array" do
+      it "returns an array with one element" do
+        expect(TestBoosters::LeftoverFiles.sort_descending_by_size([a])).to eq([a])
+      end
     end
 
-    it "tests for non-existent file in array" do
-      expect(TestBoosters::LeftoverFiles.sort_by_size(["non-existent"])).to eq([])
+    context "non-existing file in the files array" do
+      it "returns an empty array" do
+        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(["non-existent"])).to eq([])
+      end
     end
 
-    it "tests regular input" do
-      input    = input_specs
-      expected = expected_specs
-      expect(TestBoosters::LeftoverFiles.sort_by_size(input)).to eq(expected)
+    context "regular input" do
+      it "returns the spec list sorted by size" do
+        input = input_specs
+        expected = expected_specs
+
+        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(input)).to eq(expected)
+      end
     end
 
-    it "tests regular input with non-existent files" do
-      input    = input_specs + ["non-existent"]
-      expected = expected_specs
-      expect(TestBoosters::LeftoverFiles.sort_by_size(input)).to eq(expected)
+    context "regular input with non existing files" do
+      it "returns a spec list sorted by size and filters out non existing files" do
+        input = input_specs + ["non-existent"]
+        expected = expected_specs
+
+        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(input)).to eq(expected)
+      end
     end
   end
 

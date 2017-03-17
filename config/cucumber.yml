@@ -1,1 +1,2 @@
-default: --format pretty 
+default: --format pretty  --profile semaphoreci
+semaphoreci: --format json --out=../cucumber_report.json
