@@ -22,6 +22,26 @@ describe TestBoosters::SplitConfiguration do
     end
   end
 
+  describe ".for_cucumber" do
+    context "env var points to file location" do
+      before do
+        content = [ { :files => ["dragon_ball_z.feature"] } ]
+
+        @path = "/tmp/split_configuration"
+
+        ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = @path
+
+        File.write(@path, content.to_json)
+      end
+
+      subject { TestBoosters::SplitConfiguration.new(@path) }
+
+      it "loads from the file pointed by the env var" do
+        expect(subject.all_files).to include("dragon_ball_z.feature")
+      end
+    end
+  end
+
   context "file does not exists" do
     subject { TestBoosters::SplitConfiguration.new("/tmp/non_existing_file_path") }
 
