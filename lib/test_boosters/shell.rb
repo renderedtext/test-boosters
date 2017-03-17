@@ -14,8 +14,15 @@ module TestBoosters
       exit_status
     end
 
+    def display_title(title)
+      puts
+      puts "========================= #{title} =========================="
+      puts
+    end
+
     def display_files(title, files)
-      display_title_and_count(title, files)
+      puts "#{title} (#{files.count} files):"
+      puts
 
       files.each { |file| puts "- #{file}" }
 

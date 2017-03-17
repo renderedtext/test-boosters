@@ -10,23 +10,22 @@ module TestBoosters
     end
 
     def run
-      puts "========================= RSpec Booster =========================="
-      puts
+      TestBoosters::Shell.display_title("RSpec Booster")
 
-      puts "Known specs for this thread (#{specs.known_specs_for_current_thread.count} files):"
-      spec.known_specs_for_current_thread.each { |file| puts "- #{file}" }
-      puts
-
-      puts "Leftover specs for this thread: (#{specs.leftover_specs_for_current_thread.count} files):"
-      spec.leftover_specs_for_current_thread.each { |file| puts "- #{file}" }
-      puts
+      TestBoosters::Shell.display_files("Known specs for this thread", specs.known_specs_for_current_thread)
+      TestBoosters::Shell.display_files("Leftover specs for this thread", specs.leftover_specs_for_current_thread)
 
       puts "RSpec options: #{rspec_options}"
-      puts
-      puts "========================= Running Rspec =========================="
-      puts
 
-      TestBoosters::Shell.execute(rspec_command)
+      TestBoosters::Shell.display_title("Running RSpec")
+
+      exit_status = TestBoosters::Shell.execute(rspec_command)
+
+      TestBoosters::Shell.display_title("Uploading Report")
+
+      TestBoosters::InsightsUploader.new.upload("rspec", report_path)
+
+      exit_status
     end
 
     def rspec_command

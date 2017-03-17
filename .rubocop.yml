@@ -76,3 +76,6 @@ RSpec/DescribedClass:
 
 Style/IndentArray:
   EnforcedStyle: consistent
+
+Style/MultilineMethodCallBraceLayout:
+  Enabled: false
