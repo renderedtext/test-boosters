@@ -5,6 +5,7 @@ require "cucumber_booster_config"
 module TestBoosters
   require "test_boosters/version"
 
+  require "test_boosters/split_configuration"
   require "test_boosters/cli_parser"
   require "test_boosters/logger"
   require "test_boosters/shell"

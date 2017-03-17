@@ -4,8 +4,7 @@ module TestBoosters
 
     def initialize(thread_index)
       @thread_index = thread_index
-      @cucumber_split_configuration_path = ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
-      @report_path = "#{ENV["HOME"]}/rspec_report.json"
+      @report_path = ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
       @spec_path = ENV["SPEC_PATH"] || "features"
     end
 
@@ -37,16 +36,15 @@ module TestBoosters
 
     def select
       with_fallback do
-        file_distribution = JSON.parse(File.read(@cucumber_split_configuration_path))
-        thread_count = file_distribution.count
-        thread = file_distribution[@thread_index]
+        split_configuration = TestBoosters::SplitConfiguration.for_cucumber
+        thread_count = split_configuration.threads.count
 
         all_features = Dir["#{@spec_path}/**/*.feature"].sort
-        all_known_features = file_distribution.map { |t| t["files"] }.flatten.sort
+        all_known_features = split_configuration.all_files
 
         all_leftover_features = all_features - all_known_features
         thread_leftover_features = TestBoosters::LeftoverFiles.select(all_leftover_features, thread_count, @thread_index)
-        thread_features = all_features & thread["files"].sort
+        thread_features = all_features & split_configuration.files_for_thread(@thread_index)
         features_to_run = thread_features + thread_leftover_features
 
         TestBoosters::Shell.display_files("This thread features:", thread_features)
