@@ -11,7 +11,7 @@ module TestBoosters
   require "test_boosters/shell"
   require "test_boosters/leftover_files"
 
-  require "test_boosters/rspec_booster"
+  require "test_boosters/rspec/booster"
   require "test_boosters/cucumber_booster"
   require "test_boosters/insights_uploader"
 
