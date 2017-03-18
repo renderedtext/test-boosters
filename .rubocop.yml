@@ -1,6 +1,8 @@
 require: rubocop-rspec
 
 AllCops:
+  DisplayCopNames: true
+
   Exclude:
     - "vendor/**/*"
     - "lib/test_boosters/rspec_booster.rb"
@@ -48,4 +50,19 @@ Style/PercentLiteralDelimiters:
   Enabled: false
 
 RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+Metrics/BlockLength:
+  Exclude:
+    - "Rakefile"
+    - "**/*.rake"
+    - "spec/**/*.rb"
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
   Enabled: false
