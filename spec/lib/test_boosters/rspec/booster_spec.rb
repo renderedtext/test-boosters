@@ -213,11 +213,25 @@ describe TestBoosters::Rspec::Booster do
     it "passes leftover files to specs" do
       threads = booster.threads
 
-      p booster.all_leftover_specs
-
       expect(threads[0].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
       expect(threads[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
       expect(threads[2].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
+    end
+  end
+
+  describe "#run" do
+    subject(:booster) { TestBoosters::Rspec::Booster.new(1) }
+
+    before do
+      @threads = [double, double, double]
+
+      allow(booster).to receive(:threads).and_return(@threads)
+    end
+
+    it "invokes run on the current thread" do
+      expect(@threads[1]).to receive(:run)
+
+      booster.run
     end
   end
 
