@@ -18,7 +18,7 @@ module TestBoosters
         else
           exit_code = run_command(features_to_run.join(" "))
         end
-      rescue StandardError => e
+      rescue StandardError
         if @thread_index == 0
           exit_code = run_command(@spec_path)
         end
@@ -65,7 +65,7 @@ module TestBoosters
 
       puts error
 
-      error += %{Exception: #{e.message}}
+      error += "Exception: #{e.message}"
 
       TestBoosters::Logger.error(error)
 

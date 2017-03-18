@@ -1,5 +1,10 @@
 require: rubocop-rspec
 
+AllCops:
+  Exclude:
+    - "lib/test_boosters/rspec_booster.rb"
+    - "lib/test_boosters/cucumber_booster.rb"
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -31,3 +36,9 @@ Style/EmptyLinesAroundModuleBody:
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
   IndentationWidth: 2
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_perl_names
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
