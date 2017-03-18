@@ -17,7 +17,7 @@ TODO: Write usage instructions here
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/renderedtext/test_boosters.
+https://github.com/renderedtext/test-boosters.
 
 
 ## License
