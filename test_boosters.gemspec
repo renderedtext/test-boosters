@@ -35,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "cucumber-rails", "~> 1.4.3"
 
   spec.add_development_dependency "rubocop", "~> 0.47.1"
+  spec.add_development_dependency "rubocop-rspec", "~> 1.13.0"
 end
