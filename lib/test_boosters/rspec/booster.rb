@@ -15,9 +15,9 @@ module TestBoosters
       end
 
       def threads
-        @threads ||= Array.new(thread_index) do |thread_index|
+        @threads ||= Array.new(thread_count) do |thread_index|
           known_files = all_specs & split_configuration.files_for_thread(thread_index)
-          leftover_files = TestBoosters::LeftoverFiles.select(all_leftover_specs, threads_count, thread_index)
+          leftover_files = TestBoosters::LeftoverFiles.select(all_leftover_specs, thread_count, thread_index)
 
           TestBoosters::Rspec::Thread.new(known_files, leftover_files)
         end

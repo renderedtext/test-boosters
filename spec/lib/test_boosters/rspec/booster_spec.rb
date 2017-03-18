@@ -170,4 +170,55 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
+  describe "#threads" do
+    before do
+      # known files
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+
+      # unknown files
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/x_spec.rb")
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/y_spec.rb")
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/palpatine/y_spec.rb")
+
+      Support::SplitConfigurationFactory.create(
+        :path => split_configuration_path,
+        :content => [
+          { :files => ["#{specs_path}/a_spec.rb"] },
+          { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] },
+          { :files => ["#{specs_path}/b_spec.rb"] }
+        ])
+    end
+
+    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+    it "returns 3 threads" do
+      expect(booster.threads.count).to eq(3)
+    end
+
+    it "returns instances of booster threads" do
+      booster.threads.each do |thread|
+        expect(thread).to be_instance_of(TestBoosters::Rspec::Thread)
+      end
+    end
+
+    it "passes existing files from split configuration to threads" do
+      threads = booster.threads
+
+      expect(threads[0].files_from_split_configuration).to eq(["#{specs_path}/a_spec.rb"])
+      expect(threads[1].files_from_split_configuration).to eq(["#{specs_path}/lib/darth_vader/c_spec.rb"])
+      expect(threads[2].files_from_split_configuration).to eq([])
+    end
+
+    it "passes leftover files to specs" do
+      threads = booster.threads
+
+      p booster.all_leftover_specs
+
+      expect(threads[0].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
+      expect(threads[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
+      expect(threads[2].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
+    end
+  end
+
 end
