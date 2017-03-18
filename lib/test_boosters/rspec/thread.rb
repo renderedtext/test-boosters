@@ -48,7 +48,7 @@ module TestBoosters
 
       def upload_report
         TestBoosters::Shell.display_title("Uploading Report")
-        TestBoosters::InsightsUploader.new.upload("rspec", report_path)
+        TestBoosters::InsightsUploader.upload("rspec", report_path)
       end
 
       def all_files
