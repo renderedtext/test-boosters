@@ -1,15 +1,9 @@
 require "spec_helper"
 
 describe TestBoosters::Rspec::Thread do
-  let(:files_from_split_configuration) {[
-    "spec/a_spec.rb",
-    "spec/b_spec.rb"
-  ]}
+  let(:files_from_split_configuration) { ["spec/a_spec.rb", "spec/b_spec.rb"] }
 
-  let(:leftover_files) {[
-    "spec/c_spec.rb",
-    "spec/d_spec.rb"
-  ]}
+  let(:leftover_files) { ["spec/c_spec.rb", "spec/d_spec.rb"] }
 
   before do
     allow($stdout).to receive(:puts)
