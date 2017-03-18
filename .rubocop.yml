@@ -2,8 +2,12 @@ require: rubocop-rspec
 
 AllCops:
   Exclude:
+    - "vendor/**/*"
     - "lib/test_boosters/rspec_booster.rb"
     - "lib/test_boosters/cucumber_booster.rb"
+    - "lib/test_boosters/insights_uploader.rb"
+    - "test_data_pass/**/*"
+    - "test_data_fail/**/*"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -41,4 +45,7 @@ Style/SpecialGlobalVars:
   EnforcedStyle: use_perl_names
 
 Style/PercentLiteralDelimiters:
+  Enabled: false
+
+RSpec/InstanceVariable:
   Enabled: false
