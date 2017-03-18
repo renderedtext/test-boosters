@@ -66,3 +66,6 @@ Style/EmptyLinesAroundBlockBody:
 
 RSpec/BeforeAfterAll:
   Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
