@@ -9,7 +9,7 @@ describe TestBoosters::RspecBooster do
     before(:context) do
       @test_split_configuration = "/tmp/rspec_split_configuration.json"
       ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = @test_split_configuration
-      ENV["SPEC_PATH"] = Setup.spec_dir()
+      ENV["SPEC_PATH"] = Setup.spec_dir
     end
 
     it "2 threads running in thread 1, no scheduled specs, 3 leftover specs" do
@@ -41,13 +41,25 @@ describe TestBoosters::RspecBooster do
 
   end
 
-  def a() Setup.a end
-  def b() Setup.b end
-  def c() Setup.c end
+  def a
+    Setup.a
+  end
 
-  def input_specs() Setup.input_specs  end
+  def b
+    Setup.b
+  end
 
-  def expected_specs()  Setup.expected_specs  end
+  def c
+    Setup.c
+  end
+
+  def input_specs
+    Setup.input_specs
+  end
+
+  def expected_specs
+    Setup.expected_specs
+  end
 
   describe "report-file creation" do
     before(:context) do

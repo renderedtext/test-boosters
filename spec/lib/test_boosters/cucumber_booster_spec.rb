@@ -1,11 +1,11 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe TestBoosters::CucumberBooster do
   describe "test select()" do
     before(:context) do
       @test_split_configuration = "/tmp/cucumber_split_configuration.json"
       ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = @test_split_configuration
-      ENV["SPEC_PATH"]   = "test_data"
+      ENV["SPEC_PATH"] = "test_data"
     end
 
     it "2 threads running in thread 1, no scheduled specs, 3 leftover specs" do
@@ -78,11 +78,23 @@ describe TestBoosters::CucumberBooster do
     File.write(@test_split_configuration, report)
   end
 
-  def a() Setup::Cucumber.a end
-  def b() Setup::Cucumber.b end
-  def c() Setup::Cucumber.c end
+  def a
+    Setup::Cucumber.a
+  end
 
-  def input_specs() Setup::Cucumber.input_specs  end
+  def b
+    Setup::Cucumber.b
+  end
 
-  def expected_specs()  Setup::Cucumber.expected_specs  end
+  def c
+    Setup::Cucumber.c
+  end
+
+  def input_specs
+    Setup::Cucumber.input_specs
+  end
+
+  def expected_specs
+    Setup::Cucumber.expected_specs
+  end
 end
