@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rubocop", "~> 0.47.1"
   spec.add_development_dependency "rubocop-rspec", "~> 1.13.0"
+  spec.add_development_dependency "reek", "4.5.6"
 end
