@@ -21,3 +21,9 @@ Style/CollectionMethods:
 
 Metrics/LineLength:
   Max: 120
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
