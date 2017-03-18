@@ -7,7 +7,7 @@ module TestBoosters
 
       system(command)
 
-      exit_status = $?.exit_status
+      exit_status = $?.exitstatus
 
       TestBoosters::Logger.info("Command finished, exit status : #{exit_status}")
 
