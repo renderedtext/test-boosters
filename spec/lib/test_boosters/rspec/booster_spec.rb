@@ -225,6 +225,11 @@ describe TestBoosters::Rspec::Booster do
       @booster = TestBoosters::Rspec::Booster.new(1)
 
       allow(@booster).to receive(:threads).and_return(@threads)
+      allow(@threads[1]).to receive(:run)
+    end
+
+    it "displays title" do
+      expect { @booster.run }.to output(/RSpec Boster v#{TestBoosters::VERSION}/).to_stdout
     end
 
     it "invokes run on the current thread" do
@@ -236,6 +241,10 @@ describe TestBoosters::Rspec::Booster do
     context "split configuration is malformed" do
       before do
         allow(@booster.split_configuration).to receive(:valid?).and_return(false)
+      end
+
+      it "displays title" do
+        expect { @booster.run }.to output(/RSpec Boster v#{TestBoosters::VERSION}/).to_stdout
       end
 
       it "displays that the file is malformed" do

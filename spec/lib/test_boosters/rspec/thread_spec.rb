@@ -80,10 +80,6 @@ describe TestBoosters::Rspec::Thread do
   describe "#run" do
     subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
 
-    it "displays title" do
-      expect { thread.run }.to output(/RSpec Booster/).to_stdout
-    end
-
     it "displays information about the current thread" do
       expect(thread).to receive(:display_thread_info)
 
