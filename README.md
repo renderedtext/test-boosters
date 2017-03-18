@@ -1,4 +1,6 @@
-# TestBoosters
+# Test Boosters
+
+[![Gem Version](https://badge.fury.io/rb/semaphore_test_boosters.svg)](https://badge.fury.io/rb/semaphore_test_boosters)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/test_boosters`. To experiment with that code, run `bin/console` for an interactive prompt.
 
