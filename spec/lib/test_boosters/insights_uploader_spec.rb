@@ -1,6 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe TestBoosters::InsightsUploader do
+
   it "uploads dummy json file" do
     ENV["SEMAPHORE_PROJECT_UUID"]     = "not a project UUID"
     ENV["SEMAPHORE_EXECUTABLE_UUID"]  = "not a build UUID"
@@ -11,12 +12,12 @@ describe TestBoosters::InsightsUploader do
     expect(uploader.upload("rspec", dymmy_json_file)).to eq(0)
   end
 
-  it "it fails to upload dummy json file - no file" do
+  it "fails to upload dummy json file - no file" do
     uploader = described_class.new
     expect(uploader.upload("rspec", "no-file")).to eq(1)
   end
 
-  it "it fails to upload dummy json file - malformed file" do
+  it "fails to upload dummy json file - malformed file" do
     uploader = described_class.new
     expect(uploader.upload("rspec", "README.md")).to eq(1)
   end
