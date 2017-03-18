@@ -4,10 +4,14 @@ module TestBoosters
 
     def execute(command)
       TestBoosters::Logger.info("Running command: #{command}")
-      system(command)
-      TestBoosters::Logger.info("Command finished, exit status : #{$?.exitstatus}")
 
-      $?.exitstatus
+      system(command)
+
+      exit_status = $?.exitstatus
+
+      TestBoosters::Logger.info("Command finished, exit status : #{exit_status}")
+
+      exit_status
     end
 
     def display_files(title, files)
