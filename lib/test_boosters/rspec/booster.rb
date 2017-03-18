@@ -7,6 +7,12 @@ module TestBoosters
       end
 
       def run
+        unless split_configuration.valid?
+          puts "[ERROR] The split configuration file is malformed!"
+
+          return 1 # failure exit status
+        end
+
         threads[@thread_index].run
       end
 

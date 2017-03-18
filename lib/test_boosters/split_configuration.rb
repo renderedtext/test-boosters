@@ -18,6 +18,13 @@ module TestBoosters
       File.exist?(@path)
     end
 
+    def valid?
+      threads # try to load data into memory
+      true
+    rescue
+      false
+    end
+
     def all_files
       @all_files ||= threads.map(&:files).flatten.sort
     end
