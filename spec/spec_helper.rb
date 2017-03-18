@@ -8,21 +8,26 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
 require_relative "support/coverage"
 
+MINIMAL_COVERAGE_PERCENTAGE = 84
+
 RSpec.configure do |config|
 
-  config.after(:suite) do
-    example_group = RSpec.describe('Code coverage')
+  # test coverage only if the whole suite was executed
+  unless config.files_to_run.one?
+    config.after(:suite) do
+      example_group = RSpec.describe("Code coverage")
 
-    example_group.example("must be above 84%") do
-      coverage = SimpleCov.result
-      percentage = coverage.covered_percent
+      example_group.example("must be above #{MINIMAL_COVERAGE_PERCENTAGE}%") do
+        coverage = SimpleCov.result
+        percentage = coverage.covered_percent
 
-      Support::Coverage.display(coverage)
+        Support::Coverage.display(coverage)
 
-      expect(percentage).to be > 84
+        expect(percentage).to be > MINIMAL_COVERAGE_PERCENTAGE
+      end
+
+      example_group.run(RSpec.configuration.reporter)
     end
-
-    example_group.run(RSpec.configuration.reporter)
   end
 
 end
