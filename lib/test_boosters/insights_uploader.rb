@@ -15,7 +15,7 @@ module TestBoosters
         :job_hash_id => ENV["SEMAPHORE_JOB_UUID"]
       }
 
-      "https://insights-receiver.semaphoreci.com/job_reports?#{URI.encode_www_form(params)}"
+      "https://insights-receiver.semaphoreci.com/job_reports?#{::URI.encode_www_form(params)}"
     end
 
   end
