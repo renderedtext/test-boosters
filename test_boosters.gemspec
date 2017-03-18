@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "semaphore_cucumber_booster_config", "~> 1.1"
 
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rspec", "~> 3.5"
   spec.add_development_dependency "activesupport", "~> 4.0"
   spec.add_development_dependency "cucumber-rails", "~> 1.4.3"
 

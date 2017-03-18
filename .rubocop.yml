@@ -79,3 +79,6 @@ Style/IndentArray:
 
 Style/MultilineMethodCallBraceLayout:
   Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false

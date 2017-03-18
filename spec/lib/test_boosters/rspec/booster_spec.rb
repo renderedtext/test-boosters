@@ -220,18 +220,17 @@ describe TestBoosters::Rspec::Booster do
   end
 
   describe "#run" do
-    subject(:booster) { TestBoosters::Rspec::Booster.new(1) }
-
     before do
       @threads = [double, double, double]
+      @booster = TestBoosters::Rspec::Booster.new(1)
 
-      allow(booster).to receive(:threads).and_return(@threads)
+      allow(@booster).to receive(:threads).and_return(@threads)
     end
 
     it "invokes run on the current thread" do
       expect(@threads[1]).to receive(:run)
 
-      booster.run
+      @booster.run
     end
   end
 
