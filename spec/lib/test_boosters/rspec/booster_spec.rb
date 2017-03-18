@@ -68,4 +68,22 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
+  describe "#split_configuration" do
+    before do
+      Support::SplitConfigurationFactory.create(
+        :path => split_configuration_path,
+        :content => [
+          { :files => ["a_spec.rb"] },
+          { :files => ["b_spec"] },
+          { :files => [] },
+        ])
+    end
+
+    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+    it "returns an instance of the split configuration" do
+      expect(booster.split_configuration).to be_instance_of(TestBoosters::SplitConfiguration)
+    end
+  end
+
 end

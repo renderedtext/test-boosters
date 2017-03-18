@@ -8,6 +8,7 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
 require_relative "support/coverage"
 require_relative "support/rspec_files_factory"
+require_relative "support/split_configuration_factory"
 
 MINIMAL_COVERAGE_PERCENTAGE = 84
 
