@@ -83,3 +83,6 @@ RSpec/MessageSpies:
 
 Style/MultilineBlockLayout:
   Enabled: false
+
+RSpec/SubjectStub:
+  Enabled: false

@@ -22,7 +22,7 @@ module TestBoosters
 
         display_thread_info
 
-        exit_status = run_rpsec
+        exit_status = run_rspec
 
         upload_report
 

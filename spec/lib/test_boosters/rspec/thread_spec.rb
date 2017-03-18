@@ -65,4 +65,60 @@ describe TestBoosters::Rspec::Thread do
     end
   end
 
+  describe "#display_thread_info" do
+    subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
+
+    it "displays known specs" do
+      expect { thread.display_thread_info }.to output(/Known specs for this thread/).to_stdout
+    end
+
+    it "displays leftover specs" do
+      expect { thread.display_thread_info }.to output(/Leftover specs for this thread/).to_stdout
+    end
+
+    it "displays rspec options" do
+      expect { thread.display_thread_info }.to output(/#{thread.rspec_options}/).to_stdout
+    end
+  end
+
+  describe "#run" do
+    subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
+
+    it "displays title" do
+      expect { thread.run }.to output(/RSpec Booster/).to_stdout
+    end
+
+    it "displays information about the current thread" do
+      expect(thread).to receive(:display_thread_info)
+
+      thread.run
+    end
+
+    it "runs the rspec command" do
+      expect(thread).to receive(:run_rspec)
+
+      thread.run
+    end
+
+    it "uploads the rspec report" do
+      expect(thread).to receive(:upload_report)
+
+      thread.run
+    end
+
+    it "returns the exit status of the rspec command" do
+      allow(thread).to receive(:run_rspec).and_return(12)
+
+      expect(thread.run).to eq(12)
+    end
+  end
+
+  describe "#all_files" do
+    subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
+
+    it "returns knows and leftover files" do
+      expect(thread.all_files).to eq(files_from_split_config + leftover_files)
+    end
+  end
+
 end
