@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "RSpec Booster behvaviour when the tests fail" do
+describe "RSpec Booster behvaviour when the tests pass" do
 
   let(:project_path) { "/tmp/project_path-#{SecureRandom.uuid}" }
   let(:specs_path) { "#{project_path}/spec" }
@@ -19,8 +19,8 @@ describe "RSpec Booster behvaviour when the tests fail" do
     FileUtils.rm_f(rspec_report_path)
 
     # Create spec files
-    Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb", :result => :failing)
-    Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb", :result => :failing)
+    Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb", :result => :passing)
+    Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb", :result => :passing)
     Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/c_spec.rb", :result => :passing)
 
     # Construct spec helper file
@@ -50,8 +50,8 @@ describe "RSpec Booster behvaviour when the tests fail" do
   specify "first thread's behaviour" do
     output = `cd #{project_path} && rspec_booster --thread 1`
 
-    expect(output).to include("2 examples, 1 failure")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("2 examples, 0 failure")
+    expect($?.exitstatus).to eq(0)
 
     expect(File.exist?(rspec_report_path)).to eq(true)
   end
@@ -59,8 +59,8 @@ describe "RSpec Booster behvaviour when the tests fail" do
   specify "second thread's behaviour" do
     output = `cd #{project_path} && rspec_booster --thread 2`
 
-    expect(output).to include("1 example, 1 failure")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("1 example, 0 failure")
+    expect($?.exitstatus).to eq(0)
 
     expect(File.exist?(rspec_report_path)).to eq(true)
   end
