@@ -10,6 +10,6 @@ cucumber_booster = TestBoosters::CucumberBooster.new(thread_index)
 exit_status = cucumber_booster.run
 
 report_path = cucumber_booster.report_path
-TestBoosters::InsightsUploader.new.upload("cucumber", report_path)
+TestBoosters::InsightsUploader.upload("cucumber", report_path)
 
 exit(exit_status)

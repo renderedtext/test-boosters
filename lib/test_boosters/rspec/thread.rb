@@ -10,8 +10,15 @@ module TestBoosters
         @leftover_files = leftover_files
       end
 
+      # :reek:TooManyStatements { max_statements: 10 }
       def run
         TestBoosters::Shell.display_title("RSpec Booster")
+
+        if all_files.empty?
+          puts("No files to run in this thread!")
+
+          return 0
+        end
 
         display_thread_info
 
@@ -44,12 +51,16 @@ module TestBoosters
         TestBoosters::InsightsUploader.new.upload("rspec", report_path)
       end
 
+      def all_files
+        @all_files ||= files_from_split_configuration + leftover_files
+      end
+
       def rspec_options
         "--format documentation --format json --out #{report_path}"
       end
 
       def rspec_command
-        "bundle exec rspec #{options} #{specs.for_thread.join(" ")}"
+        "bundle exec rspec #{options} #{all_files.join(" ")}"
       end
 
       def report_path
