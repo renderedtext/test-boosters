@@ -9,11 +9,11 @@ module TestBoosters
 
       files = all_leftover_files
         .each_slice(thread_count)
-        .reduce{ |acc, slice| acc.map{|a| a}.zip(slice.reverse) }
-        .map{ |f| f.kind_of?(Array) ? f.flatten : [f] } [thread_index]
+        .reduce { |acc, slice| acc.map { |a| a }.zip(slice.reverse) }
+        .map { |f| f.is_a?(Array) ? f.flatten : [f] } [thread_index]
 
       if    files.nil?            then []
-      elsif files.kind_of?(Array) then files.compact
+      elsif files.is_a?(Array) then files.compact
       end
     end
 

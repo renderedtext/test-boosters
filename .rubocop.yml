@@ -27,3 +27,7 @@ Style/EmptyLinesAroundClassBody:
 
 Style/EmptyLinesAroundModuleBody:
   Enabled: false
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+  IndentationWidth: 2
