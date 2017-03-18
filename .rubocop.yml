@@ -6,9 +6,7 @@ AllCops:
   Exclude:
     - "*.gemspec"
     - "vendor/**/*"
-    - "lib/test_boosters/rspec_booster.rb"
     - "lib/test_boosters/cucumber_booster.rb"
-    - "lib/test_boosters/insights_uploader.rb"
     - "test_data_pass/**/*"
     - "test_data_fail/**/*"
 
@@ -76,3 +74,18 @@ RSpec/DescribedClass:
 
 Style/IndentArray:
   EnforcedStyle: consistent
+
+Style/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+Style/MultilineBlockLayout:
+  Enabled: false
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false

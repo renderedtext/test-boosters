@@ -1,14 +1,16 @@
 require "simplecov"
 
 SimpleCov.start do
-  add_filter "spec/"
+  add_filter "/spec/"
 end
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
 require_relative "support/coverage"
+require_relative "support/rspec_files_factory"
+require_relative "support/split_configuration_factory"
 
-MINIMAL_COVERAGE_PERCENTAGE = 84
+MINIMAL_COVERAGE_PERCENTAGE = 89
 
 RSpec.configure do |config|
 
@@ -26,7 +28,8 @@ RSpec.configure do |config|
         expect(percentage).to be > MINIMAL_COVERAGE_PERCENTAGE
       end
 
-      example_group.run(RSpec.configuration.reporter)
+      # quickfix to resolve weird behaviour in rspec
+      raise "coverage is too low" unless example_group.run(RSpec.configuration.reporter)
     end
   end
 

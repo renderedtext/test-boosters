@@ -10,3 +10,4 @@
 *.gem
 /vendor
 /coverage
+config/cucumber.yml

@@ -1,4 +1,11 @@
-default: --format pretty  --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci
+default: --format pretty  --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci --profile semaphoreci
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
+semaphoreci: --format json --out=../cucumber_report.json
 semaphoreci: --format json --out=../cucumber_report.json
 semaphoreci: --format json --out=../cucumber_report.json
 semaphoreci: --format json --out=../cucumber_report.json
