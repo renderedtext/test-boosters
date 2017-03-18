@@ -12,8 +12,6 @@ module TestBoosters
 
       # :reek:TooManyStatements { max_statements: 10 }
       def run
-        TestBoosters::Shell.display_title("RSpec Booster")
-
         if all_files.empty?
           puts("No files to run in this thread!")
 
