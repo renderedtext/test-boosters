@@ -50,4 +50,22 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
+  describe "#all_specs" do
+    before do
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+      Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
+    end
+
+    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+    it "returns all the files" do
+      expect(booster.all_specs).to eq [
+        "#{specs_path}/a_spec.rb",
+        "#{specs_path}/b_spec.rb",
+        "#{specs_path}/lib/darth_vader/c_spec.rb"
+      ]
+    end
+  end
+
 end

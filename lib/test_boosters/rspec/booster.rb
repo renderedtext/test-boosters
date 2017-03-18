@@ -31,12 +31,12 @@ module TestBoosters
         @all_leftover_specs ||= all_specs - split_configuration.all_files
       end
 
-      def specs_path
-        @specs_path ||= ENV["SPEC_PATH"] || "spec"
-      end
-
       def split_configuration
         @split_configuration ||= TestBoosters::SplitConfiguration.new(split_configuration_path)
+      end
+
+      def specs_path
+        @specs_path ||= ENV["SPEC_PATH"] || "spec"
       end
 
       def split_configuration_path

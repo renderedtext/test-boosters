@@ -29,8 +29,10 @@ UncommunicativeVariableName:
   - TestBoosters::RspecBooster#with_fallback
 
 FeatureEnvy:
-  exclude:
-  - TestBoosters::LeftoverFiles#select
+  enabled: false
+
+ControlParameter:
+  enabled: false
 
 NilCheck:
   exclude:
