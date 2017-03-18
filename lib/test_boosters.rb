@@ -24,5 +24,4 @@ module TestBoosters
 
     CucumberBoosterConfig::CLI.start ["inject", "."]
   end
-
 end

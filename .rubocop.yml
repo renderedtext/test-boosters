@@ -18,3 +18,6 @@ Style/HashSyntax:
 Style/CollectionMethods:
   StyleGuide: "https://github.com/bbatsov/ruby-style-guide#map-find-select-reduce-size"
   Enabled: true
+
+Metrics/LineLength:
+  Max: 120
