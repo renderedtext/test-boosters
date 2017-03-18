@@ -1,5 +1,31 @@
+require "simplecov"
+
+SimpleCov.start do
+  add_filter "spec/"
+end
+
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
+require_relative "support/coverage"
+
+RSpec.configure do |config|
+
+  config.after(:suite) do
+    example_group = RSpec.describe('Code coverage')
+
+    example_group.example("must be above 84%") do
+      coverage = SimpleCov.result
+      percentage = coverage.covered_percent
+
+      Support::Coverage.display(coverage)
+
+      expect(percentage).to be > 84
+    end
+
+    example_group.run(RSpec.configuration.reporter)
+  end
+
+end
 
 module Setup
   module_function
