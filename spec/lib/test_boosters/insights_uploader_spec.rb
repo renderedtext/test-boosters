@@ -7,17 +7,17 @@ describe TestBoosters::InsightsUploader do
     ENV["SEMAPHORE_JOB_UUID"]         = "not a job UUID"
     dymmy_json_file = "spec/dymmy_json_file.json"
 
-    uploader = TestBoosters::InsightsUploader.new
+    uploader = described_class.new
     expect(uploader.upload("rspec", dymmy_json_file)).to eq(0)
   end
 
   it "it fails to upload dummy json file - no file" do
-    uploader = TestBoosters::InsightsUploader.new
+    uploader = described_class.new
     expect(uploader.upload("rspec", "no-file")).to eq(1)
   end
 
   it "it fails to upload dummy json file - malformed file" do
-    uploader = TestBoosters::InsightsUploader.new
+    uploader = described_class.new
     expect(uploader.upload("rspec", "README.md")).to eq(1)
   end
 
