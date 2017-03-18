@@ -86,4 +86,22 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
+  describe "#thread_count" do
+    before do
+      Support::SplitConfigurationFactory.create(
+        :path => split_configuration_path,
+        :content => [
+          { :files => ["a_spec.rb"] },
+          { :files => ["b_spec"] },
+          { :files => [] },
+        ])
+    end
+
+    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+    it "returns thread count based on the number of threads in the split configuration" do
+      expect(booster.thread_count).to eq(3)
+    end
+  end
+
 end
