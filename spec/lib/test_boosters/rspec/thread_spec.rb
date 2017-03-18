@@ -36,10 +36,6 @@ describe TestBoosters::Rspec::Thread do
   describe "#upload_report" do
     subject(:thread) { TestBoosters::Rspec::Thread.new([], []) }
 
-    it "displays that uploading is in progress" do
-      expect { thread.upload_report }.to output(/Uploading Report/).to_stdout
-    end
-
     it "invokes the insight upload command" do
       expect(TestBoosters::InsightsUploader).to receive(:upload).with("rspec", report_path)
 
