@@ -86,3 +86,6 @@ Style/MultilineBlockLayout:
 
 RSpec/SubjectStub:
   Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false

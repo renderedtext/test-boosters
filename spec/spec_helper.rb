@@ -28,8 +28,8 @@ RSpec.configure do |config|
         expect(percentage).to be > MINIMAL_COVERAGE_PERCENTAGE
       end
 
-      # fix for a bug in current rspec
-      exit(example_group.run(RSpec.configuration.reporter))
+      # quickfix to resolve weird behaviour in rspec
+      raise "coverage is too low" unless example_group.run(RSpec.configuration.reporter)
     end
   end
 

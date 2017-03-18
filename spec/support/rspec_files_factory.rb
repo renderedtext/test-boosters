@@ -6,19 +6,19 @@ module Support
 
     def create(options = {})
       path    = options[:path]
-      content = options[:content] || create_rspec_content(options[:result] || :passing)
+      name    = options[:name] || "RandomTest"
+      result  = options[:result] || :passing
 
       FileUtils.mkdir_p(File.dirname(path))
-      File.write(path, content)
+      File.write(path, create_rspec_content(name, result))
     end
 
-    # :reek:DuplicateMethodCall
-    def create_rspec_content(result)
+    def create_rspec_content(name, result)
       <<-RSPEC_FILE
       require "spec_helper"
 
-      describe RandomTest-#{SecureRandom.uuid} do
-        it "does something interesting #{SecureRandom.uuid}" do
+      describe "##{name}" do
+        it "makes sure that #{name} works" do
           expect(1 + 1).to eq(#{result == :passing ? 2 : 42})
         end
       end
