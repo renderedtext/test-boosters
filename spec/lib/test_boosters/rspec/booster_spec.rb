@@ -73,9 +73,9 @@ describe TestBoosters::Rspec::Booster do
       Support::SplitConfigurationFactory.create(
         :path => split_configuration_path,
         :content => [
-          { :files => ["a_spec.rb"] },
-          { :files => ["b_spec"] },
-          { :files => [] },
+          { :files => ["#{specs_path}/a_spec.rb"] },
+          { :files => ["#{specs_path}/b_spec"] },
+          { :files => [] }
         ])
     end
 
@@ -91,9 +91,9 @@ describe TestBoosters::Rspec::Booster do
       Support::SplitConfigurationFactory.create(
         :path => split_configuration_path,
         :content => [
-          { :files => ["a_spec.rb"] },
-          { :files => ["b_spec"] },
-          { :files => [] },
+          { :files => ["#{specs_path}/spec/a_spec.rb"] },
+          { :files => ["#{specs_path}/spec/b_spec"] },
+          { :files => [] }
         ])
     end
 
@@ -101,6 +101,72 @@ describe TestBoosters::Rspec::Booster do
 
     it "returns thread count based on the number of threads in the split configuration" do
       expect(booster.thread_count).to eq(3)
+    end
+  end
+
+  describe "#all_leftover_specs" do
+    context "when the split configuration has the same files as the spec directory" do
+      before do
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+
+        Support::SplitConfigurationFactory.create(
+          :path => split_configuration_path,
+          :content => [
+            { :files => ["#{specs_path}/a_spec.rb"] },
+            { :files => ["#{specs_path}/b_spec.rb"] },
+            { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] }
+          ])
+      end
+
+      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+      it "returns empty array" do
+        expect(booster.all_leftover_specs).to eq([])
+      end
+    end
+
+    context "when there are more files in the directory then in the split configuration" do
+      before do
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+
+        Support::SplitConfigurationFactory.create(
+          :path => split_configuration_path,
+          :content => [])
+      end
+
+      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+      it "return the missing files" do
+        expect(booster.all_leftover_specs).to eq([
+          "#{specs_path}/a_spec.rb",
+          "#{specs_path}/b_spec.rb",
+          "#{specs_path}/lib/darth_vader/c_spec.rb"
+        ])
+      end
+    end
+
+    context "when there are more files in the split configuration then in the specs dir" do
+      before do
+        Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+
+        Support::SplitConfigurationFactory.create(
+          :path => split_configuration_path,
+          :content => [
+            { :files => ["#{specs_path}/a_spec.rb"] },
+            { :files => ["#{specs_path}/b_spec.rb"] },
+            { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] }
+          ])
+      end
+
+      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
+
+      it "returns empty array" do
+        expect(booster.all_leftover_specs).to eq([])
+      end
     end
   end
 
