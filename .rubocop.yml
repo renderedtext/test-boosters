@@ -44,7 +44,7 @@ Style/MultilineMethodCallIndentation:
   IndentationWidth: 2
 
 Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
+  Enabled: false
 
 Style/PercentLiteralDelimiters:
   Enabled: false
