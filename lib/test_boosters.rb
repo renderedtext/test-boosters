@@ -1,3 +1,4 @@
+require "uri"
 require "optparse"
 require "json"
 require "cucumber_booster_config"
