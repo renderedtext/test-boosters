@@ -3,7 +3,7 @@ module Support
     module_function
 
     def display(coverage)
-      puts "\n============== Coverate Score ======================"
+      puts "\n============== Coverage Score ======================"
 
       display_files(coverage)
 
