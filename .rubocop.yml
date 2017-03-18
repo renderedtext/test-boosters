@@ -4,6 +4,7 @@ AllCops:
   DisplayCopNames: true
 
   Exclude:
+    - "*.gemspec"
     - "vendor/**/*"
     - "lib/test_boosters/rspec_booster.rb"
     - "lib/test_boosters/cucumber_booster.rb"
