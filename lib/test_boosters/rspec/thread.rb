@@ -60,7 +60,7 @@ module TestBoosters
       end
 
       def rspec_command
-        "bundle exec rspec #{options} #{all_files.join(" ")}"
+        "bundle exec rspec #{rspec_options} #{all_files.join(" ")}"
       end
 
       def report_path

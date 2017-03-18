@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe TestBoosters::Rspec::Thread do
-  let(:files_from_split_configuration) { ["spec/a_spec.rb", "spec/b_spec.rb"] }
+  let(:files_from_split_config) { ["spec/a_spec.rb", "spec/b_spec.rb"] }
   let(:leftover_files) { ["spec/c_spec.rb", "spec/d_spec.rb"] }
   let(:report_path) { "/tmp/rspec_report.json" }
 
@@ -44,6 +44,24 @@ describe TestBoosters::Rspec::Thread do
       expect(TestBoosters::InsightsUploader).to receive(:upload).with("rspec", report_path)
 
       thread.upload_report
+    end
+  end
+
+  describe "#run_rspec" do
+    subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
+
+    it "displays 'running rspec'" do
+      expect { thread.run_rspec }.to output(/Running RSpec/).to_stdout
+    end
+
+    it "executes the rspec command" do
+      files = "#{files_from_split_config.join(" ")} #{leftover_files.join(" ")}"
+      options = "--format documentation --format json --out #{report_path}"
+      cmd = "bundle exec rspec #{options} #{files}"
+
+      expect(TestBoosters::Shell).to receive(:execute).with(cmd)
+
+      thread.run_rspec
     end
   end
 
