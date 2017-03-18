@@ -69,3 +69,9 @@ RSpec/BeforeAfterAll:
 
 RSpec/ExampleLength:
   Enabled: false
+
+RSpec/DescribedClass:
+  Enabled: false
+
+Style/IndentArray:
+  EnforcedStyle: consistent
