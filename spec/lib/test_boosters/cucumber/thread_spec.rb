@@ -79,10 +79,6 @@ describe TestBoosters::Cucumber::Thread do
       allow(CucumberBoosterConfig::CLI).to receive(:start)
     end
 
-    it "displays title" do
-      expect { thread.run_cucumber_config }.to output(/Injecting Cucumber Config/).to_stdout
-    end
-
     it "executed the injector" do
       allow(CucumberBoosterConfig::CLI).to receive(:start).with(["inject", "."])
 

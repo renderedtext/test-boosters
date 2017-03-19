@@ -5,6 +5,7 @@ module TestBoosters
     def execute(command)
       TestBoosters::Logger.info("Running command: #{command}")
 
+      puts command
       system(command)
 
       exit_status = $?.exitstatus
