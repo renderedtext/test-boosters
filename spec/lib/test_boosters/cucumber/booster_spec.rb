@@ -52,18 +52,18 @@ describe TestBoosters::Cucumber::Booster do
 
   describe "#all_specs" do
     before do
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/a.feature")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/darth_vader/c.feature")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/b.feature")
     end
 
     subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
     it "returns all the files" do
       expect(booster.all_specs).to eq [
-        "#{specs_path}/a_spec.rb",
-        "#{specs_path}/b_spec.rb",
-        "#{specs_path}/lib/darth_vader/c_spec.rb"
+        "#{specs_path}/a.feature",
+        "#{specs_path}/b.feature",
+        "#{specs_path}/darth_vader/c.feature"
       ]
     end
   end
@@ -73,8 +73,8 @@ describe TestBoosters::Cucumber::Booster do
       Support::SplitConfigurationFactory.create(
         :path => split_configuration_path,
         :content => [
-          { :files => ["#{specs_path}/a_spec.rb"] },
-          { :files => ["#{specs_path}/b_spec"] },
+          { :files => ["#{specs_path}/a.feature"] },
+          { :files => ["#{specs_path}/b.feature"] },
           { :files => [] }
         ])
     end
@@ -91,8 +91,8 @@ describe TestBoosters::Cucumber::Booster do
       Support::SplitConfigurationFactory.create(
         :path => split_configuration_path,
         :content => [
-          { :files => ["#{specs_path}/spec/a_spec.rb"] },
-          { :files => ["#{specs_path}/spec/b_spec"] },
+          { :files => ["#{specs_path}/a.feature"] },
+          { :files => ["#{specs_path}/b.feature"] },
           { :files => [] }
         ])
     end
@@ -107,16 +107,16 @@ describe TestBoosters::Cucumber::Booster do
   describe "#all_leftover_specs" do
     context "when the split configuration has the same files as the spec directory" do
       before do
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a.feature")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/b.feature")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/darth_vader/c.feature")
 
         Support::SplitConfigurationFactory.create(
           :path => split_configuration_path,
           :content => [
-            { :files => ["#{specs_path}/a_spec.rb"] },
-            { :files => ["#{specs_path}/b_spec.rb"] },
-            { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] }
+            { :files => ["#{specs_path}/a.feature"] },
+            { :files => ["#{specs_path}/b.feature"] },
+            { :files => ["#{specs_path}/darth_vader/c.feature"] }
           ])
       end
 
@@ -129,9 +129,9 @@ describe TestBoosters::Cucumber::Booster do
 
     context "when there are more files in the directory then in the split configuration" do
       before do
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a.feature")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/b.feature")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/darth_vader/c.feature")
 
         Support::SplitConfigurationFactory.create(
           :path => split_configuration_path,
@@ -142,23 +142,23 @@ describe TestBoosters::Cucumber::Booster do
 
       it "return the missing files" do
         expect(booster.all_leftover_specs).to eq([
-          "#{specs_path}/a_spec.rb",
-          "#{specs_path}/b_spec.rb",
-          "#{specs_path}/lib/darth_vader/c_spec.rb"
+          "#{specs_path}/a.feature",
+          "#{specs_path}/b.feature",
+          "#{specs_path}/darth_vader/c.feature"
         ])
       end
     end
 
     context "when there are more files in the split configuration then in the specs dir" do
       before do
-        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
+        Support::CucumberFilesFactory.create(:path => "#{specs_path}/a.feature")
 
         Support::SplitConfigurationFactory.create(
           :path => split_configuration_path,
           :content => [
-            { :files => ["#{specs_path}/a_spec.rb"] },
-            { :files => ["#{specs_path}/b_spec.rb"] },
-            { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] }
+            { :files => ["#{specs_path}/a.feature"] },
+            { :files => ["#{specs_path}/b.feature"] },
+            { :files => ["#{specs_path}/darth_vader/c.feature"] }
           ])
       end
 
@@ -173,20 +173,20 @@ describe TestBoosters::Cucumber::Booster do
   describe "#threads" do
     before do
       # known files
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/lib/darth_vader/c_spec.rb")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/a.feature")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/darth_vader/c.feature")
 
       # unknown files
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/x_spec.rb")
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/y_spec.rb")
-      Support::CucumberFilesFactory.create(:path => "#{specs_path}/lib/palpatine/y_spec.rb")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/x.feature")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/y.feature")
+      Support::CucumberFilesFactory.create(:path => "#{specs_path}/palpatine/y.feature")
 
       Support::SplitConfigurationFactory.create(
         :path => split_configuration_path,
         :content => [
-          { :files => ["#{specs_path}/a_spec.rb"] },
-          { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] },
-          { :files => ["#{specs_path}/b_spec.rb"] }
+          { :files => ["#{specs_path}/a.feature"] },
+          { :files => ["#{specs_path}/darth_vader/c.feature"] },
+          { :files => ["#{specs_path}/b.feature"] }
         ])
     end
 
@@ -205,17 +205,17 @@ describe TestBoosters::Cucumber::Booster do
     it "passes existing files from split configuration to threads" do
       threads = booster.threads
 
-      expect(threads[0].files_from_split_configuration).to eq(["#{specs_path}/a_spec.rb"])
-      expect(threads[1].files_from_split_configuration).to eq(["#{specs_path}/lib/darth_vader/c_spec.rb"])
+      expect(threads[0].files_from_split_configuration).to eq(["#{specs_path}/a.feature"])
+      expect(threads[1].files_from_split_configuration).to eq(["#{specs_path}/darth_vader/c.feature"])
       expect(threads[2].files_from_split_configuration).to eq([])
     end
 
     it "passes leftover files to specs" do
       threads = booster.threads
 
-      expect(threads[0].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
-      expect(threads[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
-      expect(threads[2].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
+      expect(threads[0].leftover_files).to eq(["#{specs_path}/y.feature"])
+      expect(threads[1].leftover_files).to eq(["#{specs_path}/x.feature"])
+      expect(threads[2].leftover_files).to eq(["#{specs_path}/palpatine/y.feature"])
     end
   end
 

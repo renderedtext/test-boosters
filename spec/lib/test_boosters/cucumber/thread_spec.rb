@@ -72,11 +72,35 @@ describe TestBoosters::Cucumber::Thread do
     end
   end
 
+  describe "#run_cucumber_config" do
+    subject(:thread) { TestBoosters::Cucumber::Thread.new([], []) }
+
+    before do
+      allow(CucumberBoosterConfig::CLI).to receive(:start)
+    end
+
+    it "displays title" do
+      expect { thread.run_cucumber_config }.to output(/Injecting Cucumber Config/).to_stdout
+    end
+
+    it "executed the injector" do
+      allow(CucumberBoosterConfig::CLI).to receive(:start).with(["inject", "."])
+
+      thread.run_cucumber_config
+    end
+  end
+
   describe "#run" do
     subject(:thread) { TestBoosters::Cucumber::Thread.new(files_from_split_config, leftover_files) }
 
     it "displays information about the current thread" do
       expect(thread).to receive(:display_thread_info)
+
+      thread.run
+    end
+
+    it "runs the cucumber config" do
+      expect(thread).to receive(:run_cucumber_config)
 
       thread.run
     end

@@ -18,6 +18,8 @@ module TestBoosters
           return 0
         end
 
+        run_cucumber_config
+
         display_thread_info
 
         exit_status = run_cucumber
@@ -35,6 +37,11 @@ module TestBoosters
         TestBoosters::Shell.display_files(
           "Leftover specs for this thread",
           leftover_files)
+      end
+
+      def run_cucumber_config
+        TestBoosters::Shell.display_title("Injecting Cucumber Config")
+        CucumberBoosterConfig::CLI.start ["inject", "."]
       end
 
       def run_cucumber

@@ -1,7 +1,5 @@
-require "securerandom"
-
 module Support
-  module CucubmerFilesFactory
+  module CucumberFilesFactory
     module_function
 
     def create(options = {})
@@ -10,9 +8,10 @@ module Support
       result = options[:result] || :passing
 
       FileUtils.mkdir_p(File.dirname(path))
+      FileUtils.mkdir_p("feature/step_definitions")
 
       File.write(path, create_feature_content(name))
-      File.write("feature/step_definitions/#{name}_step.rb", create_step_content(name))
+      File.write("feature/step_definitions/#{name}_step.rb", create_step_content(name, result))
     end
 
     def create_feature_content(name)
@@ -28,7 +27,7 @@ module Support
       FEATURE_FILE
     end
 
-    def create_step_definition(name, result)
+    def create_step_content(name, result)
       <<-STEP_FILE
       When(/^I open #{name} path/) do
         puts "Opening #{name}"
