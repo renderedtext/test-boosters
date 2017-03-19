@@ -9,10 +9,10 @@ module Support
       result = options[:result] || :passing
 
       FileUtils.mkdir_p(File.dirname(path))
-      FileUtils.mkdir_p("feature/step_definitions")
+      FileUtils.mkdir_p("features/step_definitions")
 
       File.write(path, create_feature_content(name))
-      File.write("feature/step_definitions/#{name}_step.rb", create_step_content(name, result))
+      File.write("features/step_definitions/#{name.downcase}_step.rb", create_step_content(name, result))
     end
 
     def create_feature_content(name)
@@ -31,7 +31,7 @@ module Support
     def create_step_content(name, result)
       <<-STEP_FILE
       When(/^I open #{name} path/) do
-        puts "Opening #{name}"
+        1 + 1
       end
 
       Then(/^I should see #{name}$/) do

@@ -41,7 +41,7 @@ module TestBoosters
 
       def run_cucumber_config
         TestBoosters::Shell.display_title("Injecting Cucumber Config")
-        CucumberBoosterConfig::CLI.start ["inject", "."]
+        CucumberBoosterConfig::CLI.start ["inject", Dir.pwd]
       end
 
       def run_cucumber
@@ -62,7 +62,7 @@ module TestBoosters
       end
 
       def report_path
-        @report_path ||= ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
+        @report_path ||= ENV["REPORT_PATH"] || "cucumber_report.json"
       end
 
     end

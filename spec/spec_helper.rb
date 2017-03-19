@@ -9,7 +9,7 @@ require_relative "support/rspec_files_factory"
 require_relative "support/cucumber_files_factory"
 require_relative "support/split_configuration_factory"
 
-MINIMAL_COVERAGE_PERCENTAGE = 89
+MINIMAL_COVERAGE_PERCENTAGE = 95
 
 RSpec.configure do |config|
 

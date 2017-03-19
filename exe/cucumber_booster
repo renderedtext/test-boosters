@@ -2,8 +2,6 @@
 
 require "test_boosters"
 
-TestBoosters.run_cucumber_config
-
 cli_options = TestBoosters::CliParser.parse
 thread_index = cli_options[:index] - 1
 cucumber_booster = TestBoosters::Cucumber::Booster.new(thread_index)
