@@ -11,3 +11,4 @@
 /vendor
 /coverage
 config/cucumber.yml
+/feature

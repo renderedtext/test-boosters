@@ -3,13 +3,6 @@ module TestBoosters
 
     Thread = Struct.new(:files, :thread_index)
 
-    def self.for_cucumber
-      path_from_env = ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"]
-      default_path = "#{ENV["HOME"]}/cucumber_split_configuration.json"
-
-      new(path_from_env || default_path)
-    end
-
     def initialize(path)
       @path = path
     end

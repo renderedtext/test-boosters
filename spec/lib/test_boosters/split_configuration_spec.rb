@@ -2,46 +2,6 @@ require "spec_helper"
 
 describe TestBoosters::SplitConfiguration do
 
-  describe ".for_rspec" do
-    context "env var points to file location" do
-      before do
-        content = [{ :files => ["dragon_ball_z_spec.rb"] }]
-
-        @path = "/tmp/split_configuration"
-
-        ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = @path
-
-        File.write(@path, content.to_json)
-      end
-
-      subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
-
-      it "loads from the file pointed by the env var" do
-        expect(configuration.all_files).to include("dragon_ball_z_spec.rb")
-      end
-    end
-  end
-
-  describe ".for_cucumber" do
-    context "env var points to file location" do
-      before do
-        content = [{ :files => ["dragon_ball_z.feature"] }]
-
-        @path = "/tmp/split_configuration"
-
-        ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = @path
-
-        File.write(@path, content.to_json)
-      end
-
-      subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
-
-      it "loads from the file pointed by the env var" do
-        expect(configuration.all_files).to include("dragon_ball_z.feature")
-      end
-    end
-  end
-
   context "file does not exists" do
     subject(:configuration) { TestBoosters::SplitConfiguration.new("/tmp/non_existing_file_path") }
 

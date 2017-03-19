@@ -11,11 +11,13 @@ module TestBoosters
   require "test_boosters/logger"
   require "test_boosters/shell"
   require "test_boosters/leftover_files"
+  require "test_boosters/insights_uploader"
 
   require "test_boosters/rspec/booster"
   require "test_boosters/rspec/thread"
-  require "test_boosters/cucumber_booster"
-  require "test_boosters/insights_uploader"
+
+  require "test_boosters/cucumber/booster"
+  require "test_boosters/cucumber/thread"
 
   module_function
 
