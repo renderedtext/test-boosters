@@ -44,7 +44,7 @@ module TestBoosters
       end
 
       def specs_path
-        @specs_path ||= ENV["SPEC_PATH"] || "spec"
+        @specs_path ||= ENV["SPEC_PATH"] || "features"
       end
 
       def split_configuration_path
