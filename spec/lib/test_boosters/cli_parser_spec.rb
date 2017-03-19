@@ -13,7 +13,7 @@ describe TestBoosters::CliParser do
 
     context "cli params contain the thread parameter" do
       it "recongnizes the --thread parameter" do
-        ARGV = ["--thread", "12"].freeze
+        ARGV = ["--thread", "12"] # rubocop:disable Style/MutableConstant
 
         params = TestBoosters::CliParser.parse
 
