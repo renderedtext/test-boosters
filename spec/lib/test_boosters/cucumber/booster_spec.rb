@@ -26,8 +26,8 @@ describe TestBoosters::Cucumber::Booster do
     context "when the SPEC_PATH environment variable is not set" do
       before { ENV.delete("SPEC_PATH") }
 
-      it "returns the relative 'spec' folder" do
-        expect(booster.specs_path).to eq("spec")
+      it "returns the relative 'features' folder" do
+        expect(booster.specs_path).to eq("features")
       end
     end
   end
