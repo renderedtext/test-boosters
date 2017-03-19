@@ -4,7 +4,7 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
 
   let(:specs_path) { "features" }
   let(:split_configuration_path) { "/tmp/cucumber_split_configuration.json" }
-  let(:cucumber_report_path) { "cucumber_report.json" }
+  let(:cucumber_report_path) { "/tmp/cucumber_report.json" }
 
   before do
     # Set up environment variables
@@ -45,8 +45,7 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
   specify "first thread's behaviour" do
     output = `cucumber_booster --thread 1`
 
-    puts output
-
+    expect(output).to include("Feature: B")
     expect(output).to include("1 scenario (1 passed)")
     expect($?.exitstatus).to eq(0)
 
@@ -56,19 +55,21 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
   specify "second thread's behaviour" do
     output = `cucumber_booster --thread 2`
 
-    expect(output).to include("1 example, 1 failure")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("Feature: C")
+    expect(output).to include("1 scenario (1 passed)")
+    expect($?.exitstatus).to eq(0)
 
-    expect(File.exist?(rspec_report_path)).to eq(true)
+    expect(File.exist?(cucumber_report_path)).to eq(true)
   end
 
   specify "third thread's behaviour" do
     output = `cucumber_booster --thread 3`
 
-    expect(output).to include("1 example, 0 failure")
+    expect(output).to include("Feature: A")
+    expect(output).to include("1 scenario (1 passed)")
     expect($?.exitstatus).to eq(0)
 
-    expect(File.exist?(rspec_report_path)).to eq(true)
+    expect(File.exist?(cucumber_report_path)).to eq(true)
   end
 
 end

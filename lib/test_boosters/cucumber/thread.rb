@@ -40,7 +40,7 @@ module TestBoosters
       end
 
       def run_cucumber_config
-        CucumberBoosterConfig::Injection.new(Dir.pwd, report_path)
+        CucumberBoosterConfig::Injection.new(Dir.pwd, report_path).run
         puts "-------------------------------------------------------"
         puts
       end
