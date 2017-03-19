@@ -12,6 +12,13 @@ describe "Cucumber Booster behvaviour when split configuration is malformed" do
     ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = split_configuration_path
     ENV["REPORT_PATH"] = cucumber_report_path
 
+    # set up features directory
+    FileUtils.rm_rf("features")
+    FileUtils.mkdir_p("features")
+    FileUtils.rm_rf("config")
+    FileUtils.mkdir_p("config")
+    File.write("config/cucumber.yml", "default: --format pretty\n")
+
     # Set up test dir structure
     FileUtils.rm_rf(specs_path)
     FileUtils.mkdir_p(specs_path)
