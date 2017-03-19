@@ -1,20 +1,19 @@
 require "simplecov"
-
-SimpleCov.start do
-  add_filter "/spec/"
-end
+SimpleCov.start { add_filter "/spec/" }
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
+
 require_relative "support/coverage"
 require_relative "support/rspec_files_factory"
+require_relative "support/cucumber_files_factory"
 require_relative "support/split_configuration_factory"
 
-MINIMAL_COVERAGE_PERCENTAGE = 89
+MINIMAL_COVERAGE_PERCENTAGE = 96
 
 RSpec.configure do |config|
 
-  # test coverage only if the whole suite was executed
+  # test coverage percentage only if the whole suite was executed
   unless config.files_to_run.one?
     config.after(:suite) do
       example_group = RSpec.describe("Code coverage")

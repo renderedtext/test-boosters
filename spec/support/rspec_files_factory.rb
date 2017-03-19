@@ -1,5 +1,3 @@
-require "securerandom"
-
 module Support
   module RspecFilesFactory
     module_function
