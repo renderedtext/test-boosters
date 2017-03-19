@@ -6,6 +6,7 @@ AllCops:
   Exclude:
     - "*.gemspec"
     - "vendor/**/*"
+    - "features/**/*"
     - "lib/test_boosters/cucumber_booster.rb"
     - "test_data_pass/**/*"
     - "test_data_fail/**/*"
