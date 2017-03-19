@@ -1,12 +1,9 @@
 require "spec_helper"
 
-describe "RSpec Booster behvaviour when there is no split configuration" do
-
-  before do
-    ENV["SPEC_PATH"] = "fixtures/green_rspec_project/spec"
-  end
+describe "Cucumber Booster behvaviour when there is no split configuration" do
 
   it "runs specs based on leftover files colculation" do
+    # TODO
   end
 
 end

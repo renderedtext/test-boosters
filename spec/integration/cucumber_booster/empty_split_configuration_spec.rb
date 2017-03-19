@@ -13,16 +13,12 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
     ENV["REPORT_PATH"] = cucumber_report_path
 
     # set up features directory
+    FileUtils.rm_f(cucumber_report_path)
     FileUtils.rm_rf("features")
     FileUtils.mkdir_p("features")
     FileUtils.rm_rf("config")
     FileUtils.mkdir_p("config")
     File.write("config/cucumber.yml", "default: --format pretty\n")
-
-    # Set up test dir structure
-    FileUtils.rm_rf(specs_path)
-    FileUtils.mkdir_p(specs_path)
-    FileUtils.rm_f(cucumber_report_path)
 
     # Create spec files
     Support::CucumberFilesFactory.create(:name => "A", :path => "#{specs_path}/a.feature")

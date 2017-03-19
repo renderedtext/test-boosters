@@ -1,32 +1,34 @@
 require "spec_helper"
 
-describe "RSpec Booster behvaviour there are no spec files" do
+describe "Cucumber Booster behvaviour there are no spec files" do
 
-  let(:project_path) { "/tmp/project_path-#{SecureRandom.uuid}" }
-  let(:specs_path) { "#{project_path}/spec" }
-  let(:split_configuration_path) { "/tmp/rspec_split_configuration.json" }
-  let(:rspec_report_path) { "/tmp/rspec_report.json" }
+  let(:specs_path) { "features" }
+  let(:split_configuration_path) { "/tmp/cucumber_split_configuration.json" }
+  let(:cucumber_report_path) { "/tmp/cucumber_report.json" }
 
   before do
     # Set up environment variables
     ENV["SPEC_PATH"] = specs_path
-    ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = split_configuration_path
-    ENV["REPORT_PATH"] = rspec_report_path
+    ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = split_configuration_path
+    ENV["REPORT_PATH"] = cucumber_report_path
 
-    # Set up test dir structure
-    FileUtils.rm_rf(specs_path)
-    FileUtils.mkdir_p(specs_path)
-    FileUtils.rm_f(rspec_report_path)
+    # set up features directory
+    FileUtils.rm_f(cucumber_report_path)
+    FileUtils.rm_rf("features")
+    FileUtils.mkdir_p("features")
+    FileUtils.rm_rf("config")
+    FileUtils.mkdir_p("config")
+    File.write("config/cucumber.yml", "default: --format pretty\n")
 
     # Construct a split configuration
     File.write(split_configuration_path, [
-      { :files => ["#{specs_path}/a_spec.rb"] },
-      { :files => ["#{specs_path}/b_spec.rb"] },
+      { :files => ["#{specs_path}/a.feature"] },
+      { :files => ["#{specs_path}/b.feature"] },
       { :files => [] }
     ].to_json)
 
     # make sure that everything is set up as it should be
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(cucumber_report_path)).to eq(false)
 
     expect(File.exist?(split_configuration_path)).to eq(true)
 
@@ -34,30 +36,30 @@ describe "RSpec Booster behvaviour there are no spec files" do
   end
 
   specify "first thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 1`
+    output = `cucumber_booster --thread 1`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(cucumber_report_path)).to eq(false)
   end
 
   specify "second thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 2`
+    output = `cucumber_booster --thread 2`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(cucumber_report_path)).to eq(false)
   end
 
   specify "third thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 3`
+    output = `cucumber_booster --thread 3`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(cucumber_report_path)).to eq(false)
   end
 
 end
