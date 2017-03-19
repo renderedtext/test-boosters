@@ -2,6 +2,7 @@ module Support
   module CucumberFilesFactory
     module_function
 
+    # :reek:TooManyStatements
     def create(options = {})
       path   = options[:path]
       name   = options[:name] || "RandomTest"
