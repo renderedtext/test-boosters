@@ -53,7 +53,7 @@ module TestBoosters
       end
 
       def rspec_options
-        "--format documentation --format json --out #{report_path}"
+        "#{ENV["RSPEC_OPTIONS"]} --format documentation --format json --out #{report_path}"
       end
 
       def rspec_command

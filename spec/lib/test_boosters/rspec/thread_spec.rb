@@ -52,7 +52,7 @@ describe TestBoosters::Rspec::Thread do
 
     it "executes the rspec command" do
       files = "#{files_from_split_config.join(" ")} #{leftover_files.join(" ")}"
-      options = "--format documentation --format json --out #{report_path}"
+      options = " --format documentation --format json --out #{report_path}"
       cmd = "bundle exec rspec #{options} #{files}"
 
       expect(TestBoosters::Shell).to receive(:execute).with(cmd)
@@ -74,6 +74,25 @@ describe TestBoosters::Rspec::Thread do
 
     it "displays rspec options" do
       expect { thread.display_thread_info }.to output(/#{thread.rspec_options}/).to_stdout
+    end
+  end
+
+  describe "#rspec_options" do
+    subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
+
+    context "when RSPEC_OPTIONS env variable is empty" do
+      it "returns the default options" do
+        expect(thread.rspec_options).to eq(" --format documentation --format json --out /tmp/rspec_report.json")
+      end
+    end
+
+    context "when RSPEC_OPTIONS env variable is present" do
+      before { ENV["RSPEC_OPTIONS"] = "--fail-fast=3" }
+      after  { ENV.delete("RSPEC_OPTIONS") }
+
+      it "returns the default options with the environment variable content" do
+        expect(thread.rspec_options).to eq("--fail-fast=3 --format documentation --format json --out /tmp/rspec_report.json")
+      end
     end
   end
 
