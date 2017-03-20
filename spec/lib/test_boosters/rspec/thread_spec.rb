@@ -90,8 +90,10 @@ describe TestBoosters::Rspec::Thread do
       before { ENV["RSPEC_OPTIONS"] = "--fail-fast=3" }
       after  { ENV.delete("RSPEC_OPTIONS") }
 
+      subject(:options) { thread.rspec_options }
+
       it "returns the default options with the environment variable content" do
-        expect(thread.rspec_options).to eq("--fail-fast=3 --format documentation --format json --out /tmp/rspec_report.json")
+        expect(options).to eq("--fail-fast=3 --format documentation --format json --out /tmp/rspec_report.json")
       end
     end
   end
