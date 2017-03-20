@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe TestBoosters::Cucumber::Booster do
 
+  subject(:booster) { TestBoosters::Cucumber::Booster.new(0, 3) }
+
   let(:specs_path) { "/tmp/cucumber_features" }
   let(:split_configuration_path) { "/tmp/split_configuration.json" }
 
@@ -13,8 +15,6 @@ describe TestBoosters::Cucumber::Booster do
     ENV["SPEC_PATH"] = specs_path
     ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] = split_configuration_path
   end
-
-  subject(:booster) { TestBoosters::Cucumber::Booster.new(0, 3) }
 
   describe "#specs_path" do
 

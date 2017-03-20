@@ -7,8 +7,10 @@ module TestBoosters
 
       parser = OptionParser.new do |opts|
         opts.on("--thread INDEX") do |parameter|
-          options[:thread_index] = parameter.split("/")[0].to_i
-          options[:thread_count] = parameter.split("/")[1].to_i
+          thread_index, thread_count, _rest = parameter.split("/")
+
+          options[:thread_index] = thread_index.to_i
+          options[:thread_count] = thread_count.to_i
         end
       end
 

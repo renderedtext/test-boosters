@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe TestBoosters::Rspec::Booster do
 
+  subject(:booster) { TestBoosters::Rspec::Booster.new(0, 3) }
+
   let(:specs_path) { "/tmp/rspec_tests" }
   let(:split_configuration_path) { "/tmp/split_configuration.json" }
 
@@ -13,8 +15,6 @@ describe TestBoosters::Rspec::Booster do
     ENV["SPEC_PATH"] = specs_path
     ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = split_configuration_path
   end
-
-  subject(:booster) { TestBoosters::Rspec::Booster.new(0, 3) }
 
   describe "#specs_path" do
     context "when the SPEC_PATH environment variable is set" do
