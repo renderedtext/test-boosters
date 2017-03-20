@@ -13,11 +13,11 @@ describe TestBoosters::CliParser do
 
     context "cli params contain the thread parameter" do
       it "recongnizes the --thread parameter" do
-        ARGV = ["--thread", "12"] # rubocop:disable Style/MutableConstant
+        ARGV = ["--thread", "12/32"] # rubocop:disable Style/MutableConstant
 
         params = TestBoosters::CliParser.parse
 
-        expect(params).to eq(:index => 12)
+        expect(params).to eq(:thread_index => 12, :thread_count => 32)
       end
     end
   end
