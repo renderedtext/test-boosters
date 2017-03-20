@@ -44,7 +44,7 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
   end
 
   specify "first thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 1`
+    output = `cd #{project_path} && rspec_booster --thread 1/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)
@@ -53,7 +53,7 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
   end
 
   specify "second thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 2`
+    output = `cd #{project_path} && rspec_booster --thread 2/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)
@@ -62,7 +62,7 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
   end
 
   specify "third thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 3`
+    output = `cd #{project_path} && rspec_booster --thread 3/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)

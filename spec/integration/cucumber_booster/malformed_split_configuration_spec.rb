@@ -46,7 +46,7 @@ describe "Cucumber Booster behvaviour when split configuration is malformed" do
   end
 
   specify "first thread's behaviour" do
-    output = `cucumber_booster --thread 1`
+    output = `cucumber_booster --thread 1/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)
@@ -55,7 +55,7 @@ describe "Cucumber Booster behvaviour when split configuration is malformed" do
   end
 
   specify "second thread's behaviour" do
-    output = `cucumber_booster --thread 2`
+    output = `cucumber_booster --thread 2/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)
@@ -64,7 +64,7 @@ describe "Cucumber Booster behvaviour when split configuration is malformed" do
   end
 
   specify "third thread's behaviour" do
-    output = `cucumber_booster --thread 3`
+    output = `cucumber_booster --thread 3/3`
 
     expect(output).to include("[ERROR] The split configuration file is malformed!")
     expect($?.exitstatus).to eq(1)

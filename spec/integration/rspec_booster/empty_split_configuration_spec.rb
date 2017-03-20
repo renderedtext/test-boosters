@@ -44,7 +44,7 @@ describe "RSpec Booster behvaviour when split configuration is empty" do
   end
 
   specify "first thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 1`
+    output = `cd #{project_path} && rspec_booster --thread 1/3`
 
     expect(output).to include("1 example, 1 failure")
     expect($?.exitstatus).to eq(1)
@@ -53,7 +53,7 @@ describe "RSpec Booster behvaviour when split configuration is empty" do
   end
 
   specify "second thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 2`
+    output = `cd #{project_path} && rspec_booster --thread 2/3`
 
     expect(output).to include("1 example, 1 failure")
     expect($?.exitstatus).to eq(1)
@@ -62,7 +62,7 @@ describe "RSpec Booster behvaviour when split configuration is empty" do
   end
 
   specify "third thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 3`
+    output = `cd #{project_path} && rspec_booster --thread 3/3`
 
     expect(output).to include("1 example, 0 failure")
     expect($?.exitstatus).to eq(0)

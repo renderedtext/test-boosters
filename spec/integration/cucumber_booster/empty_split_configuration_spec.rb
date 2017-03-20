@@ -46,7 +46,7 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
   end
 
   specify "first thread's behaviour" do
-    output = `cucumber_booster --thread 1`
+    output = `cucumber_booster --thread 1/3`
 
     expect(output).to include("Feature: B")
     expect(output).to include("1 scenario (1 passed)")
@@ -56,7 +56,7 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
   end
 
   specify "second thread's behaviour" do
-    output = `cucumber_booster --thread 2`
+    output = `cucumber_booster --thread 2/3`
 
     expect(output).to include("Feature: C")
     expect(output).to include("1 scenario (1 passed)")
@@ -66,7 +66,7 @@ describe "Cucumber Booster behaviour when split configuration is empty" do
   end
 
   specify "third thread's behaviour" do
-    output = `cucumber_booster --thread 3`
+    output = `cucumber_booster --thread 3/3`
 
     expect(output).to include("Feature: A")
     expect(output).to include("1 scenario (1 passed)")
