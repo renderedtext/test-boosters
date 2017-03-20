@@ -80,15 +80,15 @@ describe TestBoosters::Rspec::Thread do
   describe "#rspec_options" do
     subject(:thread) { TestBoosters::Rspec::Thread.new(files_from_split_config, leftover_files) }
 
-    context "when RSPEC_OPTIONS env variable is empty" do
+    context "when TB_RSPEC_OPTIONS env variable is empty" do
       it "returns the default options" do
         expect(thread.rspec_options).to eq(" --format documentation --format json --out /tmp/rspec_report.json")
       end
     end
 
-    context "when RSPEC_OPTIONS env variable is present" do
-      before { ENV["RSPEC_OPTIONS"] = "--fail-fast=3" }
-      after  { ENV.delete("RSPEC_OPTIONS") }
+    context "when TB_RSPEC_OPTIONS env variable is present" do
+      before { ENV["TB_RSPEC_OPTIONS"] = "--fail-fast=3" }
+      after  { ENV.delete("TB_RSPEC_OPTIONS") }
 
       subject(:options) { thread.rspec_options }
 

@@ -88,13 +88,13 @@ By default, `rspec_booster` passes the following options to RSpec:
 ```
 
 If you want to pass additional parameters to RSpec, you can do that by setting
-the `RSPEC_OPTIONS` environment variable.
+the `TB_RSPEC_OPTIONS` environment variable.
 
 For example, if you want to pass a `--fail-fast` option to RSpec, you can do it
 like this:
 
 ``` bash
-export RSPEC_OPTIONS = '--fail-fast'
+export TB_RSPEC_OPTIONS = '--fail-fast'
 
 rspec_booster --thread 2
 
