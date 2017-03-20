@@ -7,14 +7,14 @@ Auto Parallelization &mdash; runs test files in multiple threads.
 ## Installation
 
 ``` bash
-gem install test_boosters
+gem install semaphore_test_boosters
 ````
 
 ## Usage
 
 ### RSpec Booster
 
-The RSpec booster command allows you to run one out of several parallel rspec
+The RSpec booster command allows you to run one out of several parallel RSpec
 threads.
 
 ``` bash
@@ -32,9 +32,9 @@ directory with the following content:
 
 ``` json
 [
-  { :files => ["spec/a_spec.rb", "spec/b_spec.rb"] },
-  { :files => ["spec/c_spec.rb", "spec/d_spec.rb"] },
-  { :files => ["spec/e_spec.rb"] }
+  { "files": ["spec/a_spec.rb", "spec/b_spec.rb"] },
+  { "files": ["spec/c_spec.rb", "spec/d_spec.rb"] },
+  { "files": ["spec/e_spec.rb"] }
 ]
 ```
 
@@ -54,9 +54,9 @@ For example, if you have the following split configuration:
 
 ``` json
 [
-  { :files => ["spec/a_spec.rb"] }
-  { :files => ["spec/b_spec.rb"] }
-  { :files => ["spec/c_spec.rb"] }
+  { "files": ["spec/a_spec.rb"] }
+  { "files": ["spec/b_spec.rb"] }
+  { "files": ["spec/c_spec.rb"] }
 ]
 ```
 
