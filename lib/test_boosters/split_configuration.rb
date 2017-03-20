@@ -32,10 +32,6 @@ module TestBoosters
       end
     end
 
-    def thread_count
-      @thread_count ||= threads.count
-    end
-
     private
 
     def load_data
