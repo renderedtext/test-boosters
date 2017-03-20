@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe TestBoosters::Rspec::Booster do
 
+  subject(:booster) { TestBoosters::Rspec::Booster.new(0, 3) }
+
   let(:specs_path) { "/tmp/rspec_tests" }
   let(:split_configuration_path) { "/tmp/split_configuration.json" }
 
@@ -15,8 +17,6 @@ describe TestBoosters::Rspec::Booster do
   end
 
   describe "#specs_path" do
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
-
     context "when the SPEC_PATH environment variable is set" do
       it "returns its values" do
         expect(booster.specs_path).to eq(specs_path)
@@ -33,7 +33,6 @@ describe TestBoosters::Rspec::Booster do
   end
 
   describe "#split_configuration_path" do
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
 
     context "when the RSPEC_SPLIT_CONFIGURATION_PATH environment variable is set" do
       it "returns its values" do
@@ -57,8 +56,6 @@ describe TestBoosters::Rspec::Booster do
       Support::RspecFilesFactory.create(:path => "#{specs_path}/b_spec.rb")
     end
 
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
-
     it "returns all the files" do
       expect(booster.all_specs).to eq [
         "#{specs_path}/a_spec.rb",
@@ -79,28 +76,8 @@ describe TestBoosters::Rspec::Booster do
         ])
     end
 
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
-
     it "returns an instance of the split configuration" do
       expect(booster.split_configuration).to be_instance_of(TestBoosters::SplitConfiguration)
-    end
-  end
-
-  describe "#thread_count" do
-    before do
-      Support::SplitConfigurationFactory.create(
-        :path => split_configuration_path,
-        :content => [
-          { :files => ["#{specs_path}/spec/a_spec.rb"] },
-          { :files => ["#{specs_path}/spec/b_spec"] },
-          { :files => [] }
-        ])
-    end
-
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
-
-    it "returns thread count based on the number of threads in the split configuration" do
-      expect(booster.thread_count).to eq(3)
     end
   end
 
@@ -120,8 +97,6 @@ describe TestBoosters::Rspec::Booster do
           ])
       end
 
-      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
-
       it "returns empty array" do
         expect(booster.all_leftover_specs).to eq([])
       end
@@ -137,8 +112,6 @@ describe TestBoosters::Rspec::Booster do
           :path => split_configuration_path,
           :content => [])
       end
-
-      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
 
       it "return the missing files" do
         expect(booster.all_leftover_specs).to eq([
@@ -161,8 +134,6 @@ describe TestBoosters::Rspec::Booster do
             { :files => ["#{specs_path}/lib/darth_vader/c_spec.rb"] }
           ])
       end
-
-      subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
 
       it "returns empty array" do
         expect(booster.all_leftover_specs).to eq([])
@@ -189,8 +160,6 @@ describe TestBoosters::Rspec::Booster do
           { :files => ["#{specs_path}/b_spec.rb"] }
         ])
     end
-
-    subject(:booster) { TestBoosters::Rspec::Booster.new(0) }
 
     it "returns 3 threads" do
       expect(booster.threads.count).to eq(3)
@@ -222,7 +191,7 @@ describe TestBoosters::Rspec::Booster do
   describe "#run" do
     before do
       @threads = [double, double, double]
-      @booster = TestBoosters::Rspec::Booster.new(1)
+      @booster = TestBoosters::Rspec::Booster.new(1, 3)
 
       allow(@booster).to receive(:threads).and_return(@threads)
       allow(@threads[1]).to receive(:run)

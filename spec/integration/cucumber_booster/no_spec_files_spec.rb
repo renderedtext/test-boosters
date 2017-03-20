@@ -36,7 +36,7 @@ describe "Cucumber Booster behvaviour there are no spec files" do
   end
 
   specify "first thread's behaviour" do
-    output = `cucumber_booster --thread 1`
+    output = `cucumber_booster --thread 1/3`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")
@@ -45,7 +45,7 @@ describe "Cucumber Booster behvaviour there are no spec files" do
   end
 
   specify "second thread's behaviour" do
-    output = `cucumber_booster --thread 2`
+    output = `cucumber_booster --thread 2/3`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")
@@ -54,7 +54,7 @@ describe "Cucumber Booster behvaviour there are no spec files" do
   end
 
   specify "third thread's behaviour" do
-    output = `cucumber_booster --thread 3`
+    output = `cucumber_booster --thread 3/3`
 
     expect($?.exitstatus).to eq(0)
     expect(output).to include("No files to run in this thread!")

@@ -2,8 +2,11 @@
 
 require "test_boosters"
 
-cli_options   = TestBoosters::CliParser.parse
-thread_index  = cli_options[:index] - 1
-rspec_booster = TestBoosters::Rspec::Booster.new(thread_index)
+cli_options = TestBoosters::CliParser.parse
+
+thread_index = cli_options[:thread_index] - 1
+thread_count = cli_options[:thread_count]
+
+rspec_booster = TestBoosters::Rspec::Booster.new(thread_index, thread_count)
 
 exit(rspec_booster.run)

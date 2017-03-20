@@ -2,8 +2,12 @@ module TestBoosters
   module Cucumber
     class Booster
 
-      def initialize(thread_index)
+      attr_reader :thread_index
+      attr_reader :thread_count
+
+      def initialize(thread_index, thread_count)
         @thread_index = thread_index
+        @thread_count = thread_count
       end
 
       def run
@@ -18,12 +22,8 @@ module TestBoosters
         threads[@thread_index].run
       end
 
-      def thread_count
-        @thread_count ||= split_configuration.thread_count
-      end
-
       def threads
-        @threads ||= Array.new(thread_count) do |thread_index|
+        @threads ||= Array.new(@thread_count) do |thread_index|
           known_files = all_specs & split_configuration.files_for_thread(thread_index)
           leftover_files = TestBoosters::LeftoverFiles.select(all_leftover_specs, thread_count, thread_index)
 

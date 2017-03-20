@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe TestBoosters::Cucumber::Booster do
 
+  subject(:booster) { TestBoosters::Cucumber::Booster.new(0, 3) }
+
   let(:specs_path) { "/tmp/cucumber_features" }
   let(:split_configuration_path) { "/tmp/split_configuration.json" }
 
@@ -15,7 +17,6 @@ describe TestBoosters::Cucumber::Booster do
   end
 
   describe "#specs_path" do
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
     context "when the SPEC_PATH environment variable is set" do
       it "returns its values" do
@@ -33,8 +34,6 @@ describe TestBoosters::Cucumber::Booster do
   end
 
   describe "#split_configuration_path" do
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
-
     context "when the CUCUMBER_SPLIT_CONFIGURATION_PATH environment variable is set" do
       it "returns its values" do
         expect(booster.split_configuration_path).to eq(split_configuration_path)
@@ -57,8 +56,6 @@ describe TestBoosters::Cucumber::Booster do
       Support::CucumberFilesFactory.create(:path => "#{specs_path}/b.feature")
     end
 
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
-
     it "returns all the files" do
       expect(booster.all_specs).to eq [
         "#{specs_path}/a.feature",
@@ -79,8 +76,6 @@ describe TestBoosters::Cucumber::Booster do
         ])
     end
 
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
-
     it "returns an instance of the split configuration" do
       expect(booster.split_configuration).to be_instance_of(TestBoosters::SplitConfiguration)
     end
@@ -96,8 +91,6 @@ describe TestBoosters::Cucumber::Booster do
           { :files => [] }
         ])
     end
-
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
     it "returns thread count based on the number of threads in the split configuration" do
       expect(booster.thread_count).to eq(3)
@@ -120,8 +113,6 @@ describe TestBoosters::Cucumber::Booster do
           ])
       end
 
-      subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
-
       it "returns empty array" do
         expect(booster.all_leftover_specs).to eq([])
       end
@@ -137,8 +128,6 @@ describe TestBoosters::Cucumber::Booster do
           :path => split_configuration_path,
           :content => [])
       end
-
-      subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
       it "return the missing files" do
         expect(booster.all_leftover_specs).to eq([
@@ -161,8 +150,6 @@ describe TestBoosters::Cucumber::Booster do
             { :files => ["#{specs_path}/darth_vader/c.feature"] }
           ])
       end
-
-      subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
       it "returns empty array" do
         expect(booster.all_leftover_specs).to eq([])
@@ -189,8 +176,6 @@ describe TestBoosters::Cucumber::Booster do
           { :files => ["#{specs_path}/b.feature"] }
         ])
     end
-
-    subject(:booster) { TestBoosters::Cucumber::Booster.new(0) }
 
     it "returns 3 threads" do
       expect(booster.threads.count).to eq(3)
@@ -222,7 +207,7 @@ describe TestBoosters::Cucumber::Booster do
   describe "#run" do
     before do
       @threads = [double, double, double]
-      @booster = TestBoosters::Cucumber::Booster.new(1)
+      @booster = TestBoosters::Cucumber::Booster.new(1, 3)
 
       allow(@booster).to receive(:threads).and_return(@threads)
       allow(@threads[1]).to receive(:run)
