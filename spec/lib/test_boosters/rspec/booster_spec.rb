@@ -198,7 +198,7 @@ describe TestBoosters::Rspec::Booster do
     end
 
     it "displays title" do
-      expect { @booster.run }.to output(/RSpec Boster v#{TestBoosters::VERSION}/).to_stdout
+      expect { @booster.run }.to output(/RSpec Booster v#{TestBoosters::VERSION}/).to_stdout
     end
 
     it "invokes run on the current thread" do
@@ -213,7 +213,7 @@ describe TestBoosters::Rspec::Booster do
       end
 
       it "displays title" do
-        expect { @booster.run }.to output(/RSpec Boster v#{TestBoosters::VERSION}/).to_stdout
+        expect { @booster.run }.to output(/RSpec Booster v#{TestBoosters::VERSION}/).to_stdout
       end
 
       it "displays that the file is malformed" do

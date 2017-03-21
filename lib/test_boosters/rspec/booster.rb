@@ -11,7 +11,7 @@ module TestBoosters
       end
 
       def run
-        TestBoosters::Shell.display_title("RSpec Boster v#{TestBoosters::VERSION}")
+        TestBoosters::Shell.display_title("RSpec Booster v#{TestBoosters::VERSION}")
 
         unless split_configuration.valid?
           puts "[ERROR] The split configuration file is malformed!"
