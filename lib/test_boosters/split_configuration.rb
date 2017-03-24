@@ -39,9 +39,17 @@ module TestBoosters
       JSON.parse(File.read(@path)).map.with_index do |raw_thread, index|
         TestBoosters::SplitConfiguration::Thread.new(raw_thread.fetch("files").sort, index)
       end
-    rescue StandardError => ex
+    rescue KeyError => ex
       @valid = false
 
+      TestBoosters::Logger.error("Split Configuration has invalid structure")
+      TestBoosters::Logger.error(ex.inspect)
+
+      []
+    rescue JSON::ParserError => ex
+      @valid = false
+
+      TestBoosters::Logger.error("Split Configuration is not parsable")
       TestBoosters::Logger.error(ex.inspect)
 
       []
