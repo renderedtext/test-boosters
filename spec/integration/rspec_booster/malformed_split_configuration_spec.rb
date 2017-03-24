@@ -46,28 +46,28 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
   specify "first thread's behaviour" do
     output = `cd #{project_path} && rspec_booster --thread 1/3`
 
-    expect(output).to include("[ERROR] The split configuration file is malformed!")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("1 example, 0 failure")
+    expect($?.exitstatus).to eq(0)
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(rspec_report_path)).to eq(true)
   end
 
   specify "second thread's behaviour" do
     output = `cd #{project_path} && rspec_booster --thread 2/3`
 
-    expect(output).to include("[ERROR] The split configuration file is malformed!")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("1 example, 0 failure")
+    expect($?.exitstatus).to eq(0)
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(rspec_report_path)).to eq(true)
   end
 
   specify "third thread's behaviour" do
     output = `cd #{project_path} && rspec_booster --thread 3/3`
 
-    expect(output).to include("[ERROR] The split configuration file is malformed!")
-    expect($?.exitstatus).to eq(1)
+    expect(output).to include("1 example, 0 failure")
+    expect($?.exitstatus).to eq(0)
 
-    expect(File.exist?(rspec_report_path)).to eq(false)
+    expect(File.exist?(rspec_report_path)).to eq(true)
   end
 
 end

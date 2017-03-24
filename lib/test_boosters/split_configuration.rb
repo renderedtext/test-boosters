@@ -45,7 +45,7 @@ module TestBoosters
       @valid = true
 
       content
-    rescue KeyError => ex
+    rescue TypeError, KeyError => ex
       log_error("Split Configuration has invalid structure", ex)
 
       []
