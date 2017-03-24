@@ -17,6 +17,7 @@ describe "RSpec Booster behvaviour when there is no split configuration" do
     FileUtils.rm_rf(specs_path)
     FileUtils.mkdir_p(specs_path)
     FileUtils.rm_f(rspec_report_path)
+    FileUtils.rm_f(split_configuration_path)
 
     # Create spec files
     Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb", :result => :failing)
