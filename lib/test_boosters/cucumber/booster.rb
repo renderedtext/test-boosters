@@ -11,7 +11,7 @@ module TestBoosters
       end
 
       def run
-        TestBoosters::Shell.display_title("Cucumber Booster v#{TestBoosters::VERSION}")
+        display_system_info
 
         unless split_configuration.valid?
           puts "[ERROR] The split configuration file is malformed!"
@@ -20,6 +20,16 @@ module TestBoosters
         end
 
         threads[@thread_index].run
+      end
+
+      def display_system_info
+        TestBoosters::Shell.display_title("Cucumber Booster v#{TestBoosters::VERSION}")
+
+        TestBoosters::ProjectInfo.display_ruby_version
+        TestBoosters::ProjectInfo.display_bundler_version
+        TestBoosters::ProjectInfo.display_cucumber_version
+
+        puts
       end
 
       def threads
