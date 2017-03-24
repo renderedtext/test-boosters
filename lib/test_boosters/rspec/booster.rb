@@ -13,6 +13,11 @@ module TestBoosters
       def run
         TestBoosters::Shell.display_title("RSpec Booster v#{TestBoosters::VERSION}")
 
+        TestBoosters::ProjectInfo.display_ruby_version
+        TestBoosters::ProjectInfo.display_bundler_version
+        TestBoosters::ProjectInfo.display_rspec_version
+        puts
+
         unless split_configuration.valid?
           puts "[ERROR] The split configuration file is malformed!"
 
