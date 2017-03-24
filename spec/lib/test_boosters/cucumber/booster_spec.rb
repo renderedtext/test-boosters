@@ -222,26 +222,5 @@ describe TestBoosters::Cucumber::Booster do
 
       @booster.run
     end
-
-    context "split configuration is malformed" do
-      before do
-        allow(@booster.split_configuration).to receive(:valid?).and_return(false)
-      end
-
-      it "displays title" do
-        expect { @booster.run }.to output(/Cucumber Booster v#{TestBoosters::VERSION}/).to_stdout
-      end
-
-      it "displays that the file is malformed" do
-        expect { @booster.run }.to output(/\[ERROR\] The split configuration file is malformed!/).to_stdout
-      end
-
-      it "return exit status 1" do
-        allow($stdout).to receive(:puts)
-
-        expect(@booster.run).to eq(1)
-      end
-    end
   end
-
 end
