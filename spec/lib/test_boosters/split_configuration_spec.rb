@@ -6,6 +6,7 @@ describe TestBoosters::SplitConfiguration do
     subject(:configuration) { TestBoosters::SplitConfiguration.new("/tmp/non_existing_file_path") }
 
     it { is_expected.not_to be_present }
+    it { is_expected.to be_valid }
 
     describe "#all_files" do
       it "is an empty array" do
@@ -13,9 +14,61 @@ describe TestBoosters::SplitConfiguration do
       end
     end
 
-    describe "#threads" do
+    describe "#files_for_thread" do
       it "is an empty array" do
-        expect(configuration.threads).to eq([])
+        expect(configuration.files_for_thread(10)).to eq([])
+      end
+    end
+  end
+
+  context "file is not parsable" do
+    before do
+      @path = "/tmp/split_configuration"
+
+      File.write(@path, "try to parse me :)")
+    end
+
+    subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
+
+    it { is_expected.to be_present }
+    it { is_expected.not_to be_valid }
+
+    describe "#all_files" do
+      it "is an empty array" do
+        expect(configuration.all_files).to eq([])
+      end
+    end
+
+    describe "#files_for_thread" do
+      it "is an empty array" do
+        expect(configuration.files_for_thread(10)).to eq([])
+      end
+    end
+  end
+
+  context "file is parsable, but contains invalid structure" do
+    before do
+      content = [{ :parse => :me }]
+
+      @path = "/tmp/split_configuration"
+
+      File.write(@path, content.to_json)
+    end
+
+    subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
+
+    it { is_expected.to be_present }
+    it { is_expected.to_not be_valid }
+
+    describe "#all_files" do
+      it "is an empty array" do
+        expect(configuration.all_files).to eq([])
+      end
+    end
+
+    describe "#files_for_thread" do
+      it "is an empty array" do
+        expect(configuration.files_for_thread(10)).to eq([])
       end
     end
   end

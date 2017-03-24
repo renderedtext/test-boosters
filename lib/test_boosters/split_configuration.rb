@@ -5,6 +5,7 @@ module TestBoosters
 
     def initialize(path)
       @path = path
+      @valid = true
     end
 
     def present?
@@ -13,9 +14,8 @@ module TestBoosters
 
     def valid?
       threads # try to load data into memory
-      true
-    rescue
-      false
+
+      @valid
     end
 
     def all_files
@@ -23,23 +23,41 @@ module TestBoosters
     end
 
     def files_for_thread(thread_index)
-      threads[thread_index].files
+      thread = threads[thread_index]
+
+      thread ? thread.files : []
     end
 
     def threads
-      @threads ||= load_data.map.with_index do |raw_thread, index|
-        TestBoosters::SplitConfiguration::Thread.new(raw_thread["files"].sort, index)
-      end
+      @threads ||= present? ? load_data : []
     end
 
     private
 
+    # :reek:TooManyStatements
     def load_data
-      if present?
-        JSON.parse(File.read(@path))
-      else
-        []
+      @valid = false
+
+      content = JSON.parse(File.read(@path)).map.with_index do |raw_thread, index|
+        TestBoosters::SplitConfiguration::Thread.new(raw_thread.fetch("files").sort, index)
       end
+
+      @valid = true
+
+      content
+    rescue TypeError, KeyError => ex
+      log_error("Split Configuration has invalid structure", ex)
+
+      []
+    rescue JSON::ParserError => ex
+      log_error("Split Configuration is not parsable", ex)
+
+      []
+    end
+
+    def log_error(message, exception)
+      TestBoosters::Logger.error(message)
+      TestBoosters::Logger.error(exception.inspect)
     end
 
   end
