@@ -32,9 +32,5 @@ module TestBoosters
       puts "\n"
     end
 
-    def display_title_and_count(title, files)
-      puts "#{title} #{files.count}\n"
-    end
-
   end
 end
