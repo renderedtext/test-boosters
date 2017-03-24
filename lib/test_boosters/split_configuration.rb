@@ -36,23 +36,28 @@ module TestBoosters
 
     # :reek:TooManyStatements
     def load_data
-      JSON.parse(File.read(@path)).map.with_index do |raw_thread, index|
-        TestBoosters::SplitConfiguration::Thread.new(raw_thread.fetch("files").sort, index)
-      end
-    rescue KeyError => ex
       @valid = false
 
-      TestBoosters::Logger.error("Split Configuration has invalid structure")
-      TestBoosters::Logger.error(ex.inspect)
+      content = JSON.parse(File.read(@path)).map.with_index do |raw_thread, index|
+        TestBoosters::SplitConfiguration::Thread.new(raw_thread.fetch("files").sort, index)
+      end
+
+      @valid = true
+
+      content
+    rescue KeyError => ex
+      log_error("Split Configuration has invalid structure", ex)
 
       []
     rescue JSON::ParserError => ex
-      @valid = false
-
-      TestBoosters::Logger.error("Split Configuration is not parsable")
-      TestBoosters::Logger.error(ex.inspect)
+      log_error("Split Configuration is not parsable", ex)
 
       []
+    end
+
+    def log_error(message, exception)
+      TestBoosters::Logger.error(message)
+      TestBoosters::Logger.error(exception.inspect)
     end
 
   end

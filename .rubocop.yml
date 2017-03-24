@@ -90,3 +90,15 @@ RSpec/SubjectStub:
 
 RSpec/DescribeClass:
   Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+RSpec/NotToNot:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false

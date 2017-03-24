@@ -23,12 +23,6 @@ describe TestBoosters::SplitConfiguration do
 
   context "file is not parsable" do
     before do
-      content = [
-        { :files => ["a_spec.rb", "d_spec.rb", "c_spec.rb"] },
-        { :files => ["f_spec.rb", "b_spec.rb"] },
-        { :files => [] }
-      ]
-
       @path = "/tmp/split_configuration"
 
       File.write(@path, "try to parse me :)")
@@ -37,7 +31,7 @@ describe TestBoosters::SplitConfiguration do
     subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
 
     it { is_expected.to be_present }
-    it { is_expected.to_not be_valid }
+    it { is_expected.not_to be_valid }
 
     describe "#all_files" do
       it "is an empty array" do
