@@ -28,6 +28,7 @@ module TestBoosters
         TestBoosters::ProjectInfo.display_ruby_version
         TestBoosters::ProjectInfo.display_bundler_version
         TestBoosters::ProjectInfo.display_rspec_version
+        TestBoosters::ProjectInfo.display_split_configuration_info(split_configuration)
 
         puts
       end

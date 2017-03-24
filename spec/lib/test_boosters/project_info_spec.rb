@@ -26,4 +26,21 @@ describe TestBoosters::ProjectInfo do
     end
   end
 
+  describe ".display_split_configuration_info" do
+    let(:files) { ["file1", "file2", "file3" ] }
+    let(:split_conf) { double(TestBoosters::SplitConfiguration, :all_files => files, :present? => true, :valid? => false) }
+
+    it "displays its presence" do
+      expect { described_class.display_split_configuration_info(split_conf) }.to output(/Split configuration present: yes/).to_stdout
+    end
+
+    it "displays its validity" do
+      expect { described_class.display_split_configuration_info(split_conf) }.to output(/Split configuration valid: no/).to_stdout
+    end
+
+    it "displays its file count" do
+      expect { described_class.display_split_configuration_info(split_conf) }.to output(/Split configuration file count: 3/).to_stdout
+    end
+  end
+
 end
