@@ -5,7 +5,7 @@ module TestBoosters
     def upload(booster_type, file)
       cmd = "http POST '#{insights_url}' #{booster_type}:=@#{file}"
 
-      TestBoosters::Shell.execute("#{cmd} > ~/insights_uploader.log")
+      TestBoosters::Shell.execute("#{cmd} > ~/insights_uploader.log", :silent => true)
     end
 
     def insights_url

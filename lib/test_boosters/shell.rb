@@ -2,8 +2,11 @@ module TestBoosters
   module Shell
     module_function
 
-    def execute(command)
+    # :reek:TooManyStatements
+    def execute(command, options = {})
       TestBoosters::Logger.info("Running command: #{command}")
+
+      puts command unless options[:silent] == true
 
       system(command)
 
