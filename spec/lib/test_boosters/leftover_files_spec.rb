@@ -37,7 +37,7 @@ describe TestBoosters::LeftoverFiles do
       it { expect(leftover.select(:index => 2, :total => 3)).to eq([]) }
     end
 
-    context "there is just as much leftover files as threads" do
+    context "there is just as much leftover files as jobs" do
       before do
         @files = [
           create_leftover_file(:bytes => 20),
@@ -53,7 +53,7 @@ describe TestBoosters::LeftoverFiles do
       it { expect(leftover.select(:index => 2, :total => 3)).to eq([@files[1]]) }
     end
 
-    context "there is more leftover files than threads" do
+    context "there is more leftover files than jobs" do
       before do
         @files = [
           create_leftover_file(:bytes => 20),

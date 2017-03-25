@@ -16,16 +16,16 @@ module TestBoosters
 
     private
 
-    def file_distribution(thread_count)
+    def file_distribution(job_count)
       # create N empty boxes
-      threads = Array.new(thread_count) { [] }
+      jobs = Array.new(job_count) { [] }
 
       # distribute files in Round Robin fashion
       sorted_files_by_file_size.each.with_index do |file, index|
-        threads[index % thread_count] << file
+        jobs[index % job_count] << file
       end
 
-      threads
+      jobs
     end
 
     def sorted_files_by_file_size
