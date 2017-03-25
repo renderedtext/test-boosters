@@ -9,12 +9,7 @@ ControlParameter:
   enabled: false
 
 UtilityFunction:
-  exclude:
-  - a
-  - b
-  - c
-  - expected_specs
-  - input_specs
+  enabled: false
 
 exclude_paths:
   - vendor
