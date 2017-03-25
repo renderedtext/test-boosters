@@ -1,7 +1,7 @@
 module TestBoosters
   class SplitConfiguration
 
-    Thread = Struct.new(:files, :thread_index)
+    Job = Struct.new(:files)
 
     def initialize(path)
       @path = path
@@ -13,23 +13,23 @@ module TestBoosters
     end
 
     def valid?
-      threads # try to load data into memory
+      jobs # try to load data into memory
 
       @valid
     end
 
     def all_files
-      @all_files ||= threads.map(&:files).flatten.sort
+      @all_files ||= jobs.map(&:files).flatten.sort
     end
 
-    def files_for_thread(thread_index)
-      thread = threads[thread_index]
+    def files_for_job(job_index)
+      job = jobs[job_index]
 
-      thread ? thread.files : []
+      job ? job.files : []
     end
 
-    def threads
-      @threads ||= present? ? load_data : []
+    def jobs
+      @jobs ||= present? ? load_data : []
     end
 
     private
@@ -38,8 +38,10 @@ module TestBoosters
     def load_data
       @valid = false
 
-      content = JSON.parse(File.read(@path)).map.with_index do |raw_thread, index|
-        TestBoosters::SplitConfiguration::Thread.new(raw_thread.fetch("files").sort, index)
+      content = JSON.parse(File.read(@path)).map do |raw_job|
+        files = raw_job.fetch("files").sort
+
+        TestBoosters::SplitConfiguration::Job.new(files)
       end
 
       @valid = true

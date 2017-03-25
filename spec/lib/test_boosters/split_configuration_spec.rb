@@ -14,9 +14,9 @@ describe TestBoosters::SplitConfiguration do
       end
     end
 
-    describe "#files_for_thread" do
+    describe "#files_for_job" do
       it "is an empty array" do
-        expect(configuration.files_for_thread(10)).to eq([])
+        expect(configuration.files_for_job(10)).to eq([])
       end
     end
   end
@@ -39,9 +39,9 @@ describe TestBoosters::SplitConfiguration do
       end
     end
 
-    describe "#files_for_thread" do
+    describe "#files_for_job" do
       it "is an empty array" do
-        expect(configuration.files_for_thread(10)).to eq([])
+        expect(configuration.files_for_job(10)).to eq([])
       end
     end
   end
@@ -66,9 +66,9 @@ describe TestBoosters::SplitConfiguration do
       end
     end
 
-    describe "#files_for_thread" do
+    describe "#files_for_job" do
       it "is an empty array" do
-        expect(configuration.files_for_thread(10)).to eq([])
+        expect(configuration.files_for_job(10)).to eq([])
       end
     end
   end
@@ -102,17 +102,17 @@ describe TestBoosters::SplitConfiguration do
       end
     end
 
-    describe "#threads" do
-      it "returns instances of TestBoosters::SplitConfiguration::Thread" do
-        configuration.threads.each do |thread|
-          expect(thread).to be_instance_of(TestBoosters::SplitConfiguration::Thread)
+    describe "#jobs" do
+      it "returns instances of TestBoosters::SplitConfiguration::Job" do
+        configuration.jobs.each do |job|
+          expect(job).to be_instance_of(TestBoosters::SplitConfiguration::Job)
         end
       end
 
-      it "puts every file to its proper thread instance" do
-        expect(configuration.threads[0].files).to eq ["a_spec.rb", "c_spec.rb", "d_spec.rb"]
-        expect(configuration.threads[1].files).to eq ["b_spec.rb", "f_spec.rb"]
-        expect(configuration.threads[2].files).to eq []
+      it "puts every file to its proper job instance" do
+        expect(configuration.jobs[0].files).to eq ["a_spec.rb", "c_spec.rb", "d_spec.rb"]
+        expect(configuration.jobs[1].files).to eq ["b_spec.rb", "f_spec.rb"]
+        expect(configuration.jobs[2].files).to eq []
       end
     end
   end

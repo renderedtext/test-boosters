@@ -2,19 +2,19 @@ module TestBoosters
   module Cucumber
     class Booster
 
-      attr_reader :thread_index
-      attr_reader :thread_count
+      attr_reader :job_index
+      attr_reader :job_count
 
-      def initialize(thread_index, thread_count)
-        @thread_index = thread_index
-        @thread_count = thread_count
+      def initialize(job_index, job_count)
+        @job_index = job_index
+        @job_count = job_count
       end
 
       def run
         TestBoosters::Shell.display_title("Cucumber Booster v#{TestBoosters::VERSION}")
         display_system_info
 
-        threads[@thread_index].run
+        jobs[@job_index].run
       end
 
       def display_system_info
@@ -25,12 +25,12 @@ module TestBoosters
         puts
       end
 
-      def threads
-        @threads ||= Array.new(@thread_count) do |thread_index|
-          known    = all_specs & split_configuration.files_for_thread(thread_index)
-          leftover = leftover_specs.select(:index => thread_index, :total => thread_count)
+      def jobs
+        @jobs ||= Array.new(job_count) do |job_index|
+          known    = all_specs & split_configuration.files_for_job(job_index)
+          leftover = leftover_specs.select(:index => job_index, :total => job_count)
 
-          TestBoosters::Cucumber::Thread.new(known, leftover)
+          TestBoosters::Cucumber::Job.new(known, leftover)
         end
       end
 

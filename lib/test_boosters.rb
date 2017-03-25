@@ -15,8 +15,8 @@ module TestBoosters
   require "test_boosters/project_info"
 
   require "test_boosters/rspec/booster"
-  require "test_boosters/rspec/thread"
+  require "test_boosters/rspec/job"
 
   require "test_boosters/cucumber/booster"
-  require "test_boosters/cucumber/thread"
+  require "test_boosters/cucumber/job"
 end

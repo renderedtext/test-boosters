@@ -1,6 +1,6 @@
 module TestBoosters
-  module Rspec
-    class Thread
+  module Cucumber
+    class Job
 
       attr_reader :files_from_split_configuration
       attr_reader :leftover_files
@@ -13,55 +13,57 @@ module TestBoosters
       # :reek:TooManyStatements { max_statements: 10 }
       def run
         if all_files.empty?
-          puts("No files to run in this thread!")
+          puts("No files to run in this job!")
 
           return 0
         end
 
-        display_thread_info
+        run_cucumber_config
 
-        exit_status = run_rspec
+        display_job_info
+
+        exit_status = run_cucumber
 
         upload_report
 
         exit_status
       end
 
-      def display_thread_info
+      def display_job_info
         TestBoosters::Shell.display_files(
-          "Known specs for this thread",
+          "Known specs for this job",
           files_from_split_configuration)
 
         TestBoosters::Shell.display_files(
-          "Leftover specs for this thread",
+          "Leftover specs for this job",
           leftover_files)
-
-        puts "RSpec options: #{rspec_options}"
       end
 
-      def run_rspec
-        TestBoosters::Shell.display_title("Running RSpec")
-        TestBoosters::Shell.execute(rspec_command)
+      def run_cucumber_config
+        CucumberBoosterConfig::Injection.new(Dir.pwd, report_path).run
+        puts "-------------------------------------------------------"
+        puts
+      end
+
+      def run_cucumber
+        TestBoosters::Shell.display_title("Running Cucumber")
+        TestBoosters::Shell.execute(cucumber_command)
       end
 
       def upload_report
-        TestBoosters::InsightsUploader.upload("rspec", report_path)
+        TestBoosters::InsightsUploader.upload("cucumber", report_path)
       end
 
       def all_files
         @all_files ||= files_from_split_configuration + leftover_files
       end
 
-      def rspec_options
-        "#{ENV["TB_RSPEC_OPTIONS"]} --format documentation --format json --out #{report_path}"
-      end
-
-      def rspec_command
-        "bundle exec rspec #{rspec_options} #{all_files.join(" ")}"
+      def cucumber_command
+        "bundle exec cucumber #{all_files.join(" ")}"
       end
 
       def report_path
-        @report_path ||= ENV["REPORT_PATH"] || "#{ENV["HOME"]}/rspec_report.json"
+        @report_path ||= ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
       end
 
     end
