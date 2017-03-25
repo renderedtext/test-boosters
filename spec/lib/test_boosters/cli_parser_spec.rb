@@ -17,7 +17,9 @@ describe TestBoosters::CliParser do
       end
 
       it "prints a deprecation warning" do
-        expect { TestBoosters::CliParser.parse }.to output(/\[DEPRECATION WARNING\] The '--thread' parameter is deprecated. Please use '--job' instead./).to_stdout
+        deprecation = /\[DEPRECATION WARNING\] The '--thread' parameter is deprecated. Please use '--job' instead./
+
+        expect { TestBoosters::CliParser.parse }.to output(deprecation).to_stdout
       end
 
       it "recongnizes the --thread parameter" do

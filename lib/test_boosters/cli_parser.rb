@@ -12,17 +12,11 @@ module TestBoosters
         opts.on("--thread INDEX") do |parameter|
           puts "[DEPRECATION WARNING] The '--thread' parameter is deprecated. Please use '--job' instead."
 
-          job_index, job_count, _rest = parameter.split("/")
-
-          options[:job_index] = job_index.to_i
-          options[:job_count] = job_count.to_i
+          options.merge!(parse_job_params(parameter))
         end
 
         opts.on("--job INDEX") do |parameter|
-          job_index, job_count, _rest = parameter.split("/")
-
-          options[:job_index] = job_index.to_i
-          options[:job_count] = job_count.to_i
+          options.merge!(parse_job_params(parameter))
         end
       end
 
@@ -30,5 +24,13 @@ module TestBoosters
 
       options
     end
+
+    # parses input like '1/32' and ouputs { :job_index => 1, :job_count => 32 }
+    def parse_job_params(input_parameter)
+      job_index, job_count, _rest = input_parameter.split("/")
+
+      { :job_index => job_index.to_i, :job_count => job_count.to_i }
+    end
+
   end
 end

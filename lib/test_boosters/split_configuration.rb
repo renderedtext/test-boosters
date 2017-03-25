@@ -38,8 +38,10 @@ module TestBoosters
     def load_data
       @valid = false
 
-      content = JSON.parse(File.read(@path)).map.with_index do |raw_job, index|
-        TestBoosters::SplitConfiguration::Job.new(raw_job.fetch("files").sort)
+      content = JSON.parse(File.read(@path)).map do |raw_job|
+        files = raw_job.fetch("files").sort
+
+        TestBoosters::SplitConfiguration::Job.new(files)
       end
 
       @valid = true
