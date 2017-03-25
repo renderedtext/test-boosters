@@ -4,6 +4,7 @@ module TestBoosters
 
     # :reek:TooManyStatements
     # :reek:NestedIterators
+    # :reek:DuplicateMethodCall
     def parse
       options = {}
 
