@@ -1,29 +1,37 @@
 module TestBoosters
-  module LeftoverFiles
-    module_function
+  class LeftoverFiles
 
-    def select(all_leftover_files, thread_count, thread_index)
-      all_leftover_files = sort_descending_by_size(all_leftover_files)
-
-      return [] if all_leftover_files.empty?
-
-      files = all_leftover_files
-        .each_slice(thread_count)
-        .reduce { |acc, slice| acc.map { |a| a }.zip(slice.reverse) }
-        .map { |f| f.is_a?(Array) ? f.flatten : [f] } [thread_index]
-
-      if    files.nil?            then []
-      elsif files.is_a?(Array) then files.compact
-      end
+    def initialize(files)
+      @files = files
     end
 
-    def sort_descending_by_size(files)
-      files
-        .select { |f| File.file?(f) }
-        .map { |f| [f, File.size(f)] }
-        .sort_by { |a| a[1] }
-        .map { |a| a[0] }
-        .reverse
+    def select(options = {})
+      index = options.fetch(:index)
+      total = options.fetch(:total)
+
+      file_distribution(total)[index]
+    end
+
+    private
+
+    def file_distribution(thread_count)
+      # create N empty boxes
+      threads = Array.new(thread_count) { [] }
+
+      # distribute files in Round Robin fashion
+      sorted_files_by_file_size.each.with_index do |file, index|
+        threads[index % thread_count] << file
+      end
+
+      threads
+    end
+
+    def sorted_files_by_file_size
+      @sorted_files_by_file_size ||= existing_files.sort_by { |file| -File.size(file) }
+    end
+
+    def existing_files
+      @existing_files ||= @files.select { |file| File.file?(file) }
     end
 
   end
