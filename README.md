@@ -5,11 +5,15 @@
 Auto Parallelization &mdash; runs test files in multiple jobs
 
 - [Installation](#installation)
-- [RSpec Booster](#rspec-booster)
+
+- RSpec Booster
+  - [Running RSpec jobs](#rspec-booster)
   - [RSpec Split Configuration](#rspec-split-configuration)
   - [Leftover RSpec specs](#leftover-rspec-specs)
   - [Passing custom options to RSpec](#custom-rspec-options)
-- [Cucumber Booster](#cucumber-booster)
+
+- Cucumber Booster
+  - [Running Cucumber jobs](#cucumber-booster)
   - [Cucumber Split Configuration](#cucumber-split-configuration)
   - [Leftover Cucumber specs](#leftover-rspec-specs)
   - [Passing custom options to Cucumber](#custom-cucumber-options)
