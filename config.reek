@@ -6,12 +6,6 @@ NestedIterators:
   exclude:
   - TestBoosters::CliParser#parse
 
-UncommunicativeVariableName:
-  exclude:
-  - TestBoosters::CucumberBooster#with_fallback
-  - TestBoosters::RspecBooster#run
-  - TestBoosters::RspecBooster#with_fallback
-
 FeatureEnvy:
   enabled: false
 
