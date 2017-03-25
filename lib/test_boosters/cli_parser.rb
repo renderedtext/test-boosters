@@ -9,10 +9,19 @@ module TestBoosters
 
       parser = OptionParser.new do |opts|
         opts.on("--thread INDEX") do |parameter|
-          thread_index, thread_count, _rest = parameter.split("/")
+          puts "[DEPRECATION WARNING] The '--thread' parameter is deprecated. Please use '--job' instead."
 
-          options[:thread_index] = thread_index.to_i
-          options[:thread_count] = thread_count.to_i
+          job_index, job_count, _rest = parameter.split("/")
+
+          options[:job_index] = job_index.to_i
+          options[:job_count] = job_count.to_i
+        end
+
+        opts.on("--job INDEX") do |parameter|
+          job_index, job_count, _rest = parameter.split("/")
+
+          options[:job_index] = job_index.to_i
+          options[:job_count] = job_count.to_i
         end
       end
 
