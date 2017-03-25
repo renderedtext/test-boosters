@@ -35,29 +35,29 @@ describe "Cucumber Booster behvaviour when there are no spec files" do
     expect(Dir["#{specs_path}/**/*"].sort).to eq([])
   end
 
-  specify "first thread's behaviour" do
-    output = `cucumber_booster --thread 1/3`
+  specify "first job's behaviour" do
+    output = `cucumber_booster --job 1/3`
 
     expect($?.exitstatus).to eq(0)
-    expect(output).to include("No files to run in this thread!")
+    expect(output).to include("No files to run in this job!")
 
     expect(File.exist?(cucumber_report_path)).to eq(false)
   end
 
-  specify "second thread's behaviour" do
-    output = `cucumber_booster --thread 2/3`
+  specify "second job's behaviour" do
+    output = `cucumber_booster --job 2/3`
 
     expect($?.exitstatus).to eq(0)
-    expect(output).to include("No files to run in this thread!")
+    expect(output).to include("No files to run in this job!")
 
     expect(File.exist?(cucumber_report_path)).to eq(false)
   end
 
-  specify "third thread's behaviour" do
-    output = `cucumber_booster --thread 3/3`
+  specify "third job's behaviour" do
+    output = `cucumber_booster --job 3/3`
 
     expect($?.exitstatus).to eq(0)
-    expect(output).to include("No files to run in this thread!")
+    expect(output).to include("No files to run in this job!")
 
     expect(File.exist?(cucumber_report_path)).to eq(false)
   end

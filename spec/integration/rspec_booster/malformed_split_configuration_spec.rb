@@ -43,8 +43,8 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
     ])
   end
 
-  specify "first thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 1/3`
+  specify "first job's behaviour" do
+    output = `cd #{project_path} && rspec_booster --job 1/3`
 
     expect(output).to include("1 example, 0 failure")
     expect($?.exitstatus).to eq(0)
@@ -52,8 +52,8 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
     expect(File.exist?(rspec_report_path)).to eq(true)
   end
 
-  specify "second thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 2/3`
+  specify "second job's behaviour" do
+    output = `cd #{project_path} && rspec_booster --job 2/3`
 
     expect(output).to include("1 example, 0 failure")
     expect($?.exitstatus).to eq(0)
@@ -61,8 +61,8 @@ describe "RSpec Booster behvaviour when split configuration is malformed" do
     expect(File.exist?(rspec_report_path)).to eq(true)
   end
 
-  specify "third thread's behaviour" do
-    output = `cd #{project_path} && rspec_booster --thread 3/3`
+  specify "third job's behaviour" do
+    output = `cd #{project_path} && rspec_booster --job 3/3`
 
     expect(output).to include("1 example, 0 failure")
     expect($?.exitstatus).to eq(0)
