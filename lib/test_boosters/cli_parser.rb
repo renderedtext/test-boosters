@@ -2,6 +2,7 @@ module TestBoosters
   module CliParser
     module_function
 
+    # :reek:TooManyStatements
     def parse
       options = {}
 
