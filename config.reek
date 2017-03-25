@@ -5,7 +5,6 @@ IrresponsibleModule:
 NestedIterators:
   exclude:
   - TestBoosters::CliParser#parse
-  - TestBoosters::LeftoverFiles#select
 
 TooManyStatements:
   exclude:
@@ -14,7 +13,6 @@ TooManyStatements:
   - TestBoosters::CucumberBooster#run
   - TestBoosters::CucumberBooster#select
   - TestBoosters::CucumberBooster#with_fallback
-  - TestBoosters::LeftoverFiles#select
   - TestBoosters::RspecBooster#run
   - TestBoosters::RspecBooster#run_command
   - TestBoosters::RspecBooster#select
@@ -23,8 +21,6 @@ TooManyStatements:
 UncommunicativeVariableName:
   exclude:
   - TestBoosters::CucumberBooster#with_fallback
-  - TestBoosters::LeftoverFiles#select
-  - TestBoosters::LeftoverFiles#sort_descending_by_size
   - TestBoosters::RspecBooster#run
   - TestBoosters::RspecBooster#with_fallback
 
@@ -33,10 +29,6 @@ FeatureEnvy:
 
 ControlParameter:
   enabled: false
-
-NilCheck:
-  exclude:
-  - TestBoosters::LeftoverFiles#select
 
 UncommunicativeMethodName:
   exclude:
