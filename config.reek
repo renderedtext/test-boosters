@@ -30,18 +30,6 @@ FeatureEnvy:
 ControlParameter:
   enabled: false
 
-UncommunicativeMethodName:
-  exclude:
-  - a
-  - b
-  - c
-  - Setup#a
-  - Setup#b
-  - Setup#c
-  - Setup::Cucumber#a
-  - Setup::Cucumber#b
-  - Setup::Cucumber#c
-
 UtilityFunction:
   exclude:
   - a
