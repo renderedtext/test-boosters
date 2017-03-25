@@ -4,9 +4,9 @@ require "test_boosters"
 
 cli_options = TestBoosters::CliParser.parse
 
-thread_index = cli_options[:thread_index] - 1
-thread_count = cli_options[:thread_count]
+job_index = cli_options[:job_index] - 1
+job_count = cli_options[:job_count]
 
-cucumber_booster = TestBoosters::Cucumber::Booster.new(thread_index, thread_count)
+cucumber_booster = TestBoosters::Cucumber::Booster.new(job_index, job_count)
 
 exit(cucumber_booster.run)
