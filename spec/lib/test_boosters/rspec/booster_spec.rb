@@ -141,7 +141,7 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
-  describe "#threads" do
+  describe "#jobs" do
     before do
       # known files
       Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
@@ -161,48 +161,48 @@ describe TestBoosters::Rspec::Booster do
         ])
     end
 
-    it "returns 3 threads" do
-      expect(booster.threads.count).to eq(3)
+    it "returns 3 jobs" do
+      expect(booster.jobs.count).to eq(3)
     end
 
-    it "returns instances of booster threads" do
-      booster.threads.each do |thread|
-        expect(thread).to be_instance_of(TestBoosters::Rspec::Thread)
+    it "returns instances of booster jobs" do
+      booster.jobs.each do |job|
+        expect(job).to be_instance_of(TestBoosters::Rspec::Job)
       end
     end
 
-    it "passes existing files from split configuration to threads" do
-      threads = booster.threads
+    it "passes existing files from split configuration to jobs" do
+      jobs = booster.jobs
 
-      expect(threads[0].files_from_split_configuration).to eq(["#{specs_path}/a_spec.rb"])
-      expect(threads[1].files_from_split_configuration).to eq(["#{specs_path}/lib/darth_vader/c_spec.rb"])
-      expect(threads[2].files_from_split_configuration).to eq([])
+      expect(jobs[0].files_from_split_configuration).to eq(["#{specs_path}/a_spec.rb"])
+      expect(jobs[1].files_from_split_configuration).to eq(["#{specs_path}/lib/darth_vader/c_spec.rb"])
+      expect(jobs[2].files_from_split_configuration).to eq([])
     end
 
-    it "passes leftover files to specs" do
-      threads = booster.threads
+    it "passes leftover files to jobs" do
+      jobs = booster.jobs
 
-      expect(threads[2].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
-      expect(threads[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
-      expect(threads[0].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
+      expect(jobs[2].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
+      expect(jobs[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
+      expect(jobs[0].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
     end
   end
 
   describe "#run" do
     before do
-      @threads = [double, double, double]
+      @jobs = [double, double, double]
       @booster = TestBoosters::Rspec::Booster.new(1, 3)
 
-      allow(@booster).to receive(:threads).and_return(@threads)
-      allow(@threads[1]).to receive(:run)
+      allow(@booster).to receive(:jobs).and_return(@jobs)
+      allow(@jobs[1]).to receive(:run)
     end
 
     it "displays title" do
       expect { @booster.run }.to output(/RSpec Booster v#{TestBoosters::VERSION}/).to_stdout
     end
 
-    it "invokes run on the current thread" do
-      expect(@threads[1]).to receive(:run)
+    it "invokes run on the current job" do
+      expect(@jobs[1]).to receive(:run)
 
       @booster.run
     end

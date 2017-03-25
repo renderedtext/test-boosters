@@ -1,6 +1,6 @@
 module TestBoosters
   module Rspec
-    class Thread
+    class Job
 
       attr_reader :files_from_split_configuration
       attr_reader :leftover_files
@@ -13,12 +13,12 @@ module TestBoosters
       # :reek:TooManyStatements { max_statements: 10 }
       def run
         if all_files.empty?
-          puts("No files to run in this thread!")
+          puts("No files to run in this job!")
 
           return 0
         end
 
-        display_thread_info
+        display_job_info
 
         exit_status = run_rspec
 
@@ -27,14 +27,9 @@ module TestBoosters
         exit_status
       end
 
-      def display_thread_info
-        TestBoosters::Shell.display_files(
-          "Known specs for this thread",
-          files_from_split_configuration)
-
-        TestBoosters::Shell.display_files(
-          "Leftover specs for this thread",
-          leftover_files)
+      def display_job_info
+        TestBoosters::Shell.display_files("Known specs for this job", files_from_split_configuration)
+        TestBoosters::Shell.display_files("Leftover specs for this job", leftover_files)
 
         puts "RSpec options: #{rspec_options}"
       end

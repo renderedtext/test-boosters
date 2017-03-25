@@ -22,7 +22,7 @@ module TestBoosters
       @all_files ||= threads.map(&:files).flatten.sort
     end
 
-    def files_for_thread(thread_index)
+    def files_for_job(thread_index)
       thread = threads[thread_index]
 
       thread ? thread.files : []
