@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Cucumber Booster behvaviour there are no spec files" do
+describe "Cucumber Booster behvaviour when there are no spec files" do
 
   let(:specs_path) { "features" }
   let(:split_configuration_path) { "/tmp/cucumber_split_configuration.json" }
