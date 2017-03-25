@@ -45,7 +45,7 @@ describe "Cucumber Booster behvaviour when there is no split configuration" do
   specify "first thread's behaviour" do
     output = `cucumber_booster --thread 1/3`
 
-    expect(output).to include("Feature: B")
+    expect(output).to include("Feature: A")
     expect(output).to include("1 scenario (1 passed)")
     expect($?.exitstatus).to eq(0)
 
@@ -65,7 +65,7 @@ describe "Cucumber Booster behvaviour when there is no split configuration" do
   specify "third thread's behaviour" do
     output = `cucumber_booster --thread 3/3`
 
-    expect(output).to include("Feature: A")
+    expect(output).to include("Feature: B")
     expect(output).to include("1 scenario (1 passed)")
     expect($?.exitstatus).to eq(0)
 

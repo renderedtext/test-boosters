@@ -2,61 +2,14 @@
 IrresponsibleModule:
   enabled: false
 
-NestedIterators:
-  exclude:
-  - TestBoosters::CliParser#parse
-  - TestBoosters::LeftoverFiles#select
-
-TooManyStatements:
-  exclude:
-  - initialize
-  - TestBoosters::CliParser#parse
-  - TestBoosters::CucumberBooster#run
-  - TestBoosters::CucumberBooster#select
-  - TestBoosters::CucumberBooster#with_fallback
-  - TestBoosters::LeftoverFiles#select
-  - TestBoosters::RspecBooster#run
-  - TestBoosters::RspecBooster#run_command
-  - TestBoosters::RspecBooster#select
-  - TestBoosters::RspecBooster#with_fallback
-
-UncommunicativeVariableName:
-  exclude:
-  - TestBoosters::CucumberBooster#with_fallback
-  - TestBoosters::LeftoverFiles#select
-  - TestBoosters::LeftoverFiles#sort_descending_by_size
-  - TestBoosters::RspecBooster#run
-  - TestBoosters::RspecBooster#with_fallback
-
 FeatureEnvy:
   enabled: false
 
 ControlParameter:
   enabled: false
 
-NilCheck:
-  exclude:
-  - TestBoosters::LeftoverFiles#select
-
-UncommunicativeMethodName:
-  exclude:
-  - a
-  - b
-  - c
-  - Setup#a
-  - Setup#b
-  - Setup#c
-  - Setup::Cucumber#a
-  - Setup::Cucumber#b
-  - Setup::Cucumber#c
-
 UtilityFunction:
-  exclude:
-  - a
-  - b
-  - c
-  - expected_specs
-  - input_specs
+  enabled: false
 
 exclude_paths:
   - vendor

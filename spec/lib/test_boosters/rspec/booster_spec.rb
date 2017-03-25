@@ -81,7 +81,7 @@ describe TestBoosters::Rspec::Booster do
     end
   end
 
-  describe "#all_leftover_specs" do
+  describe "#leftover_specs" do
     context "when the split configuration has the same files as the spec directory" do
       before do
         Support::RspecFilesFactory.create(:path => "#{specs_path}/a_spec.rb")
@@ -98,7 +98,7 @@ describe TestBoosters::Rspec::Booster do
       end
 
       it "returns empty array" do
-        expect(booster.all_leftover_specs).to eq([])
+        expect(booster.leftover_specs.files).to eq([])
       end
     end
 
@@ -114,7 +114,7 @@ describe TestBoosters::Rspec::Booster do
       end
 
       it "return the missing files" do
-        expect(booster.all_leftover_specs).to eq([
+        expect(booster.leftover_specs.files).to eq([
           "#{specs_path}/a_spec.rb",
           "#{specs_path}/b_spec.rb",
           "#{specs_path}/lib/darth_vader/c_spec.rb"
@@ -136,7 +136,7 @@ describe TestBoosters::Rspec::Booster do
       end
 
       it "returns empty array" do
-        expect(booster.all_leftover_specs).to eq([])
+        expect(booster.leftover_specs.files).to eq([])
       end
     end
   end
@@ -182,9 +182,9 @@ describe TestBoosters::Rspec::Booster do
     it "passes leftover files to specs" do
       threads = booster.threads
 
-      expect(threads[0].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
+      expect(threads[2].leftover_files).to eq(["#{specs_path}/y_spec.rb"])
       expect(threads[1].leftover_files).to eq(["#{specs_path}/x_spec.rb"])
-      expect(threads[2].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
+      expect(threads[0].leftover_files).to eq(["#{specs_path}/lib/palpatine/y_spec.rb"])
     end
   end
 

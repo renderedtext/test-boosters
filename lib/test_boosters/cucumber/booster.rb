@@ -27,10 +27,10 @@ module TestBoosters
 
       def threads
         @threads ||= Array.new(@thread_count) do |thread_index|
-          known_files = all_specs & split_configuration.files_for_thread(thread_index)
-          leftover_files = TestBoosters::LeftoverFiles.select(all_leftover_specs, thread_count, thread_index)
+          known    = all_specs & split_configuration.files_for_thread(thread_index)
+          leftover = leftover_specs.select(:index => thread_index, :total => thread_count)
 
-          TestBoosters::Cucumber::Thread.new(known_files, leftover_files)
+          TestBoosters::Cucumber::Thread.new(known, leftover)
         end
       end
 
@@ -38,8 +38,8 @@ module TestBoosters
         @all_specs ||= Dir["#{specs_path}/**/*.feature"].sort
       end
 
-      def all_leftover_specs
-        @all_leftover_specs ||= all_specs - split_configuration.all_files
+      def leftover_specs
+        @leftover_specs ||= TestBoosters::LeftoverFiles.new(all_specs - split_configuration.all_files)
       end
 
       def split_configuration

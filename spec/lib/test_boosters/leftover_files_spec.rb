@@ -1,100 +1,71 @@
 require "spec_helper"
+require "tempfile"
 
 describe TestBoosters::LeftoverFiles do
-  describe ".sort_descending_by_size" do
-    context "empty array" do
-      it "returns an empty array" do
-        expect(TestBoosters::LeftoverFiles.sort_descending_by_size([])).to eq([])
+
+  def create_leftover_file(options = {})
+    bytes = options.fetch(:bytes)
+
+    file = Tempfile.new("file-size-#{bytes}-bytes")
+
+    # construct fake file size
+    file.write("a" * bytes)
+    file.close
+
+    file.path
+  end
+
+  describe "#select" do
+
+    context "there are no leftover files" do
+      subject(:leftover) { TestBoosters::LeftoverFiles.new([]) }
+
+      it { expect(leftover.select(:index => 0, :total => 3)).to eq([]) }
+      it { expect(leftover.select(:index => 1, :total => 3)).to eq([]) }
+      it { expect(leftover.select(:index => 2, :total => 3)).to eq([]) }
+    end
+
+    context "there is only one leftover file" do
+      before do
+        @files = [create_leftover_file(:bytes => 10)]
       end
+
+      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
+
+      it { expect(leftover.select(:index => 0, :total => 3)).to eq([@files[0]]) }
+      it { expect(leftover.select(:index => 1, :total => 3)).to eq([]) }
+      it { expect(leftover.select(:index => 2, :total => 3)).to eq([]) }
     end
 
-    context "single element in the array" do
-      it "returns an array with one element" do
-        expect(TestBoosters::LeftoverFiles.sort_descending_by_size([a])).to eq([a])
+    context "there is just as much leftover files as threads" do
+      before do
+        @files = [
+          create_leftover_file(:bytes => 20),
+          create_leftover_file(:bytes => 10),
+          create_leftover_file(:bytes => 30)
+        ]
       end
+
+      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
+
+      it { expect(leftover.select(:index => 0, :total => 3)).to eq([@files[2]]) }
+      it { expect(leftover.select(:index => 1, :total => 3)).to eq([@files[0]]) }
+      it { expect(leftover.select(:index => 2, :total => 3)).to eq([@files[1]]) }
     end
 
-    context "non-existing file in the files array" do
-      it "returns an empty array" do
-        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(["non-existent"])).to eq([])
+    context "there is more leftover files than threads" do
+      before do
+        @files = [
+          create_leftover_file(:bytes => 20),
+          create_leftover_file(:bytes => 10),
+          create_leftover_file(:bytes => 30)
+        ]
       end
-    end
 
-    context "regular input" do
-      it "returns the spec list sorted by size" do
-        input = input_specs
-        expected = expected_specs
+      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
 
-        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(input)).to eq(expected)
-      end
-    end
-
-    context "regular input with non existing files" do
-      it "returns a spec list sorted by size and filters out non existing files" do
-        input = input_specs + ["non-existent"]
-        expected = expected_specs
-
-        expect(TestBoosters::LeftoverFiles.sort_descending_by_size(input)).to eq(expected)
-      end
+      it { expect(leftover.select(:index => 0, :total => 2)).to eq([@files[2], @files[1]]) }
+      it { expect(leftover.select(:index => 1, :total => 2)).to eq([@files[0]]) }
     end
   end
-
-  context "test select_leftover_specs()" do
-    it "no leftover specs" do
-      expect(TestBoosters::LeftoverFiles.select([], 3, 0)).to eq([])
-    end
-
-    it "1 leftover spec, 3 threads, index 0" do
-      expect(TestBoosters::LeftoverFiles.select([a], 3, 0)).to eq([a])
-    end
-
-    it "1 leftover spec, 3 threads, index 2" do
-      expect(TestBoosters::LeftoverFiles.select([a], 3, 2)).to eq([])
-    end
-
-    it "3 leftover specs, 2 threads, index 0" do
-      input = input_specs
-      expected = [a, b]
-      expect(TestBoosters::LeftoverFiles.select(input, 2, 0)).to eq(expected)
-    end
-
-    it "3 leftover specs, 2 threads, index 1" do
-      input = input_specs
-      expected = [c]
-      expect(TestBoosters::LeftoverFiles.select(input, 2, 1)).to eq(expected)
-    end
-
-    it "3 leftover specs, 3 threads, index 0" do
-      input = input_specs
-      expected = [a]
-      expect(TestBoosters::LeftoverFiles.select(input, 3, 0)).to eq(expected)
-    end
-
-    it "3 leftover specs, 3 threads, index 2" do
-      input = input_specs
-      expected = [b]
-      expect(TestBoosters::LeftoverFiles.select(input, 3, 2)).to eq(expected)
-    end
-  end
-
-  def a
-    Setup.a
-  end
-
-  def b
-    Setup.b
-  end
-
-  def c
-    Setup.c
-  end
-
-  def input_specs
-    Setup.input_specs
-  end
-
-  def expected_specs
-    Setup.expected_specs
-  end
-
 end
