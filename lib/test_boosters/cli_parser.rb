@@ -3,6 +3,7 @@ module TestBoosters
     module_function
 
     # :reek:TooManyStatements
+    # :reek:NestedIterators
     def parse
       options = {}
 

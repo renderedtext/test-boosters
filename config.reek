@@ -2,10 +2,6 @@
 IrresponsibleModule:
   enabled: false
 
-NestedIterators:
-  exclude:
-  - TestBoosters::CliParser#parse
-
 FeatureEnvy:
   enabled: false
 
