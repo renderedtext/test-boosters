@@ -13,12 +13,8 @@ module TestBoosters
   require "test_boosters/leftover_files"
   require "test_boosters/insights_uploader"
   require "test_boosters/project_info"
-
-  require "test_boosters/rspec/booster"
-  require "test_boosters/rspec/job"
-
-  require "test_boosters/cucumber/booster"
-  require "test_boosters/cucumber/job"
+  require "test_boosters/booster"
+  require "test_boosters/job"
 
   module_function
 
