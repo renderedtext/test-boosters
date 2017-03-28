@@ -18,7 +18,12 @@ module TestBoosters
 
   module_function
 
-  def rspec
+  def rspec(job_index, job_count)
+    cli_options = TestBoosters::CliParser.parse
+
+    job_index = cli_options[:job_index] - 1
+    job_count = cli_options[:job_count]
+
     split_configuration_path = ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/rspec_split_configuration.json"
     split_configuration = TestBoosters::SplitConfiguration.new(split_configuration_path)
 
