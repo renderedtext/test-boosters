@@ -51,7 +51,6 @@ module TestBoosters
       end
 
       def split_configuration_path
-        ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
       end
 
     end

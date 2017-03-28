@@ -39,12 +39,6 @@ module TestBoosters
           leftover_files)
       end
 
-      def run_cucumber_config
-        CucumberBoosterConfig::Injection.new(Dir.pwd, report_path).run
-        puts "-------------------------------------------------------"
-        puts
-      end
-
       def run_cucumber
         TestBoosters::Shell.display_title("Running Cucumber")
         TestBoosters::Shell.execute(cucumber_command)
@@ -63,7 +57,6 @@ module TestBoosters
       end
 
       def report_path
-        @report_path ||= ENV["REPORT_PATH"] || "#{ENV["HOME"]}/cucumber_report.json"
       end
 
     end
