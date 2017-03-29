@@ -1,6 +1,10 @@
 module TestBoosters
   class Job
 
+    def self.run(command, known_files, leftover_files)
+      new(command, known_files, leftover_files).run
+    end
+
     def initialize(command, known_files, leftover_files)
       @command = command
       @known_files = known_files

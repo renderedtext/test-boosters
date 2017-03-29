@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe TestBoosters::SplitConfiguration do
+describe TestBoosters::Files::SplitConfiguration do
 
   context "file does not exists" do
-    subject(:configuration) { TestBoosters::SplitConfiguration.new("/tmp/non_existing_file_path") }
+    subject(:configuration) { described_class.new("/tmp/non_existing_file_path") }
 
     it { is_expected.not_to be_present }
     it { is_expected.to be_valid }
@@ -28,7 +28,7 @@ describe TestBoosters::SplitConfiguration do
       File.write(@path, "try to parse me :)")
     end
 
-    subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
+    subject(:configuration) { described_class.new(@path) }
 
     it { is_expected.to be_present }
     it { is_expected.not_to be_valid }
@@ -55,7 +55,7 @@ describe TestBoosters::SplitConfiguration do
       File.write(@path, content.to_json)
     end
 
-    subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
+    subject(:configuration) { described_class.new(@path) }
 
     it { is_expected.to be_present }
     it { is_expected.to_not be_valid }
@@ -86,7 +86,7 @@ describe TestBoosters::SplitConfiguration do
       File.write(@path, content.to_json)
     end
 
-    subject(:configuration) { TestBoosters::SplitConfiguration.new(@path) }
+    subject(:configuration) { described_class.new(@path) }
 
     it { is_expected.to be_present }
 
@@ -105,7 +105,7 @@ describe TestBoosters::SplitConfiguration do
     describe "#jobs" do
       it "returns instances of TestBoosters::SplitConfiguration::Job" do
         configuration.jobs.each do |job|
-          expect(job).to be_instance_of(TestBoosters::SplitConfiguration::Job)
+          expect(job).to be_instance_of(TestBoosters::Files::SplitConfiguration::Job)
         end
       end
 

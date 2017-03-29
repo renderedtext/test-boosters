@@ -7,18 +7,16 @@ module TestBoosters::Boosters
       super(FILE_PATTERN, split_configuration_path, command)
     end
 
-    def run
-      display_title
+    def display_header
+      super
 
       TestBoosters::ProjectInfo.display_ruby_version
       TestBoosters::ProjectInfo.display_bundler_version
       TestBoosters::ProjectInfo.display_rspec_version
+    end
 
-      exit_status = super
-
+    def after_job
       TestBoosters::InsightsUploader.upload("rspec", report_path)
-
-      exit_status
     end
 
     def command

@@ -19,7 +19,7 @@ module TestBoosters
 
     def display_title(title)
       puts
-      puts "========================= #{title} =========================="
+      puts "=== #{title} ===="
       puts
     end
 

@@ -7,8 +7,8 @@ module TestBoosters
     class Distributor
 
       def initialize(split_configuration_path, file_pattern, job_count)
-        @file_pattern = file_pattern
         @split_configuration_path = split_configuration_path
+        @file_pattern = file_pattern
         @job_count = job_count
       end
 
@@ -22,6 +22,8 @@ module TestBoosters
       def all_files
         @all_files ||= Dir[@file_pattern].sort
       end
+
+      private
 
       def leftover_files
         @leftover_files ||= TestBoosters::Files::LeftoverFiles.new(all_files - split_configuration.all_files)

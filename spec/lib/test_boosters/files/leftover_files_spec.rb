@@ -1,7 +1,7 @@
 require "spec_helper"
 require "tempfile"
 
-describe TestBoosters::LeftoverFiles do
+describe TestBoosters::Files::LeftoverFiles do
 
   def create_leftover_file(options = {})
     bytes = options.fetch(:bytes)
@@ -18,7 +18,7 @@ describe TestBoosters::LeftoverFiles do
   describe "#select" do
 
     context "there are no leftover files" do
-      subject(:leftover) { TestBoosters::LeftoverFiles.new([]) }
+      subject(:leftover) { described_class.new([]) }
 
       it { expect(leftover.select(:index => 0, :total => 3)).to eq([]) }
       it { expect(leftover.select(:index => 1, :total => 3)).to eq([]) }
@@ -30,7 +30,7 @@ describe TestBoosters::LeftoverFiles do
         @files = [create_leftover_file(:bytes => 10)]
       end
 
-      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
+      subject(:leftover) { described_class.new(@files) }
 
       it { expect(leftover.select(:index => 0, :total => 3)).to eq([@files[0]]) }
       it { expect(leftover.select(:index => 1, :total => 3)).to eq([]) }
@@ -46,7 +46,7 @@ describe TestBoosters::LeftoverFiles do
         ]
       end
 
-      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
+      subject(:leftover) { described_class.new(@files) }
 
       it { expect(leftover.select(:index => 0, :total => 3)).to eq([@files[2]]) }
       it { expect(leftover.select(:index => 1, :total => 3)).to eq([@files[0]]) }
@@ -62,7 +62,7 @@ describe TestBoosters::LeftoverFiles do
         ]
       end
 
-      subject(:leftover) { TestBoosters::LeftoverFiles.new(@files) }
+      subject(:leftover) { described_class.new(@files) }
 
       it { expect(leftover.select(:index => 0, :total => 2)).to eq([@files[2], @files[1]]) }
       it { expect(leftover.select(:index => 1, :total => 2)).to eq([@files[0]]) }

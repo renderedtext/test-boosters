@@ -2,26 +2,23 @@ module TestBoosters
   module Boosters
     class Cucumber < Base
 
-      FILE_PATTERN = "spec/**/*_spec.rb".freeze
+      FILE_PATTERN = "features/*.feature"
 
       def initialize
-        super(FILE_PATTERN, split_config_path, "bundle exec cucumber")
+        super(FILE_PATTERN, split_configuration_path, "bundle exec cucumber")
       end
 
-      def run
-        display_title
-
+      def before_job
         CucumberBoosterConfig::Injection.new(Dir.pwd, report_path).run
+      end
 
-        exit_status = super
-
+      def after_job
         TestBoosters::InsightsUploader.upload("cucumber", report_path)
-
-        exit_status
       end
 
       def display_header
-        display_title
+        super
+
         TestBoosters::ProjectInfo.display_ruby_version
         TestBoosters::ProjectInfo.display_bundler_version
         TestBoosters::ProjectInfo.display_cucumber_version
