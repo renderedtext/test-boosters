@@ -9,7 +9,7 @@ module TestBoosters
       end
 
       def split_configuration_path
-        ENV["EX_UNIT_TEST_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/ex_unit_split_configuration.json"
+        ENV["EX_UNIT_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/ex_unit_split_configuration.json"
       end
 
     end

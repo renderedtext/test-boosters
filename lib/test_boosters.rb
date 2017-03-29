@@ -22,4 +22,5 @@ module TestBoosters
   require "test_boosters/boosters/cucumber"
   require "test_boosters/boosters/go_test"
   require "test_boosters/boosters/ex_unit"
+  require "test_boosters/boosters/minitest"
 end
