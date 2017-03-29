@@ -1,4 +1,4 @@
-module TestBoosters
+module TestBoosters::Files
   class LeftoverFiles
 
     attr_reader :files
