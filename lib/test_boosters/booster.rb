@@ -1,12 +1,16 @@
 module TestBoosters
   class Booster
 
+    def self.run(options = {})
+      new(options).run
+    end
+
     def initialize(options = {})
-      @command = options.featch(:command)
-      @file_pattern = options.featch(:file_pattern)
-      @split_configuration = options.featch(:split_configuration)
-      @job_count = options.featch(:job_count)
-      @job_index = options.featch(:job_index)
+      @command = options.fetch(:command)
+      @file_pattern = options.fetch(:file_pattern)
+      @split_configuration = options.fetch(:split_configuration)
+      @job_count = options.fetch(:job_count)
+      @job_index = options.fetch(:job_index)
     end
 
     def run
@@ -14,9 +18,9 @@ module TestBoosters
     end
 
     def jobs
-      @jobs ||= Array.new(job_count) do |job_index|
-        known    = all_specs & split_configuration.files_for_job(job_index)
-        leftover = leftover_specs.select(:index => job_index, :total => job_count)
+      @jobs ||= Array.new(@job_count) do |job_index|
+        known    = all_specs & @split_configuration.files_for_job(job_index)
+        leftover = leftover_specs.select(:index => job_index, :total => @job_count)
 
         TestBoosters::Job.new(@command, known, leftover)
       end

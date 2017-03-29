@@ -20,8 +20,8 @@ describe "RSpec Booster behvaviour there are no spec files" do
 
     # Construct a split configuration
     File.write(split_configuration_path, [
-      { :files => ["#{specs_path}/a_spec.rb"] },
-      { :files => ["#{specs_path}/b_spec.rb"] },
+      { :files => ["spec/a_spec.rb"] },
+      { :files => ["spec/b_spec.rb"] },
       { :files => [] }
     ].to_json)
 

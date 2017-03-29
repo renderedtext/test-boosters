@@ -18,7 +18,7 @@ module TestBoosters
 
   module_function
 
-  def rspec(job_index, job_count)
+  def rspec
     cli_options = TestBoosters::CliParser.parse
 
     job_index = cli_options[:job_index] - 1
@@ -52,6 +52,11 @@ module TestBoosters
   end
 
   def cucumber
+    cli_options = TestBoosters::CliParser.parse
+
+    job_index = cli_options[:job_index] - 1
+    job_count = cli_options[:job_count]
+
     split_configuration_path = ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
     split_configuration = TestBoosters::SplitConfiguration.new(split_configuration_path)
 
@@ -76,7 +81,7 @@ module TestBoosters
 
     exit_status = TestBoosters::Booster.run(options)
 
-    TestBoosters::InsightsUploader.upload("rspec", report_path)
+    TestBoosters::InsightsUploader.upload("cucumber", report_path)
 
     exit_status
   end
