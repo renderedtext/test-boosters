@@ -20,4 +20,5 @@ module TestBoosters
   require "test_boosters/boosters/base"
   require "test_boosters/boosters/rspec"
   require "test_boosters/boosters/cucumber"
+  require "test_boosters/boosters/go_test"
 end
