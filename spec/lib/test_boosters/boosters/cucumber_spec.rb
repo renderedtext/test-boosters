@@ -36,18 +36,23 @@ describe TestBoosters::Boosters::Cucumber do
   end
 
   describe "#before_job" do
+    before { ENV.delete("REPORT_PATH") }
+
     it "injects cucumber flags" do
       injector_double = double
 
-      expect(CucumberBoosterConfig::Injection).to receive(:new).with(Dir.pwd, "#{ENV["HOME"]}/cucumber_report.json").and_return(injector_double)
+      expect(CucumberBoosterConfig::Injection).to receive(:new)
+        .with(Dir.pwd, "#{ENV["HOME"]}/cucumber_report.json").and_return(injector_double)
+
       expect(injector_double).to receive(:run)
 
       booster.before_job
     end
   end
 
-
   describe "#after_job" do
+    before { ENV.delete("REPORT_PATH") }
+
     it" uploads insights" do
       expect(TestBoosters::InsightsUploader).to receive(:upload).with("cucumber", "#{ENV["HOME"]}/cucumber_report.json")
 

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Cucumber Booster behvaviour when the tests fail" do
+describe "Cucumber Booster" do
 
   let(:specs_path) { "features" }
   let(:split_configuration_path) { "/tmp/cucumber_split_configuration.json" }

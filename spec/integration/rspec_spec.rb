@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "RSpec Booster behvaviour when the tests fail" do
+describe "RSpec Booster" do
 
   let(:project_path) { "/tmp/project_path-#{SecureRandom.uuid}" }
   let(:specs_path) { "#{project_path}/spec" }

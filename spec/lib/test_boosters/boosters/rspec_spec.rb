@@ -36,6 +36,8 @@ describe TestBoosters::Boosters::Rspec do
   end
 
   describe "#after_job" do
+    before { ENV.delete("REPORT_PATH") }
+
     it" uploads insights" do
       expect(TestBoosters::InsightsUploader).to receive(:upload).with("rspec", "#{ENV["HOME"]}/rspec_report.json")
 

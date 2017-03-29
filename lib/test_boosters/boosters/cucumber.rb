@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class Cucumber < Base
 
-      FILE_PATTERN = "features/**/*.feature"
+      FILE_PATTERN = "features/**/*.feature".freeze
 
       def initialize
         super(FILE_PATTERN, split_configuration_path, "bundle exec cucumber")
@@ -29,7 +29,7 @@ module TestBoosters
       end
 
       def split_configuration_path
-        @split_configuration_path ||= ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
+        ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
       end
 
     end
