@@ -26,23 +26,4 @@ describe TestBoosters::ProjectInfo do
     end
   end
 
-  describe ".display_split_configuration_info" do
-    let(:files) { ["file1", "file2", "file3"] }
-
-    let(:split_conf) do
-      instance_double(TestBoosters::SplitConfiguration,
-                      :all_files => files,
-                      :present? => true,
-                      :valid? => false)
-    end
-
-    subject do
-      -> { described_class.display_split_configuration_info(split_conf) }
-    end
-
-    it { is_expected.to output(/Split configuration present: yes/).to_stdout }
-    it { is_expected.to output(/Split configuration valid: no/).to_stdout }
-    it { is_expected.to output(/Split configuration file count: 3/).to_stdout }
-  end
-
 end

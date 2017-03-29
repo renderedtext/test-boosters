@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class Cucumber < Base
 
-      FILE_PATTERN = "features/*.feature"
+      FILE_PATTERN = "features/**/*.feature"
 
       def initialize
         super(FILE_PATTERN, split_configuration_path, "bundle exec cucumber")

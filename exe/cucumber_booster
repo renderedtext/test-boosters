@@ -2,4 +2,4 @@
 
 require "test_boosters"
 
-exit(TestBoosters::Boosters::Rspec.new.run)
+exit(TestBoosters::Boosters::Cucumber.new.run)

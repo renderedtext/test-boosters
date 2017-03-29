@@ -12,8 +12,12 @@ module TestBoosters
     end
 
     def display_header
+      puts
       TestBoosters::Shell.display_files("Known files for this job", @known_files)
       TestBoosters::Shell.display_files("Leftover files for this job", @leftover_files)
+
+      puts "=" * 80
+      puts ""
     end
 
     def files

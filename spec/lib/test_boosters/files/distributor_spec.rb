@@ -39,4 +39,15 @@ describe TestBoosters::Files::Distributor do
       expect(leftover).to eq(["#{@base_path}/spec/c_spec.rb"])
     end
   end
+
+  describe "#display_info" do
+    subject do
+      -> { distributor.display_info }
+    end
+
+    it { is_expected.to output(/Split configuration present: yes/).to_stdout }
+    it { is_expected.to output(/Split configuration valid: yes/).to_stdout }
+    it { is_expected.to output(/Split configuration file count: 1/).to_stdout }
+  end
+
 end

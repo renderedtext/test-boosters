@@ -12,6 +12,12 @@ module TestBoosters
         @job_count = job_count
       end
 
+      def display_info
+        puts "Split configuration present: #{split_configuration.present? ? "yes" : "no"}"
+        puts "Split configuration valid: #{split_configuration.valid? ? "yes" : "no"}"
+        puts "Split configuration file count: #{split_configuration.all_files.size}"
+      end
+
       def files_for(job_index)
         known    = all_files & split_configuration.files_for_job(job_index)
         leftover = leftover_files.select(:index => job_index, :total => @job_count)

@@ -14,6 +14,8 @@ module TestBoosters
 
         before_job # execute some activities when the before the job starts
 
+        distribution.display_info
+
         known, leftover = distribution.files_for(job_index)
 
         exit_status = TestBoosters::Job.run(@command, known, leftover)
