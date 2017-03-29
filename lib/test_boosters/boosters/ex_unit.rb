@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class ExUnit < Base
 
-      FILE_PATTERN = "test/**/*.exs".freeze
+      FILE_PATTERN = "test/**/*_test.exs".freeze
 
       def initialize
         super(FILE_PATTERN, split_configuration_path, "mix test")
