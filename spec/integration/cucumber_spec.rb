@@ -15,6 +15,7 @@ describe "Cucumber Booster" do
     ].to_json)
 
     system("[ ! -e #{@repo_path} ] && git clone https://github.com/renderedtext/test-boosters-tests.git #{@repo_path}")
+    system("cd #{@project_path} && bundle install --path vendor/bundle")
   end
 
   before { FileUtils.rm_f("#{ENV["HOME"]}/cucumber_report.json") }
