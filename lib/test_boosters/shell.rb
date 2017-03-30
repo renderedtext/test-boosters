@@ -8,7 +8,9 @@ module TestBoosters
 
       puts command unless options[:silent] == true
 
-      system(command)
+      Bundler.with_clean_env do
+        system(command)
+      end
 
       exit_status = $?.exitstatus
 

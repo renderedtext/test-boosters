@@ -22,7 +22,7 @@ describe TestBoosters::ProjectInfo do
 
   describe ".display_cucumber_version" do
     it "displays cucumber version" do
-      expect { described_class.display_cucumber_version }.to output(/Cucumber Version: 2/).to_stdout
+      expect { described_class.display_cucumber_version }.to output(/Cucumber Version: not found/).to_stdout
     end
   end
 
