@@ -22,27 +22,8 @@ describe TestBoosters::ProjectInfo do
 
   describe ".display_cucumber_version" do
     it "displays cucumber version" do
-      expect { described_class.display_cucumber_version }.to output(/Cucumber Version: 2/).to_stdout
+      expect { described_class.display_cucumber_version }.to output(/Cucumber Version: not found/).to_stdout
     end
-  end
-
-  describe ".display_split_configuration_info" do
-    let(:files) { ["file1", "file2", "file3"] }
-
-    let(:split_conf) do
-      instance_double(TestBoosters::SplitConfiguration,
-                      :all_files => files,
-                      :present? => true,
-                      :valid? => false)
-    end
-
-    subject do
-      -> { described_class.display_split_configuration_info(split_conf) }
-    end
-
-    it { is_expected.to output(/Split configuration present: yes/).to_stdout }
-    it { is_expected.to output(/Split configuration valid: no/).to_stdout }
-    it { is_expected.to output(/Split configuration file count: 3/).to_stdout }
   end
 
 end

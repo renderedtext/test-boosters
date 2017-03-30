@@ -28,4 +28,10 @@ describe TestBoosters::Shell do
     end
   end
 
+  describe ".display_files" do
+    it "displays the file count" do
+      expect { described_class.display_files("files", ["file1", "file2"]) }.to output(/2/).to_stdout
+    end
+  end
+
 end

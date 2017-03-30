@@ -3,6 +3,8 @@ module TestBoosters
     module_function
 
     def upload(booster_type, file)
+      return unless File.exist?(file)
+
       cmd = "http POST '#{insights_url}' #{booster_type}:=@#{file}"
 
       TestBoosters::Shell.execute("#{cmd} > ~/insights_uploader.log", :silent => true)

@@ -2,22 +2,37 @@ require "spec_helper"
 
 describe TestBoosters::InsightsUploader do
 
-  it "uploads dummy json file" do
-    ENV["SEMAPHORE_PROJECT_UUID"]     = "not a project UUID"
-    ENV["SEMAPHORE_EXECUTABLE_UUID"]  = "not a build UUID"
-    ENV["SEMAPHORE_JOB_UUID"]         = "not a job UUID"
+  before do
+    @report_path = "/tmp/report.json"
 
-    dymmy_json_file = "spec/dymmy_json_file.json"
-
-    expect(TestBoosters::InsightsUploader.upload("rspec", dymmy_json_file)).to eq(0)
+    File.write(@report_path, "")
   end
 
-  it "fails to upload dummy json file - no file" do
-    expect(TestBoosters::InsightsUploader.upload("rspec", "no-file")).to eq(1)
+  it "uploads json file" do
+    ENV["SEMAPHORE_PROJECT_UUID"] = "aaaa"
+    ENV["SEMAPHORE_EXECUTABLE_UUID"] = "bbbb"
+    ENV["SEMAPHORE_JOB_UUID"] = "cccc"
+
+    base = "https://insights-receiver.semaphoreci.com/job_reports"
+    params = "project_hash_id=aaaa&build_hash_id=bbbb&job_hash_id=cccc"
+
+    cmd = "http POST '#{base}?#{params}' rspec:=@/tmp/report.json > ~/insights_uploader.log"
+
+    expect(TestBoosters::Shell).to receive(:execute).with(cmd, :silent => true)
+
+    TestBoosters::InsightsUploader.upload("rspec", @report_path)
   end
 
-  it "fails to upload dummy json file - malformed file" do
-    expect(TestBoosters::InsightsUploader.upload("rspec", "README.md")).to eq(1)
+  context "no report file" do
+    before do
+      File.delete(@report_path)
+    end
+
+    it "does nothing" do
+      expect(TestBoosters::Shell).not_to receive(:execute)
+
+      TestBoosters::InsightsUploader.upload("rspec", @report_path)
+    end
   end
 
 end
