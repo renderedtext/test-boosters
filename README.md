@@ -109,7 +109,7 @@ Example of running job 4 out of 32 jobs:
 rspec_booster --job 4/32
 ```
 
-Under the hood, the RSpec booster uses the following command:
+Under the hood, the RSpec Booster uses the following command:
 
 ``` bash
 bundle exec rspec --format documentation --format json --out /home/<user>/rspec_report.json <file_list>
@@ -140,7 +140,7 @@ Example of running job 4 out of 32 jobs:
 cucumber_booster --job 4/32
 ```
 
-Under the hood, the RSpec booster uses the following command:
+Under the hood, the Cucumber Booster uses the following command:
 
 ``` bash
 bundle exec cucumber <file_list>
@@ -158,7 +158,7 @@ Example of running job 4 out of 32 jobs:
 minitest_booster --job 4/32
 ```
 
-Under the hood, the RSpec booster uses the following command:
+Under the hood, the Minitest Booster uses the following command:
 
 ``` bash
 ruby -e 'ARGV.each { |f| require ".#{f}" }' <file_list>
@@ -166,8 +166,39 @@ ruby -e 'ARGV.each { |f| require ".#{f}" }' <file_list>
 
 ## ExUnit Booster
 
-## GoTest Booster
+The `ex_unit_booster` loads all the files that match the `test/**/*_test.exs`
+pattern and uses the `~/ex_unit_split_configuration.json` file to parallelize
+your test suite.
 
+Example of running job 4 out of 32 jobs:
+
+``` bash
+ex_unit_booster --job 4/32
+```
+
+Under the hood, the ExUnit Booster uses the following command:
+
+``` bash
+mix test <file_list>
+```
+
+## Go Test Booster
+
+The `go_test_booster` loads all the files that match the `**/*_test.go`
+pattern and uses the `~/go_test_split_configuration.json` file to parallelize
+your test suite.
+
+Example of running job 4 out of 32 jobs:
+
+``` bash
+go_test_booster --job 4/32
+```
+
+Under the hood, the Go Test Booster uses the following command:
+
+``` bash
+go test <file_list>
+```
 
 ## Contributing
 
