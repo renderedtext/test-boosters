@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "ExUnit Booster" do
+describe "ExUnit Booster", :integration do
 
   before(:all) do
     @repo_path = "/tmp/test-boosters-tests"

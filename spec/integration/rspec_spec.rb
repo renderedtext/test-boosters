@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "RSpec Booster" do
+describe "RSpec Booster", :integration do
 
   before(:all) do
     @repo_path = "/tmp/test-boosters-tests"
