@@ -19,6 +19,10 @@ module TestBoosters
       exit_status
     end
 
+    def evaluate(command)
+      with_clean_env { `#{command}` }
+    end
+
     def with_clean_env
       defined?(Bundler) ? Bundler.with_clean_env { yield } : yield
     end
