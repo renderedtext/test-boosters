@@ -8,7 +8,7 @@ module TestBoosters
 
       puts command unless options[:silent] == true
 
-      Bundler.with_clean_env do
+      with_clean_env do
         system(command)
       end
 
@@ -17,6 +17,10 @@ module TestBoosters
       TestBoosters::Logger.info("Command finished, exit status : #{exit_status}")
 
       exit_status
+    end
+
+    def with_clean_env
+      defined?(Bundler) ? Bundler.with_clean_env { yield } : yield
     end
 
     def display_title(title)
