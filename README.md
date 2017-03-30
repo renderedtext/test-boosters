@@ -7,17 +7,20 @@ Auto Parallelization &mdash; runs test files in multiple jobs
 
 - [Installation](#installation)
 
-- RSpec Booster
-  - [Running RSpec jobs](#rspec-booster)
-  - [RSpec Split Configuration](#rspec-split-configuration)
-  - [Leftover RSpec specs](#leftover-rspec-specs)
-  - [Passing custom options to RSpec](#custom-rspec-options)
+Test Booster basics:
 
-- Cucumber Booster
-  - [Running Cucumber jobs](#cucumber-booster)
-  - [Cucumber Split Configuration](#cucumber-split-configuration)
-  - [Leftover Cucumber specs](#leftover-rspec-specs)
-  - [Passing custom options to Cucumber](#custom-cucumber-options)
+  - [What are Test Boosters](#what-are-test-boosters)
+  - [Split Configuration](#split-configuration)
+  - [Leftover Files](#split-configuration)
+
+Test Boosters:
+
+  - [RSpec Booster](#rspec-booster)
+  - [Cucumber Booster](#cucumber-booster)
+  - [Minitest Booster](#minitest-booster)
+  - [ExUnit Booster](#ex-unit-booster)
+  - [GoTest Booster](#go-test-booster)
+
 
 ## Installation
 
@@ -25,31 +28,20 @@ Auto Parallelization &mdash; runs test files in multiple jobs
 gem install semaphore_test_boosters
 ````
 
-## RSpec Booster
+## What are Test Boosters
 
-The RSpec Booster splits your RSpec test suite to multiple jobs.
+Test Boosters take your test suite and split the test files into multiple jobs.
+This allows you to quickly parallelize your test suite across multiple build
+machines.
 
-For example, if you want to split your RSpec test suite into 21 jobs, and run
-then executed the 3rd job, use the following command:
+As an example, let's take a look at the `rspec_booster --job 1/10` command. It
+lists all the files that match the `spec/**/*_spec.rb` glob in your project,
+distributes them into 10 jobs, and execute the first job.
 
-``` bash
-rspec_booster --thread 3/21
-```
+### Split Configuration
 
-By default, RSpec Booster will distribute your spec files based on their size
-into multiple jobs. This is OK for your first run, but the distribution is
-usually suboptimal.
-
-If you want to achieve better build times, and split your test files more
-evenly, you need to provide a split configuration file for RSpec Booster.
-
-On Semaphore, this file is generated before every build based on the duration's
-of your previous builds.
-
-### RSpec Split Configuration
-
-The `rspec_split_configuration.json` should be placed in your home directory and
-should contain the list of files for each RSpec Booster job.
+Every test booster can load a split configuration file that helps the test
+booster to make a better distribution.
 
 For example, if you have 3 RSpec Booster jobs, and you want to run:
 
@@ -67,9 +59,12 @@ you should put the following in your split configuration file:
 ]
 ```
 
-### Leftover RSpec specs
+Semaphore uses Split configurations to split your test files based their
+durations in the previous builds.
 
-Files that are part of your RSpec test suite, but are not in the split
+### Leftover Files
+
+Files that are part of your test suite, but are not in the split
 configuration file, are called "leftover files". These files will be distributed
 based on their file size in a round robin fashion across your jobs.
 
@@ -102,108 +97,45 @@ rspec_booster --job 1/3
 # => runs: bundle exec rspec spec/a_spec.rb spec/d_spec.rb
 ```
 
-### Custom RSpec options
+## RSpec Booster
 
-By default, `rspec_booster` passes the following options to RSpec:
+The `rspec_booster` loads all the files that match the `spec/**/*_spec.rb`
+pattern and uses the `~/rspec_split_configuration.json` file to parallelize your
+test suite.
+
+Example of running job 4 out of 32 jobs:
 
 ``` bash
---format documentation --format json --out ~/rspec_report.json
+rspec_booster --job 4/32
 ```
 
-If you want to pass additional parameters to RSpec, you can do that by setting
-the `TB_RSPEC_OPTIONS` environment variable.
-
-For example, if you want to pass a `--fail-fast` option to RSpec, you can do it
-like this:
+Under the hood, the RSpec booster uses the following command:
 
 ``` bash
-export TB_RSPEC_OPTIONS = '--fail-fast'
+bundle exec rspec --format documentation --format json --out /home/<user>/rspec_report.json <file_list>
+```
 
-rspec_booster --job 2/3
+Optionally, you can pass additional RSpec flags with the `TB_RSPEC_OPTIONS`
+environment variable:
 
-# => runs: bundle exec rspec --fail-fast --format documentation --format json --out ~/rspec_report.json <file_list>
+``` bash
+TB_RSPEC_OPTIONS='--fail-fast=3' rspec_booster --job 4/32
+```
+
+The above command will execute:
+
+``` bash
+bundle exec rspec --fail-fast=3 --format documentation --format json --out /home/<user>/rspec_report.json <file_list>
 ```
 
 ## Cucumber Booster
 
-The Cucumber Booster splits your Cucumber test suite to multiple jobs.
+## Minitest Booster
 
-For example, if you want to split your Cucumber test suite into 21 jobs, and run
-then executed the 3rd job, use the following command:
+## ExUnit Booster
 
-``` bash
-cucumber_booster --thread 3/21
-```
+## GoTest Booster
 
-By default, Cucumber Booster will distribute your spec files based on their size
-into multiple jobs. This is OK for your first run, but the distribution is
-usually suboptimal.
-
-If you want to achieve better build times, and split your test files more
-evenly, you need to provide a split configuration file for Cucumber Booster.
-
-On Semaphore, this file is generated before every build based on the duration's
-of your previous builds.
-
-### Cucumber Split Configuration
-
-The `cucumber_split_configuration.json` should be placed in your home directory
-and should contain the list of files for each Cucumber Booster job.
-
-For example, if you have 3 Cucumber Booster jobs, and you want to run:
-
-- `features/a.feature` and `spec/b.feature` in the first job
-- `features/c.feature` and `spec/d.feature` in the second job
-- `features/e.feature` in the third job
-
-you should put the following in your split configuration file:
-
-``` json
-[
-  { "files": ["features/a.feature", "features/b.feature"] },
-  { "files": ["features/c.feature", "features/d.feature"] },
-  { "files": ["features/e.feature"] }
-]
-```
-
-### Leftover files
-
-Files that are part of your Cucumber test suite, but are not in the split
-configuration file, are called "leftover files". These files will be distributed
-based on their file size in a round robin fashion across your jobs.
-
-For example, if you have the following in your split configuration:
-
-``` json
-[
-  { "files": ["features/a.feature"] }
-  { "files": ["features/b.feature"] }
-  { "files": ["features/c.feature"] }
-]
-```
-
-and the following files in your spec directory:
-
-``` bash
-features/a.feature
-features/b.feature
-features/c.feature
-features/d.feature
-features/e.feature
-```
-
-When you run the `cucumber_booster --job 1/3` command, the files from the
-configuration's first job and some leftover files will be executed.
-
-``` bash
-cucumber_booster --job 1/3
-
-# => runs: bundle exec cucumber features/a.feature features/d.feature
-```
-
-### Custom Cucumber options
-
-Currently, you can't pass custom options to Cucumber.
 
 ## Contributing
 
