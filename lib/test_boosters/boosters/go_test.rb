@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class GoTest < Base
 
-      FILE_PATTERN = "**/*/_test.go".freeze
+      FILE_PATTERN = "**/*/*_test.go".freeze
 
       def initialize
         super(FILE_PATTERN, split_configuration_path, "go test")

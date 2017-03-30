@@ -4,6 +4,10 @@ describe TestBoosters::CliParser do
 
   describe ".parse" do
     context "no command line arguments" do
+      before do
+        ARGV = [] # rubocop:disable Style/MutableConstant
+      end
+
       it "returns empty hash" do
         params = TestBoosters::CliParser.parse
 

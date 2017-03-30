@@ -15,13 +15,13 @@ module TestBoosters
     end
 
     def display_rspec_version
-      version = evaluate("bundle exec rspec --version 2>/dev/null || echo 'not found'")
+      version = evaluate("(bundle list | grep -q '* rspec') && bundle exec rspec --version || echo 'not found'")
 
       puts "RSpec Version: #{version}"
     end
 
     def display_cucumber_version
-      version = evaluate("bundle exec cucumber --version 2>/dev/null || echo 'not found'")
+      version = evaluate("(bundle list | grep -q '* cucumber') && bundle exec cucumber --version || echo 'not found'")
 
       puts "Cucumber Version: #{version}"
     end

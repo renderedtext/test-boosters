@@ -33,7 +33,7 @@ describe "Cucumber Booster", :integration do
     output = @test_repo.run_booster("cucumber_booster --job 2/3")
 
     expect(output).to include("2 scenarios (2 failed)")
-    expect($?.exitstatus).to eq(0)
+    expect($?.exitstatus).to eq(1)
 
     expect(File).to exist("#{ENV["HOME"]}/cucumber_report.json")
   end

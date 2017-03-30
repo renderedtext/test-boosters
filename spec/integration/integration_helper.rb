@@ -1,6 +1,7 @@
 module IntegrationHelper
-
   class TestRepo
+
+    REPO = "https://github.com/renderedtext/test-boosters-tests.git".freeze
 
     def initialize(test_project)
       @repo_path = "/tmp/test-boosters-tests"
@@ -10,13 +11,14 @@ module IntegrationHelper
 
     def clone
       puts "Cloning Repo"
-      system("[ ! -e #{@repo_path} ] && git clone https://github.com/renderedtext/test-boosters-tests.git #{@repo_path}")
+      system("[ ! -e #{@repo_path} ] && git clone #{REPO} #{@repo_path}")
     end
 
     def set_env_var(name, value)
       @env += "#{name}=#{value} "
     end
 
+    # :reek:TooManyStatements
     def run_command(command)
       Bundler.with_clean_env do
         cmd = "cd #{@project_path} && #{@env} #{command}"

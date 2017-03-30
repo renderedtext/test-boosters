@@ -2,10 +2,14 @@ module TestBoosters
   module Boosters
     class Minitest < Base
 
-      FILE_PATTERN = "test/**/*/_test.rb".freeze
+      FILE_PATTERN = "test/**/*_test.rb".freeze
 
       def initialize
-        super(FILE_PATTERN, split_configuration_path, "ruby")
+        super(FILE_PATTERN, split_configuration_path, command)
+      end
+
+      def command
+        "ruby -e 'ARGV.each { |f| require \"./\#{f}\" }'"
       end
 
       def split_configuration_path
