@@ -130,7 +130,39 @@ bundle exec rspec --fail-fast=3 --format documentation --format json --out /home
 
 ## Cucumber Booster
 
+The `cucumber_booster` loads all the files that match the `features/**/*.feature`
+pattern and uses the `~/cucumber_split_configuration.json` file to parallelize
+your test suite.
+
+Example of running job 4 out of 32 jobs:
+
+``` bash
+cucumber_booster --job 4/32
+```
+
+Under the hood, the RSpec booster uses the following command:
+
+``` bash
+bundle exec cucumber <file_list>
+```
+
 ## Minitest Booster
+
+The `minitest_booster` loads all the files that match the `test/**/*_test.rb`
+pattern and uses the `~/minitest_split_configuration.json` file to parallelize
+your test suite.
+
+Example of running job 4 out of 32 jobs:
+
+``` bash
+minitest_booster --job 4/32
+```
+
+Under the hood, the RSpec booster uses the following command:
+
+``` bash
+ruby -e 'ARGV.each { |f| require ".#{f}" }' <file_list>
+```
 
 ## ExUnit Booster
 
