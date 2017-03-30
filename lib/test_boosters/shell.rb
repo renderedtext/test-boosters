@@ -20,11 +20,7 @@ module TestBoosters
     end
 
     def with_clean_env
-      if defined?(Bundler)
-        Bundler.with_clean_env { yield }
-      else
-        yield
-      end
+      defined?(Bundler) ? Bundler.with_clean_env { yield } : yield
     end
 
     def display_title(title)
