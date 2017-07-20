@@ -15,14 +15,14 @@ module TestBoosters
     end
 
     def display_rspec_version
-      command = "(bundle list | grep -q '* rspec') && bundle exec rspec --version || echo 'not found'"
+      command = "(bundle list | grep -q '* rspec') && (bundle exec rspec --version | head -1) || echo 'not found'"
       version = TestBoosters::Shell.evaluate(command)
 
       puts "RSpec Version: #{version}"
     end
 
     def display_cucumber_version
-      command = "(bundle list | grep -q '* cucumber') && bundle exec cucumber --version || echo 'not found'"
+      command = "(bundle list | grep -q '* cucumber') && (bundle exec cucumber --version | head -1) || echo 'not found'"
       version = TestBoosters::Shell.evaluate(command)
 
       puts "Cucumber Version: #{version}"
