@@ -3,6 +3,7 @@ SimpleCov.start { add_filter "/spec/" }
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "test_boosters"
+require "securerandom"
 
 require_relative "support/coverage"
 require_relative "support/rspec_files_factory"
