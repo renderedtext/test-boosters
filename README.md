@@ -200,6 +200,13 @@ Under the hood, the Go Test Booster uses the following command:
 go test <file_list>
 ```
 
+## Development
+
+### Integration testing
+
+For integration tests we use test repositories that are located in
+<https://github.com/renderedtext/test-boosters-tests.git>.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
