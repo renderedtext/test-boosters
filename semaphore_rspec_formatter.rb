@@ -14,18 +14,18 @@ class SemaphoreFormatter < RSpec::Core::Formatters::BaseFormatter
   def stop(notification)
     @output_hash[:examples] = notification.examples.map do |example|
       format_example(example).tap do |hash|
-        if e=example.exception
+        if exception = example.exception
           hash[:exception] = {
-            :class => e.class.name,
-            :message => e.message,
-            :backtrace => e.backtrace,
+            :class => exception.class.name,
+            :message => exception.message,
+            :backtrace => exception.backtrace,
           }
         end
       end
     end
   end
 
-  def close(notification)
+  def close(_notification)
     output.write @output_hash.to_json
     output.close if IO === output && output != $stdout
   end
@@ -33,12 +33,14 @@ class SemaphoreFormatter < RSpec::Core::Formatters::BaseFormatter
   private
 
   def format_example(example)
+    result = example.execution_result
+
     {
       :description => example.description,
       :full_description => example.full_description,
-      :status => example.execution_result.status,
+      :status => result.status,
       :file_path => file_path(example),
-      :run_time => example.execution_result.run_time
+      :run_time => result.run_time
     }
   end
 
