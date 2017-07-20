@@ -23,7 +23,7 @@ describe "RSpec Booster", :integration do
   specify "first job's behaviour" do
     output = @test_repo.run_booster("rspec_booster --job 1/3")
 
-    expect(output).to include("2 examples, 1 failure")
+    expect(output).to include("3 examples, 1 failure")
     expect($?.exitstatus).to eq(1)
 
     expect(File).to exist("#{ENV["HOME"]}/rspec_report.json")
@@ -45,6 +45,19 @@ describe "RSpec Booster", :integration do
     expect($?.exitstatus).to eq(0)
 
     expect(File).to_not exist("#{ENV["HOME"]}/rspec_report.json")
+  end
+
+  specify "rspec_report format" do
+    @test_repo.run_booster("rspec_booster --job 1/3")
+
+    report = JSON.parse(File.read("#{ENV["HOME"]}/rspec_report.json"))
+    expected = JSON.parse(File.read("spec/expected_rspec_report_format.json"))
+
+    # ignore actual runtimes
+    report["examples"].each { |e| e["run_time"] = 0 }
+    expected["examples"].each { |e| e["run_time"] = 0 }
+
+    expect(report).to eq(expected)
   end
 
 end

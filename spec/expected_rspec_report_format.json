@@ -1,0 +1,25 @@
+{
+  "examples": [
+    {
+      "description": "has a version number",
+      "full_description": "RspecProject has a version number",
+      "status": "passed",
+      "file_path": "./spec/rspec_project_spec.rb",
+      "run_time": 0.00055454
+    },
+    {
+      "description": "does something useful",
+      "full_description": "RspecProject does something useful",
+      "status": "failed",
+      "file_path": "./spec/rspec_project_spec.rb",
+      "run_time": 0.010931278
+    },
+    {
+      "description": "does something interesting",
+      "full_description": "RspecProject behaves like a test with shared examples does something interesting",
+      "status": "passed",
+      "file_path": "./spec/rspec_project_spec.rb",
+      "run_time": 0.000126273
+    }
+  ]
+}

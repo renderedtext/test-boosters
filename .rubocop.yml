@@ -10,6 +10,7 @@ AllCops:
     - "lib/test_boosters/cucumber_booster.rb"
     - "test_data_pass/**/*"
     - "test_data_fail/**/*"
+    - "rspec_formatters/semaphore_rspec3_json_formatter.rb"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

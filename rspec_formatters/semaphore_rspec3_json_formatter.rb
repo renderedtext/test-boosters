@@ -12,17 +12,7 @@ class SemaphoreFormatter < RSpec::Core::Formatters::BaseFormatter
   end
 
   def stop(notification)
-    @output_hash[:examples] = notification.examples.map do |example|
-      format_example(example).tap do |hash|
-        if exception = example.exception
-          hash[:exception] = {
-            :class => exception.class.name,
-            :message => exception.message,
-            :backtrace => exception.backtrace,
-          }
-        end
-      end
-    end
+    @output_hash[:examples] = notification.examples.map { |example| format_example(example) }
   end
 
   def close(_notification)
