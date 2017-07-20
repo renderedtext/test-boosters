@@ -16,7 +16,7 @@ describe TestBoosters::ProjectInfo do
 
   describe ".display_rspec_version" do
     it "displays rspec version" do
-      expect { described_class.display_rspec_version }.to output(/RSpec Version: 3/).to_stdout
+      expect { described_class.display_rspec_version }.to output(/RSpec Version: .*3/).to_stdout
     end
   end
 

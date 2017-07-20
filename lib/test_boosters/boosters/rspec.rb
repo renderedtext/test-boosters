@@ -25,7 +25,8 @@ module TestBoosters
       end
 
       def rspec_options
-        @rspec_options ||= "#{ENV["TB_RSPEC_OPTIONS"]} --format documentation --format json --out #{report_path}"
+        # rubocop:disable LineLength
+        @rspec_options ||= "#{ENV["TB_RSPEC_OPTIONS"]} --format documentation --require #{formatter_path} --format SemaphoreFormatter --out #{report_path}"
       end
 
       def report_path
@@ -34,6 +35,10 @@ module TestBoosters
 
       def split_configuration_path
         ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/rspec_split_configuration.json"
+      end
+
+      def formatter_path
+        @formatter_path ||= File.join(::TestBoosters::ROOT_PATH, "rspec_formatters/semaphore_rspec3_json_formatter.rb")
       end
 
     end

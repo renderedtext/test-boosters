@@ -23,4 +23,6 @@ module TestBoosters
   require "test_boosters/boosters/go_test"
   require "test_boosters/boosters/ex_unit"
   require "test_boosters/boosters/minitest"
+
+  ROOT_PATH = File.absolute_path(File.dirname(__FILE__) + "/..")
 end
