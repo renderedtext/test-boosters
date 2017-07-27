@@ -17,10 +17,11 @@ describe "RSpec Booster", :integration do
       @test_repo.clone
       @test_repo.set_env_var("RSPEC_SPLIT_CONFIGURATION_PATH", @split_configuration_path)
 
-      # set RSpec version of the test project
+      # set RSpec version in the test project
       rspec_dependancy_pattern = 'spec.add_development_dependency "rspec".*$'
       rspec_dependancy_version = "spec.add_development_dependency \"rspec\", '#{@rspec_version}'"
-      system(%Q{sed -i 's/#{rspec_dependancy_pattern}/#{rspec_dependancy_version}/' #{@test_repo.project_path}/rspec_project.gemspec})
+      gemspec_path = "#{@test_repo.project_path}/rspec_project.gemspec"
+      system(%{sed -i 's/#{rspec_dependancy_pattern}/#{rspec_dependancy_version}/' #{gemspec_path}})
 
       File.write(@split_configuration_path, [
         { :files => [] },
