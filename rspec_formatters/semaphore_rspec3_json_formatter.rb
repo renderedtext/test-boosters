@@ -35,16 +35,21 @@ class SemaphoreFormatter < RSpec::Core::Formatters::BaseFormatter
   end
 
   def file_path(example)
-    # In case of a shared_example
-    # example[:file_path] returns the path of the shared_example file
+    # For shared examples 'example.file_path' returns the path of the shared example file.
+    # This is not optinal for our use case because we can't estimate the duration of the
+    # original spec file.
     #
-    # We are interested in the duration of the file from which the shared_example was called instead.
-    #
-    # We can get this infor from `example.id`.
-    #
-    # It has the following format: `./spec/models/analysis_spec.rb[1:17:1:1:1]`
-    # We are droping the angle brackets at the end.
+    # To resolve this, we use `example.metadata[:example_group]` that contains the correct
+    # file path for both shared examples and regular tests
 
-    example.id.gsub(/\[.*\]$/, "")
+    find_example_group_root_path(example.metadata[:example_group])
+  end
+
+  def find_example_group_root_path(example_group)
+    if example_group.has_key?(:parent_example_group)
+      find_example_group_root_path(example_group[:parent_example_group])
+    else
+      example_group[:file_path]
+    end
   end
 end

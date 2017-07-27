@@ -3,6 +3,8 @@ module IntegrationHelper
 
     REPO = "https://github.com/renderedtext/test-boosters-tests.git".freeze
 
+    attr_reader :project_path
+
     def initialize(test_project)
       @repo_path = "/tmp/test-boosters-tests"
       @project_path = "/tmp/test-boosters-tests/#{test_project}"
