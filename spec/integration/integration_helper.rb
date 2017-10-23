@@ -20,6 +20,10 @@ module IntegrationHelper
       @env += "#{name}=#{value} "
     end
 
+    def use_cucumber_config(file)
+      system("mv config/#{file} config/cucumber.yml")
+    end
+
     # :reek:TooManyStatements
     def run_command(command)
       Bundler.with_clean_env do
