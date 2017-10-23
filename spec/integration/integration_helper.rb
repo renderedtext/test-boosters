@@ -21,7 +21,11 @@ module IntegrationHelper
     end
 
     def use_cucumber_config(file)
-      system("mv config/#{file} config/cucumber.yml")
+      if File.file?("#{@project_path}/config/#{file}")
+        system("mv #{@project_path}/config/#{file} #{@project_path}/config/cucumber.yml")
+      else
+        raise "#{file} doesn't exist. Please use existing configuration yaml."
+      end
     end
 
     # :reek:TooManyStatements
