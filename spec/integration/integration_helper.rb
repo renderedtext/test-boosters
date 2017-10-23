@@ -20,6 +20,13 @@ module IntegrationHelper
       @env += "#{name}=#{value} "
     end
 
+    def use_cucumber_config(file)
+      file_exists = File.file?("#{@project_path}/config/#{file}")
+      raise "#{file} doesn't exist. Please use existing configuration yaml." unless file_exists
+
+      system("mv #{@project_path}/config/#{file} #{@project_path}/config/cucumber.yml")
+    end
+
     # :reek:TooManyStatements
     def run_command(command)
       Bundler.with_clean_env do

@@ -9,6 +9,7 @@ describe "Cucumber Booster", :integration do
     @test_repo = IntegrationHelper::TestRepo.new("cucumber_project")
     @test_repo.clone
     @test_repo.set_env_var("CUCUMBER_SPLIT_CONFIGURATION_PATH", @split_configuration_path)
+    @test_repo.use_cucumber_config("cucumber.yml.empty")
 
     File.write(@split_configuration_path, [
       { :files => [] },
