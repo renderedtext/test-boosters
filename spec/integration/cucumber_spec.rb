@@ -1,26 +1,7 @@
 require "spec_helper"
 require_relative "./integration_helper"
 
-describe "Cucumber Booster", :integration do
-
-  before(:all) do
-    @split_configuration_path = "/tmp/cucumber_split_configuration.json"
-
-    @test_repo = IntegrationHelper::TestRepo.new("cucumber_project")
-    @test_repo.clone
-    @test_repo.set_env_var("CUCUMBER_SPLIT_CONFIGURATION_PATH", @split_configuration_path)
-    @test_repo.use_cucumber_config("cucumber.yml.empty")
-
-    File.write(@split_configuration_path, [
-      { :files => [] },
-      { :files => ["features/a.feature"] }
-    ].to_json)
-
-    @test_repo.run_command("bundle install --path vendor/bundle")
-  end
-
-  before { FileUtils.rm_f("#{ENV["HOME"]}/cucumber_report.json") }
-
+shared_examples_for "the Cucumber Booster" do
   specify "first job's behaviour" do
     output = @test_repo.run_booster("cucumber_booster --job 1/3")
 
@@ -47,5 +28,34 @@ describe "Cucumber Booster", :integration do
 
     expect(File).to_not exist("#{ENV["HOME"]}/cucumber_report.json")
   end
+end
 
+describe "Cucumber Booster", :integration do
+
+  before(:all) do
+    @split_configuration_path = "/tmp/cucumber_split_configuration.json"
+
+    @test_repo = IntegrationHelper::TestRepo.new("cucumber_project")
+    @test_repo.clone
+    @test_repo.set_env_var("CUCUMBER_SPLIT_CONFIGURATION_PATH", @split_configuration_path)
+
+    File.write(@split_configuration_path, [
+      { :files => [] },
+      { :files => ["features/a.feature"] }
+    ].to_json)
+
+    @test_repo.run_command("bundle install --path vendor/bundle")
+  end
+
+  before { FileUtils.rm_f("#{ENV["HOME"]}/cucumber_report.json") }
+
+  context "using cucumber.yml.empty" do
+    before { @test_repo.use_cucumber_config("cucumber.yml.empty") }
+    it_behaves_like "the Cucumber Booster"
+  end
+
+  context "using cucumber.yml.already_defined_format" do
+    before { @test_repo.use_cucumber_config("cucumber.yml.already_defined_format") }
+    it_behaves_like "the Cucumber Booster"
+  end
 end
