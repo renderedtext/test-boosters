@@ -21,7 +21,6 @@ Test Boosters:
   - [ExUnit Booster](#ex-unit-booster)
   - [GoTest Booster](#go-test-booster)
 
-
 ## Installation
 
 ``` bash
@@ -59,7 +58,7 @@ you should put the following in your split configuration file:
 ]
 ```
 
-Semaphore uses Split configurations to split your test files based their
+Semaphore uses Split configurations to split your test files based on their
 durations in the previous builds.
 
 ### Leftover Files
@@ -81,9 +80,14 @@ For example, if you have the following in your split configuration:
 and the following files in your spec directory:
 
 ``` bash
+# Files from split configuration ↓
+
 spec/a_spec.rb
 spec/b_spec.rb
 spec/c_spec.rb
+
+# Leftover files ↓
+
 spec/d_spec.rb
 spec/e_spec.rb
 ```
@@ -96,6 +100,8 @@ rspec_booster --job 1/3
 
 # => runs: bundle exec rspec spec/a_spec.rb spec/d_spec.rb
 ```
+
+Booster will distribute your leftover files uniformly across jobs.
 
 ## RSpec Booster
 
