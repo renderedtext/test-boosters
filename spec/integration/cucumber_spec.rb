@@ -56,6 +56,20 @@ describe "Cucumber Booster", :integration do
 
   context "using cucumber.yml.already_defined_format" do
     before { @test_repo.use_cucumber_config("cucumber.yml.already_defined_format") }
-    it_behaves_like "the Cucumber Booster"
+
+    specify "first job's behaviour" do
+      output = @test_repo.run_booster("cucumber_booster --job 1/3")
+      expect(output).not_to include("1 scenario (1 passed)")
+    end
+
+    specify "second job's behaviour" do
+      output = @test_repo.run_booster("cucumber_booster --job 2/3")
+      expect(output).not_to include("2 scenarios (2 failed)")
+    end
+
+    specify "third job's behaviour" do
+      output = @test_repo.run_booster("cucumber_booster --job 3/3")
+      expect(output).to include("No files to run in this job!")
+    end
   end
 end
