@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class Cucumber < Base
 
-      FILE_PATTERN = "features/**/*.feature".freeze
+      FILE_PATTERN = "#{ENV.fetch("DEFAULT_FEATURES_ROOT", 'features')}/**/*.feature".freeze
 
       def initialize
         super(FILE_PATTERN, split_configuration_path, "bundle exec cucumber")
