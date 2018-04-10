@@ -12,8 +12,10 @@ module TestBoosters
         system(command)
       end
 
+      exited      = $?.exited?
       exit_status = $?.exitstatus
 
+      TestBoosters::Logger.info("Command exited : #{exited}")
       TestBoosters::Logger.info("Command finished, exit status : #{exit_status}")
 
       exit_status
