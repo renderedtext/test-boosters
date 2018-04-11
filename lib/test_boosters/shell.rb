@@ -12,9 +12,12 @@ module TestBoosters
         system(command)
       end
 
+      signaled    = $?.signaled?
+      termsig     = $?.termsig
       exited      = $?.exited?
       exit_status = $?.exitstatus
 
+      TestBoosters::Logger.info("Command signaled with: #{termsig}") if signaled
       TestBoosters::Logger.info("Command exited : #{exited}")
       TestBoosters::Logger.info("Command finished, exit status : #{exit_status}")
 
