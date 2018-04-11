@@ -12,8 +12,8 @@ module TestBoosters
         system(command)
       end
 
-      signaled = $?.signaled?
-      received_signal = $?.termsig
+      signaled    = $?.signaled?
+      termsig     = $?.termsig
       exited      = $?.exited?
       exit_status = $?.exitstatus
 
