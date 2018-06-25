@@ -122,16 +122,16 @@ bundle exec rspec --format documentation --format json --out /home/<user>/rspec_
 ```
 
 Optionally, you can pass additional RSpec flags with the `TB_RSPEC_OPTIONS`
-environment variable:
+environment variable. You can also set a RSpec formatter with the `TB_RSPEC_FORMATTER` environment variable.
+Default formatter is `documentation`.
 
+
+Example:
 ``` bash
-TB_RSPEC_OPTIONS='--fail-fast=3' rspec_booster --job 4/32
-```
+TB_RSPEC_OPTIONS='--fail-fast=3' TB_RSPEC_FORMATTER=Fivemat rspec_booster --job 4/32
 
-The above command will execute:
-
-``` bash
-bundle exec rspec --fail-fast=3 --format documentation --format json --out /home/<user>/rspec_report.json <file_list>
+# will execute:
+bundle exec rspec --fail-fast=3 --format Fivemat --format json --out /home/<user>/rspec_report.json <file_list>
 ```
 
 ## Cucumber Booster

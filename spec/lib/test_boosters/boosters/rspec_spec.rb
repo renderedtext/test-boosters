@@ -45,6 +45,28 @@ describe TestBoosters::Boosters::Rspec do
     end
   end
 
+  describe "#rspec_options" do
+    context "when TB_RSPEC_FORMATTER environment variable is not set" do
+      it "returns the SemaphoreFormatter with --format documentation" do
+        expect(booster.rspec_options).to include("--format documentation")
+      end
+    end
+
+    context "when TB_RSPEC_FORMATTER environment variable is set" do
+      around do |example|
+        ENV["TB_RSPEC_FORMATTER"] = "Fivemat"
+        example.run
+        ENV.delete("TB_RSPEC_FORMATTER")
+      end
+
+      it "returns the SemaphoreFormatter but removes --format documentation
+            and uses the option specified in env variable" do
+        expect(booster.rspec_options).not_to include("--format documentation")
+        expect(booster.rspec_options).to include("--format Fivemat")
+      end
+    end
+  end
+
   describe "#split_configuration_path" do
     before { ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = "/tmp/path.txt" }
 
