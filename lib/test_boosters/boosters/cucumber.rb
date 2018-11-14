@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "features/**/*.feature".freeze
 
       def initialize
-        super(FILE_PATTERN, split_configuration_path, "bundle exec cucumber")
+        super(FILE_PATTERN, split_configuration_path, command)
       end
 
       def before_job
@@ -14,6 +14,16 @@ module TestBoosters
 
       def after_job
         TestBoosters::InsightsUploader.upload("cucumber", report_path)
+      end
+
+      def command
+        @command ||= "bundle exec cucumber #{cucumber_options}"
+      end
+
+      def cucumber_options
+        @cucumber_options ||= begin
+          "#{ENV["TB_CUCUMBER_OPTIONS"]}"
+        end
       end
 
       def display_header
@@ -35,3 +45,5 @@ module TestBoosters
     end
   end
 end
+
+
