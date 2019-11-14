@@ -67,6 +67,24 @@ describe TestBoosters::Boosters::Rspec do
     end
   end
 
+  describe "#file_pattern" do
+    before { ENV["TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN"] = "feature/features/**/*_spec.rb" }
+
+    context "when the TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN environment variable is set" do
+      it "returns its values" do
+        expect(booster.file_pattern).to eq("feature/features/**/*_spec.rb")
+      end
+    end
+
+    context "when the TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN environment variable is not set" do
+      before { ENV.delete("TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN") }
+
+      it "returns the default rspec path" do
+        expect(booster.file_pattern).to eq("spec/**/*_spec.rb")
+      end
+    end
+  end
+
   describe "#split_configuration_path" do
     before { ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = "/tmp/path.txt" }
 

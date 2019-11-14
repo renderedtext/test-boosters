@@ -1,11 +1,8 @@
 module TestBoosters
   module Boosters
     class Rspec < Base
-
-      FILE_PATTERN = "spec/**/*_spec.rb".freeze
-
       def initialize
-        super(FILE_PATTERN, split_configuration_path, command)
+        super(file_pattern, split_configuration_path, command)
       end
 
       def display_header
@@ -44,6 +41,9 @@ module TestBoosters
         @formatter_path ||= File.join(::TestBoosters::ROOT_PATH, "rspec_formatters/semaphore_rspec3_json_formatter.rb")
       end
 
+      def file_pattern
+        ENV["TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN"] || "spec/**/*_spec.rb"
+      end
     end
   end
 end
