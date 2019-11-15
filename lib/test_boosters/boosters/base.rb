@@ -18,11 +18,27 @@ module TestBoosters
 
         known, leftover = distribution.files_for(job_index)
 
+        if cli_options[:dry_run]
+          show_files_for_dry_run("known", known)
+          show_files_for_dry_run("leftover", leftover)
+          return 0
+        end
+
         exit_status = TestBoosters::Job.run(@command, known, leftover)
 
         after_job # execute some activities when the job finishes
 
         exit_status
+      end
+
+      def show_files_for_dry_run(label, files)
+        if files.empty?
+          puts "[DRY RUN] No #{label} files."
+          return
+        end
+
+        puts "\n[DRY RUN] Running tests for #{label} files:"
+        puts files.map { |file| "- #{file}" }.join("\n")
       end
 
       def before_job

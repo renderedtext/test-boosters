@@ -70,4 +70,34 @@ describe TestBoosters::Boosters::Base do
       booster.run
     end
   end
+
+  describe "#run with --dry-run option" do
+    before do
+      allow(TestBoosters::CliParser).to receive(:parse).and_return(
+        :job_index => 10, :job_count => 32, :dry_run => true)
+    end
+
+    it "only prints a list of files, and doesn't run any tests" do
+      expect(TestBoosters::Job).to_not receive(:run)
+      booster.run
+    end
+
+    context "with no known files" do
+      let(:known_files) { [] }
+
+      it "prints the correct log messages" do
+        expect(TestBoosters::Job).to_not receive(:run)
+        booster.run
+      end
+    end
+
+    context "with no leftover files" do
+      let(:leftover_files) { [] }
+
+      it "prints the correct log messages" do
+        expect(TestBoosters::Job).to_not receive(:run)
+        booster.run
+      end
+    end
+  end
 end
