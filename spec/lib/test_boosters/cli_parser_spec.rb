@@ -42,6 +42,16 @@ describe TestBoosters::CliParser do
         expect(params).to eq(:job_index => 12, :job_count => 32)
       end
     end
+
+    context "cli params contain the dry-run parameter" do
+      it "recongnizes the --dry-run parameter" do
+        ARGV = ["--dry-run"] # rubocop:disable Style/MutableConstant
+
+        params = TestBoosters::CliParser.parse
+
+        expect(params).to eq(:dry_run => true)
+      end
+    end
   end
 
 end
