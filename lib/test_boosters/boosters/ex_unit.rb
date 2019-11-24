@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "test/**/*_test.exs".freeze
 
       def initialize
-        super(FILE_PATTERN, split_configuration_path, "mix test")
+        super(FILE_PATTERN, nil, split_configuration_path, "mix test")
       end
 
       def split_configuration_path

@@ -20,14 +20,14 @@ describe TestBoosters::Boosters::Base do
   let(:command) { "test_runner_command" }
   let(:split_configuration_path) { "/home/split_configuration.json" }
 
-  subject(:booster) { described_class.new(file_pattern, split_configuration_path, command) }
+  subject(:booster) { described_class.new(file_pattern, nil, split_configuration_path, command) }
 
   it { expect(booster.job_index).to eq(9) }
   it { expect(booster.job_count).to eq(32) }
 
   describe "#distribution" do
     it "returns an instance of the file distributor" do
-      expect(TestBoosters::Files::Distributor).to receive(:new).with(split_configuration_path, file_pattern, 32)
+      expect(TestBoosters::Files::Distributor).to receive(:new).with(split_configuration_path, file_pattern, nil, 32)
 
       booster.distribution
     end

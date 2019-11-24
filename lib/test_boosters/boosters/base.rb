@@ -2,9 +2,10 @@ module TestBoosters
   module Boosters
     class Base
 
-      def initialize(file_pattern, split_configuration_path, command)
+      def initialize(file_pattern, exclude_pattern, split_configuration_path, command)
         @command = command
         @file_pattern = file_pattern
+        @exclude_pattern = exclude_pattern
         @split_configuration_path = split_configuration_path
       end
 
@@ -59,6 +60,7 @@ module TestBoosters
       def distribution
         @distribution ||= TestBoosters::Files::Distributor.new(@split_configuration_path,
                                                                @file_pattern,
+                                                               @exclude_pattern,
                                                                job_count)
       end
 
