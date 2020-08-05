@@ -164,10 +164,27 @@ Example of running job 4 out of 32 jobs:
 minitest_booster --job 4/32
 ```
 
-Under the hood, the Minitest Booster uses the following command:
+If minitest booster is executed in a scope of a Rails project, the following is
+executed:
+
+``` bash
+bundle exec rails test <file_list>
+```
+
+If minitest booster is running outside of a Rails project, the following is
+executed:
 
 ``` bash
 ruby -e 'ARGV.each { |f| require ".#{f}" }' <file_list>
+```
+
+If you want to run a custom command for minitest, use the
+`MINITEST_BOOSTER_COMMAND` environment variable:
+
+``` bash
+export MINITEST_BOOSTER_COMMAND="bundle exec rake test"
+
+minitest_booster --job 1/42
 ```
 
 ## ExUnit Booster
