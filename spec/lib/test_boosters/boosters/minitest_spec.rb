@@ -24,4 +24,36 @@ describe TestBoosters::Boosters::Minitest do
       end
     end
   end
+
+  describe "#command" do
+    before do
+      ENV["MINITEST_BOOSTER_COMMAND"] = "" # reset the environment
+    end
+
+    context "when the command is passed as env var" do
+      let(:command) { "bundle exec rake test" }
+
+      it "uses that command" do
+        ENV["MINITEST_BOOSTER_COMMAND"] = command
+
+        expect(booster.command).to eq(command)
+      end
+    end
+
+    context "when the command is not passed as env var, but we are in a rails env" do
+      it "uses a rails specific command" do
+        allow(booster).to receive(:rails_app?).and_return(true)
+
+        expect(booster.command).to eq("bundle exec rails test")
+      end
+    end
+
+    context "when there is no env command, and not in rails" do
+      it "uses a 'require' command" do
+        allow(booster).to receive(:rails_app?).and_return(false)
+
+        expect(booster.command).to eq("ruby -e 'ARGV.each { |f| require \"./\#{f}\" }'")
+      end
+    end
+  end
 end

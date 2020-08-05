@@ -27,7 +27,7 @@ module TestBoosters
       end
 
       def command_from_env_var
-        ENV["MINITEST_BOOSTER_COMMAND"]
+        ENV["MINITEST_BOOSTER_COMMAND"].to_s
       end
 
       private
