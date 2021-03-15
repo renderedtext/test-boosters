@@ -85,6 +85,27 @@ describe TestBoosters::Boosters::Rspec do
     end
   end
 
+  describe "#exclude_pattern" do
+    before do
+      ENV["TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN"] =
+        "feature/features/**/*_spec.rb"
+    end
+
+    context "when the TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN environment variable is set" do
+      it "returns its values" do
+        expect(booster.exclude_pattern).to eq("feature/features/**/*_spec.rb")
+      end
+    end
+
+    context "when the TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN environment variable is not set" do
+      before { ENV.delete("TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN") }
+
+      it "returns nil" do
+        expect(booster.exclude_pattern).to be_nil
+      end
+    end
+  end
+
   describe "#split_configuration_path" do
     before { ENV["RSPEC_SPLIT_CONFIGURATION_PATH"] = "/tmp/path.txt" }
 

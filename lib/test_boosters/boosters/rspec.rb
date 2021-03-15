@@ -2,7 +2,7 @@ module TestBoosters
   module Boosters
     class Rspec < Base
       def initialize
-        super(file_pattern, split_configuration_path, command)
+        super(file_pattern, exclude_pattern, split_configuration_path, command)
       end
 
       def display_header
@@ -43,6 +43,10 @@ module TestBoosters
 
       def file_pattern
         ENV["TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN"] || "spec/**/*_spec.rb"
+      end
+
+      def exclude_pattern
+        ENV["TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN"]
       end
     end
   end

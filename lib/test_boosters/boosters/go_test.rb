@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "**/*/*_test.go".freeze
 
       def initialize
-        super(FILE_PATTERN, split_configuration_path, "go test")
+        super(FILE_PATTERN, nil, split_configuration_path, "go test")
       end
 
       def split_configuration_path

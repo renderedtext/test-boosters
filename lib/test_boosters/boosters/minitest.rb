@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "test/**/*_test.rb".freeze
 
       def initialize
-        super(FILE_PATTERN, split_configuration_path, command)
+        super(FILE_PATTERN, nil, split_configuration_path, command)
       end
 
       def command

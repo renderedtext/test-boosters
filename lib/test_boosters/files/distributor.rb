@@ -6,9 +6,10 @@ module TestBoosters
     #
     class Distributor
 
-      def initialize(split_configuration_path, file_pattern, job_count)
+      def initialize(split_configuration_path, file_pattern, exclude_pattern, job_count)
         @split_configuration_path = split_configuration_path
         @file_pattern = file_pattern
+        @exclude_pattern = exclude_pattern
         @job_count = job_count
       end
 
@@ -26,7 +27,11 @@ module TestBoosters
       end
 
       def all_files
-        @all_files ||= Dir[@file_pattern].sort
+        @all_files ||= begin
+          files = Dir[@file_pattern].sort
+          files -= Dir[@exclude_pattern] if @exclude_pattern
+          files
+        end
       end
 
       private
