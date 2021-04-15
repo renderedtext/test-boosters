@@ -152,6 +152,13 @@ Under the hood, the Cucumber Booster uses the following command:
 bundle exec cucumber <file_list>
 ```
 
+You can also change the default features root directory with by setting an environment variable:
+
+``` bash
+export DEFAULT_FEATURES_ROOT=acceptance
+```
+Now `cucumber_booster` will load all files matching `acceptance/**/*.feature`
+
 ## Minitest Booster
 
 The `minitest_booster` loads all the files that match the `test/**/*_test.rb`
