@@ -29,7 +29,7 @@ module IntegrationHelper
 
     # :reek:TooManyStatements
     def run_command(command)
-      Bundler.with_clean_env do
+      Bundler.with_original_env do
         cmd = "cd #{@project_path} && #{@env} #{command}"
 
         puts "Running: #{cmd}"
