@@ -71,8 +71,8 @@ For example, if you have the following in your split configuration:
 
 ``` json
 [
-  { "files": ["spec/a_spec.rb"] }
-  { "files": ["spec/b_spec.rb"] }
+  { "files": ["spec/a_spec.rb"] },
+  { "files": ["spec/b_spec.rb"] },
   { "files": ["spec/c_spec.rb"] }
 ]
 ```
