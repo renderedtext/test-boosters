@@ -58,8 +58,13 @@ you should put the following in your split configuration file:
 ]
 ```
 
-Semaphore uses Split configurations to split your test files based on their
+Semaphore Classic uses Split configurations to split your test files based on their
 durations in the previous builds.
+
+**NOTE**
+
+Distributing tests based on their duration is not supported in Semaphore 2.0.
+If you use Semaphore 2.0, provide a split configuration file to achieve the best performance.
 
 ### Leftover Files
 
