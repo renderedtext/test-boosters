@@ -29,7 +29,7 @@ module TestBoosters
     end
 
     def with_clean_env
-      defined?(Bundler) ? Bundler.with_clean_env { yield } : yield
+      defined?(Bundler) ? Bundler.with_original_env { yield } : yield
     end
 
     def display_title(title)
