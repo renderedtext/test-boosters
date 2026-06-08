@@ -1,0 +1,18 @@
+source "https://rubygems.org"
+
+# Pinned to exact versions so Docker builds are reproducible: an upstream patch
+# release of one of these gems cannot silently turn a green build red. Bump these
+# deliberately.
+#
+# We intentionally do NOT commit a Gemfile.docker.lock. A lockfile records a
+# `BUNDLED WITH <version>` line, and the matrix images (Ruby 2.6.10 and 3.3) ship
+# different Bundler versions, so a committed lock makes one of them fail. The exact
+# pins below give reproducibility without that cross-Ruby footgun. (Gemfile.docker.lock
+# is also in .dockerignore so a stray one from `docker-shell` never enters a build.)
+gem "semaphore_cucumber_booster_config", "1.4.2"
+gem "rspec", "3.13.2"
+gem "simplecov", "0.22.0"
+
+# Emits JUnit XML (out/test-reports.xml) so the Semaphore `test-results` CLI can
+# publish the suite. Works on both Ruby 2.6.x and 3.x. See .semaphore/semaphore.yml.
+gem "rspec_junit_formatter", "0.6.0"

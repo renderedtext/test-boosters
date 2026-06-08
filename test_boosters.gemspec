@@ -21,9 +21,11 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "semaphore_cucumber_booster_config", "~> 1.4.2"
 
-  spec.add_development_dependency "rake", "~> 10.0"
+  # rake >= 12.3.3 fixes CVE-2020-8130 (OS command injection); 10.x is also EOL.
+  spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency "rspec", "~> 3.5"
-  spec.add_development_dependency "activesupport", "~> 4.0"
+  # NOTE: activesupport was an unused dev dependency (nothing requires
+  # "active_support") and pinned to an EOL 4.x line with many advisories. Removed.
 
   spec.add_development_dependency "rubocop", "~> 0.49.0"
   spec.add_development_dependency "rubocop-rspec", "~> 1.13.0"

@@ -24,8 +24,13 @@ module TestBoosters
       exit_status
     end
 
+    # NOTE: unlike `execute`, `evaluate` deliberately runs in the *current* bundle
+    # context (no `with_clean_env`). It is used only for diagnostic version reporting
+    # (see TestBoosters::ProjectInfo), where we want the versions resolved by the
+    # project's active bundle. `execute` keeps `with_clean_env` because it shells out
+    # to the user's actual test command, which must not inherit our Bundler env.
     def evaluate(command)
-      with_clean_env { `#{command}` }
+      `#{command}`
     end
 
     def with_clean_env

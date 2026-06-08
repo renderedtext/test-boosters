@@ -1,0 +1,12 @@
+.git
+.bundle
+Gemfile.lock
+# A docker-shell session bind-mounts the repo and Bundler may write this lock to
+# the host. Never copy it into a build: its `BUNDLED WITH` pin differs per matrix
+# image (Ruby 2.6 vs 3.3 ship different Bundlers) and would break the build.
+Gemfile.docker.lock
+coverage
+tmp
+vendor
+spec/reports
+out

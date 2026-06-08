@@ -29,7 +29,10 @@ module IntegrationHelper
 
     # :reek:TooManyStatements
     def run_command(command)
-      Bundler.with_clean_env do
+      # Use the shared shim instead of Bundler.with_clean_env directly: the latter
+      # is deprecated on Bundler 2.x and removed in 3.0. TestBoosters::Shell picks
+      # with_unbundled_env when available and falls back to with_clean_env.
+      TestBoosters::Shell.with_clean_env do
         cmd = "cd #{@project_path} && #{@env} #{command}"
 
         puts "Running: #{cmd}"

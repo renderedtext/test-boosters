@@ -1,0 +1,74 @@
+version: v1.0
+name: Test Boosters
+
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2404
+
+# Cancel superseded runs on feature branches; never cancel master.
+auto_cancel:
+  running:
+    when: "branch != 'master'"
+
+global_job_config:
+  prologue:
+    commands:
+      - checkout
+  # Publish the RSpec JUnit report into the Semaphore "Tests" tab via the
+  # test-results CLI. `always` so failing jobs still report; the guard makes it a
+  # no-op for the Lint/Security blocks (RuboCop 0.49 and bundler-audit gate via exit
+  # status and do not emit JUnit). RSpec writes out/test-reports.xml in docker-test-ci.
+  epilogue:
+    always:
+      commands:
+        - 'if [ -f out/test-reports.xml ]; then test-results --name "$SEMAPHORE_BLOCK_NAME" publish out/test-reports.xml; fi'
+
+blocks:
+  - name: "RSpec: Ruby 2.6.10"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Unit tests (spec/lib)"
+          commands:
+            - make docker-test-ci RUBY_VERSION=2.6.10
+
+  - name: "RSpec: Ruby 3.3"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Unit tests (spec/lib)"
+          commands:
+            - make docker-test-ci RUBY_VERSION=3.3
+
+  - name: "RSpec: Ruby 4.0.5"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Unit tests (spec/lib)"
+          commands:
+            - make docker-test-ci RUBY_VERSION=4.0.5
+
+  - name: "Lint: RuboCop"
+    dependencies: []
+    task:
+      jobs:
+        - name: "rubocop lib spec"
+          commands:
+            - make docker-lint
+
+  - name: "Security: bundler-audit"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Dependency advisory scan"
+          commands:
+            - make docker-audit
+
+# Aggregate every published JUnit report into one pipeline-level report.
+after_pipeline:
+  task:
+    jobs:
+      - name: "Submit test results report"
+        commands:
+          - test-results gen-pipeline-report
