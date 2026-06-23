@@ -2,8 +2,6 @@ require "spec_helper"
 
 describe TestBoosters::InsightsUploader do
 
-  # These examples mutate process-global Semaphore env vars; snapshot and restore
-  # them so values don't leak into other spec files (ordering-dependent failures).
   around do |example|
     keys = %w[SEMAPHORE_PROJECT_UUID SEMAPHORE_EXECUTABLE_UUID SEMAPHORE_JOB_UUID]
     saved = keys.map { |key| [key, ENV[key]] }

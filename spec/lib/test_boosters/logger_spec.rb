@@ -10,7 +10,6 @@ describe TestBoosters::Logger do
   end
 
   after do
-    # Restore whatever was set before (don't clobber an externally provided value).
     if @previous_log_path.nil?
       ENV.delete("ERROR_LOG_PATH")
     else
@@ -50,8 +49,6 @@ describe TestBoosters::Logger do
       original_home = ENV["HOME"]
       ENV.delete("ERROR_LOG_PATH")
 
-      # Classic begin/ensure (not a do...end ensure) so the pinned RuboCop's
-      # parser 2.4 can lint this file on Ruby 2.6.
       begin
         Dir.mktmpdir do |home|
           ENV["HOME"] = home

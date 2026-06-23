@@ -18,8 +18,6 @@ describe TestBoosters::Shell do
     end
 
     it "runs the command inside with_clean_env" do
-      # `execute` shells out to the user's real test command, so it must run in a
-      # clean Bundler env (unlike `evaluate`). Pin that so the isolation isn't lost.
       expect(described_class).to receive(:with_clean_env).and_call_original
 
       described_class.execute("true", :silent => true)
@@ -42,8 +40,6 @@ describe TestBoosters::Shell do
     end
 
     it "does not wrap the command in with_clean_env" do
-      # Deliberate asymmetry with `execute`: version probes want the project's
-      # active bundle, so `evaluate` must NOT strip the Bundler env.
       expect(described_class).not_to receive(:with_clean_env)
 
       described_class.evaluate("true")
@@ -76,7 +72,6 @@ describe TestBoosters::Shell do
       fake_bundler = double("Bundler") # rubocop:disable RSpec/VerifiedDoubles
       stub_const("Bundler", fake_bundler)
 
-      # Only the legacy method is stubbed, so respond_to?(:with_unbundled_env) is false.
       expect(fake_bundler).to receive(:with_clean_env).and_yield
 
       expect { |probe| described_class.with_clean_env(&probe) }.to yield_control

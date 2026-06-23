@@ -10,8 +10,6 @@ RUBY3_VERSION ?= 3.3
 RUBY4_VERSION ?= 4.0.5
 BUNDLE_GEMFILE ?= Gemfile.docker
 OUT_DIR ?= out
-# Lint runs the pinned RuboCop 0.49 (Ruby 2.x only), which needs the full dev
-# dependency set from the main Gemfile — built as a separate image/tag.
 LINT_IMAGE ?= $(IMAGE_PREFIX):lint-ruby-$(RUBY2_VERSION)
 
 .PHONY: help deps test test-all lint clean docker-build docker-test docker-test-ci docker-lint docker-audit docker-shell docker-test-ruby2 docker-test-ruby3 docker-test-ruby4 docker-test-matrix
@@ -60,8 +58,6 @@ docker-build:
 docker-test: docker-build
 	$(DOCKER) run --rm -t -w /app $(IMAGE) bundle exec rspec spec/lib
 
-# CI variant: bind-mounts $(OUT_DIR) and writes JUnit XML there so the
-# Semaphore `test-results` CLI (see .semaphore/semaphore.yml) can publish it.
 docker-test-ci: docker-build
 	mkdir -p $(OUT_DIR)
 	$(DOCKER) run --rm -t -v "$(PWD)/$(OUT_DIR):/app/$(OUT_DIR)" -w /app $(IMAGE) \
@@ -69,8 +65,6 @@ docker-test-ci: docker-build
 		--format progress \
 		--format RspecJunitFormatter --out $(OUT_DIR)/test-reports.xml
 
-# RuboCop is pinned to 0.49 (Ruby 2.x only) and lives in the main Gemfile, so the
-# lint image is built from Gemfile on Ruby $(RUBY2_VERSION) under a distinct tag.
 docker-lint:
 	$(DOCKER) build \
 		--build-arg RUBY_VERSION=$(RUBY2_VERSION) \
@@ -78,9 +72,6 @@ docker-lint:
 		-t $(LINT_IMAGE) .
 	$(DOCKER) run --rm -t -w /app $(LINT_IMAGE) bundle exec rubocop lib spec
 
-# Dependency vulnerability scan. Gemfile.lock is gitignored (not committed), so we
-# resolve one first with `bundle lock`. Runs on Ruby $(RUBY2_VERSION) where the full
-# dependency graph resolves; git is needed because the gemspec calls `git ls-files`.
 docker-audit:
 	$(DOCKER) run --rm -t -v "$(PWD):/app" -w /app ruby:$(RUBY2_VERSION)-slim \
 		sh -c "apt-get update >/dev/null && apt-get install -y --no-install-recommends git >/dev/null \

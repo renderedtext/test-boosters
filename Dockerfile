@@ -3,10 +3,6 @@ FROM ruby:${RUBY_VERSION}-slim
 
 WORKDIR /app
 
-# Install gems into a container-owned path *outside* /app. `make docker-shell`
-# bind-mounts the host checkout over /app; if the bundle lived under /app
-# (e.g. /app/vendor/bundle) that mount would shadow it and `bundle exec` would
-# fail. Keeping gems and Bundler config under /usr/local/bundle survives the mount.
 ENV BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_APP_CONFIG=/usr/local/bundle
 

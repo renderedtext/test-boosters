@@ -6,7 +6,6 @@ agent:
     type: f1-standard-2
     os_image: ubuntu2404
 
-# Cancel superseded runs on feature branches; never cancel master.
 auto_cancel:
   running:
     when: "branch != 'master'"
@@ -15,11 +14,6 @@ global_job_config:
   prologue:
     commands:
       - checkout
-  # Publish the RSpec JUnit report into the Semaphore "Tests" tab via the
-  # test-results CLI. `always` so failing jobs still report; the guard makes it a
-  # no-op for the Lint/Security blocks (RuboCop 0.49 and bundler-audit gate via exit
-  # status and do not emit JUnit). RSpec writes out/test-reports.xml in docker-test-ci.
-  # Named by $SEMAPHORE_JOB_NAME so each matrix job (per Ruby version) reports distinctly.
   epilogue:
     always:
       commands:
@@ -53,7 +47,6 @@ blocks:
           commands:
             - make docker-audit
 
-# Aggregate every published JUnit report into one pipeline-level report.
 after_pipeline:
   task:
     jobs:
