@@ -230,10 +230,59 @@ go test <file_list>
 
 ## Development
 
+### Local setup
+
+Install dependencies and run the unit suite:
+
+``` bash
+make deps
+make test
+```
+
+Run static analysis:
+
+``` bash
+make lint
+```
+
 ### Integration testing
 
 For integration tests we use test repositories that are located in
 <https://github.com/renderedtext/test-boosters-tests.git>.
+
+### Docker
+
+Build an image and run the unit suite in a container:
+
+``` bash
+make docker-build
+make docker-test
+```
+
+Run unit tests against the supported Ruby Docker images:
+
+``` bash
+make docker-test-ruby2     # Ruby 2.6.10
+make docker-test-ruby3     # Ruby 3.3
+make docker-test-ruby4     # Ruby 4.0.5
+make docker-test-matrix    # Ruby 2.6.10 + 3.3 + 4.0.5
+```
+
+To test with a specific version:
+
+``` bash
+make docker-test RUBY_VERSION=2.6.10
+make docker-test RUBY_VERSION=3.3
+make docker-test RUBY_VERSION=4.0.5
+```
+
+Docker targets use `Gemfile.docker` by default (runtime + test dependencies only),
+so Ruby 3.x/4.x test runs are not blocked by legacy lint dependencies.
+You can override that if needed:
+
+``` bash
+make docker-test RUBY_VERSION=3.3 BUNDLE_GEMFILE=Gemfile
+```
 
 ## Contributing
 

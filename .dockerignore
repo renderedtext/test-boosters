@@ -1,0 +1,9 @@
+.git
+.bundle
+Gemfile.lock
+Gemfile.docker.lock
+coverage
+tmp
+vendor
+spec/reports
+out

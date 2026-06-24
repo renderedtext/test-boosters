@@ -1,0 +1,55 @@
+version: v1.0
+name: Test Boosters
+
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2404
+
+auto_cancel:
+  running:
+    when: "branch != 'master'"
+
+global_job_config:
+  prologue:
+    commands:
+      - checkout
+  epilogue:
+    always:
+      commands:
+        - 'if [ -f out/test-reports.xml ]; then test-results --name "$SEMAPHORE_JOB_NAME" publish out/test-reports.xml; fi'
+
+blocks:
+  - name: "RSpec"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Unit tests (spec/lib)"
+          matrix:
+            - env_var: RUBY_VERSION
+              values: ["2.6.10", "3.3", "4.0.5"]
+          commands:
+            - make docker-test-ci RUBY_VERSION=$RUBY_VERSION
+
+  - name: "Lint: RuboCop"
+    dependencies: []
+    task:
+      jobs:
+        - name: "rubocop lib spec"
+          commands:
+            - make docker-lint
+
+  - name: "Security: bundler-audit"
+    dependencies: []
+    task:
+      jobs:
+        - name: "Dependency advisory scan"
+          commands:
+            - make docker-audit
+
+after_pipeline:
+  task:
+    jobs:
+      - name: "Submit test results report"
+        commands:
+          - test-results gen-pipeline-report

@@ -25,7 +25,7 @@ module TestBoosters
     end
 
     def evaluate(command)
-      with_clean_env { `#{command}` }
+      `#{command}`
     end
 
     def with_clean_env
