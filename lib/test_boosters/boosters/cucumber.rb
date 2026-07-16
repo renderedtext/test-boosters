@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "features/**/*.feature".freeze
 
       def initialize
-        super(FILE_PATTERN, nil, split_configuration_path, "bundle exec cucumber")
+        super(FILE_PATTERN, nil, split_configuration_path, "bundle exec cucumber #{ENV['CUCUMBER_ARGS']}")
       end
 
       def before_job
@@ -31,7 +31,6 @@ module TestBoosters
       def split_configuration_path
         ENV["CUCUMBER_SPLIT_CONFIGURATION_PATH"] || "#{ENV["HOME"]}/cucumber_split_configuration.json"
       end
-
     end
   end
 end
