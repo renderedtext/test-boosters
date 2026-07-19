@@ -5,7 +5,7 @@ module TestBoosters
       FILE_PATTERN = "test/**/*_test.rb".freeze
 
       def initialize
-        super(FILE_PATTERN, nil, split_configuration_path, command)
+        super(file_pattern, exclude_pattern, split_configuration_path, command)
       end
 
       def command
@@ -28,6 +28,14 @@ module TestBoosters
 
       def command_from_env_var
         ENV["MINITEST_BOOSTER_COMMAND"].to_s
+      end
+
+      def file_pattern
+        ENV["TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN"] || FILE_PATTERN
+      end
+
+      def exclude_pattern
+        ENV["TEST_BOOSTERS_MINITEST_TEST_EXCLUDE_PATTERN"]
       end
 
       private

@@ -56,4 +56,43 @@ describe TestBoosters::Boosters::Minitest do
       end
     end
   end
+
+  describe "#file_pattern" do
+    before { ENV["TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN"] = "test/system/**/*_test.rb" }
+
+    context "when the TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN environment variable is set" do
+      it "returns its values" do
+        expect(booster.file_pattern).to eq("test/system/**/*_test.rb")
+      end
+    end
+
+    context "when the TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN environment variable is not set" do
+      before { ENV.delete("TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN") }
+
+      it "returns the default minitest path" do
+        expect(booster.file_pattern).to eq("test/**/*_test.rb")
+      end
+    end
+  end
+
+  describe "#exclude_pattern" do
+    before do
+      ENV["TEST_BOOSTERS_MINITEST_TEST_EXCLUDE_PATTERN"] =
+        "test/system/**/*_test.rb"
+    end
+
+    context "when the TEST_BOOSTERS_MINITEST_TEST_EXCLUDE_PATTERN environment variable is set" do
+      it "returns its values" do
+        expect(booster.exclude_pattern).to eq("test/system/**/*_test.rb")
+      end
+    end
+
+    context "when the TEST_BOOSTERS_MINITEST_TEST_FILE_PATTERN environment variable is not set" do
+      before { ENV.delete("TEST_BOOSTERS_MINITEST_TEST_EXCLUDE_PATTERN") }
+
+      it "returns nil" do
+        expect(booster.exclude_pattern).to be_nil
+      end
+    end
+  end
 end
