@@ -139,6 +139,29 @@ TB_RSPEC_OPTIONS='--fail-fast=3' TB_RSPEC_FORMATTER=Fivemat rspec_booster --job 
 bundle exec rspec --fail-fast=3 --format Fivemat --format json --out /home/<user>/rspec_report.json <file_list>
 ```
 
+### Test file pattern
+
+By default, `rspec_booster` loads all files matching the glob `spec/**/*_spec.rb`.
+
+This glob may be changed through the environment variable `TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN`.
+
+It is useful, for instance, if you want to execute only the system specs in a separate set of jobs.
+
+``` bash
+export TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN="spec/system/**/*_spec.rb"
+```
+
+On the other hand, you can also specify a pattern to exclude some files. This can be done via the environment variable `TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN`.
+
+Complementing our example, imagine that now you want to run all the other specs except the system specs in another set of jobs.
+
+``` bash
+export TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN="spec/system/**/*_spec.rb"
+```
+
+> [!IMPORTANT]
+> `TEST_BOOSTERS_RSPEC_TEST_FILE_PATTERN` and `TEST_BOOSTERS_RSPEC_TEST_EXCLUDE_PATTERN` only accept a single glob pattern each.
+
 ## Cucumber Booster
 
 The `cucumber_booster` loads all the files that match the `features/**/*.feature`
