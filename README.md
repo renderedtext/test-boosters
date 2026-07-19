@@ -18,7 +18,7 @@ Test Boosters:
   - [RSpec Booster](#rspec-booster)
   - [Cucumber Booster](#cucumber-booster)
   - [Minitest Booster](#minitest-booster)
-  - [ExUnit Booster](#ex-unit-booster)
+  - [ExUnit Booster](#exunit-booster)
   - [GoTest Booster](#go-test-booster)
 
 ## Installation
